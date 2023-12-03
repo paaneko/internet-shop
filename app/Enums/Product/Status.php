@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum Status: string implements HasLabel, HasColor, HasIcon
+enum Status: string implements HasColor, HasIcon, HasLabel
 {
     case IN_STOCK = 'in-stock';
     case OUT_OF_STOCK = 'out-of-stock';
@@ -18,12 +18,12 @@ enum Status: string implements HasLabel, HasColor, HasIcon
     public function getLabel(): ?string
     {
         /*
-         * 🔥 use this for getting constant values `e.g IN_STOCK` in select form
+         * 🔥 use this for getting constant values `e.g. IN_STOCK` in select form
         */
 
-//        return $this->name;
+        // return $this->name;
 
-//        // or
+        // or
 
         return match ($this) {
             self::IN_STOCK => 'In Stock',

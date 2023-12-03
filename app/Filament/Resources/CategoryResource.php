@@ -6,12 +6,10 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CategoryResource extends Resource
 {
@@ -58,8 +56,8 @@ class CategoryResource extends Resource
                                                 ),
                                                 Forms\Components\MarkdownEditor::make(
                                                     'description'
-                                                )
-                                            ])
+                                                ),
+                                            ]),
                                     ])
                                     ->columnSpan(['lg' => 2]),
                                 Forms\Components\Group::make()
@@ -74,7 +72,7 @@ class CategoryResource extends Resource
                                                     ->relationship(
                                                         'parent',
                                                         'name',
-                                                        fn(Builder $query
+                                                        fn (Builder $query
                                                         ) => $query->where(
                                                             'parent_id',
                                                             null
@@ -102,12 +100,11 @@ class CategoryResource extends Resource
                                             ]),
                                     ])
                                     ->columnSpan(['lg' => 1]),
-
                             ])
-                            ->columns(3)
+                            ->columns(3),
                     ])
                     ->persistTabInQueryString()
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 

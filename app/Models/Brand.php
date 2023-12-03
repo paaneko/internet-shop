@@ -11,7 +11,7 @@ class Brand extends Model
 
     protected $casts
         = [
-            'indexation' => 'boolean'
+            'indexation' => 'boolean',
         ];
 
     protected $fillable
@@ -23,6 +23,6 @@ class Brand extends Model
             'meta_tag_title',
             'meta_tag_description',
             'description',
-            'indexation'
+            'indexation',
         ];
 }

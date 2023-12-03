@@ -9,8 +9,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BrandResource extends Resource
 {
@@ -57,8 +55,8 @@ class BrandResource extends Resource
                                                 ),
                                                 Forms\Components\MarkdownEditor::make(
                                                     'description'
-                                                )
-                                            ])
+                                                ),
+                                            ]),
                                     ])
                                     ->columnSpan(['lg' => 2]),
                                 Forms\Components\Group::make()
@@ -68,7 +66,7 @@ class BrandResource extends Resource
                                                 Forms\Components\Toggle::make(
                                                     'indexation'
                                                 )
-                                                    ->default(true)
+                                                    ->default(true),
                                             ]),
                                         Forms\Components\Section::make()
                                             ->schema([
@@ -76,15 +74,15 @@ class BrandResource extends Resource
                                                     'image_url'
                                                 )
                                                     ->hiddenLabel()
-                                                    ->image()
-                                            ])
+                                                    ->image(),
+                                            ]),
                                     ])
-                                    ->columnSpan(['lg' => 1])
+                                    ->columnSpan(['lg' => 1]),
                             ])
-                            ->columns(3)
+                            ->columns(3),
                     ])
                     ->persistTabInQueryString()
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 

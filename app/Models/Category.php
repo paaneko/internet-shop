@@ -13,7 +13,7 @@ class Category extends Model
 
     protected $casts
         = [
-            'indexation' => 'boolean'
+            'indexation' => 'boolean',
         ];
 
     protected $fillable
@@ -25,7 +25,7 @@ class Category extends Model
             'meta_tag_title',
             'meta_tag_description',
             'description',
-            'indexation'
+            'indexation',
         ];
 
     public function parent(): BelongsTo
@@ -42,6 +42,4 @@ class Category extends Model
             'product_id'
         );
     }
-
-
 }

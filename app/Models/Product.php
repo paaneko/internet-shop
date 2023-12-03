@@ -15,7 +15,7 @@ class Product extends Model
     protected $casts
         = [
             'indexation' => 'boolean',
-            'status' => Status::class
+            'status' => Status::class,
         ];
 
     protected $fillable
@@ -30,7 +30,7 @@ class Product extends Model
             'price',
             'count',
             'status',
-            'indexation'
+            'indexation',
         ];
 
     public function brand(): BelongsTo

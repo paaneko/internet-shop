@@ -7,13 +7,9 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
@@ -74,7 +70,7 @@ class ProductResource extends Resource
                                                 )
                                                     ->required()
                                                     ->options(Status::class)
-                                                    ->default('out-of-stock')
+                                                    ->default('out-of-stock'),
                                             ]),
                                         Forms\Components\Section::make(
                                             'Associations'
@@ -97,7 +93,7 @@ class ProductResource extends Resource
                                                         'brand',
                                                         'name'
                                                     )
-                                                    ->native(false)
+                                                    ->native(false),
                                             ]),
                                         Forms\Components\Section::make()
                                             ->schema([
@@ -114,10 +110,10 @@ class ProductResource extends Resource
                                                 Forms\Components\Toggle::make(
                                                     'indexation'
                                                 )
-                                                    ->default(true)
-                                            ])
+                                                    ->default(true),
+                                            ]),
                                     ])
-                                    ->columnSpan(['lg' => 1])
+                                    ->columnSpan(['lg' => 1]),
                             ])
                             ->columns(3),
 
@@ -134,9 +130,9 @@ class ProductResource extends Resource
                                             'image_url'
                                         )
                                             ->hiddenLabel()
-                                            ->image()
+                                            ->image(),
                                     ])
-                                    ->collapsible()
+                                    ->collapsible(),
                             ]),
                         Forms\Components\Tabs\Tab::make('Info')
                             ->schema([
@@ -183,14 +179,13 @@ class ProductResource extends Resource
                                         )
                                             ->required()
                                             ->numeric()
-                                            ->default(0)
+                                            ->default(0),
                                     ])
-                                    ->columns(2)
-                            ])
-
+                                    ->columns(2),
+                            ]),
                     ])
                     ->persistTabInQueryString()
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 
