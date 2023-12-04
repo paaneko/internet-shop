@@ -178,7 +178,8 @@ class ProductSeeder extends Seeder
                 ),
                 // 🧠 big amount of products have one quantity
                 // TODO change in migration and model `count` on `qty` or `quantity`
-                'count' => $faker->optional($weight = 0.5, $default = 1)->numberBetween(2, 6),
+                'count' => $faker->optional($weight = 0.5, $default = 1)
+                    ->numberBetween(2, 6),
                 'status' => 'in-stock',
                 'indexation' => $faker->boolean,
             ]);

@@ -14,7 +14,8 @@ class CharacteristicSeeder extends Seeder
      */
     public function run(): void
     {
-        $characteristicGroupsIds = CharacteristicGroup::all()->pluck('id')->toArray();
+        $characteristicGroupsIds = CharacteristicGroup::all()->pluck('id')
+            ->toArray();
 
         $faker = Faker::create();
 

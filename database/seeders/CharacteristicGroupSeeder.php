@@ -44,7 +44,10 @@ class CharacteristicGroupSeeder extends Seeder
         foreach ($characteristicGroupList as $characteristicGroup) {
             CharacteristicGroup::create([
                 'name' => $characteristicGroup['name'],
-                'sorting_order' => $faker->unique()->numberBetween(1, count($characteristicGroupList)),
+                'sorting_order' => $faker->unique()->numberBetween(
+                    1,
+                    count($characteristicGroupList)
+                ),
             ]);
         }
     }
