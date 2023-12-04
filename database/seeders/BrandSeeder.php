@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class BrandSeeder extends Seeder
 {
@@ -118,12 +118,10 @@ class BrandSeeder extends Seeder
             'DynaVap',
         ];
 
-        $brands = [];
-
         foreach ($brandsList as $brand) {
             // Generate slug by replacing spaces with hyphens
             $slug = strtolower(str_replace(' ', '-', $brand));
-            $brands[] = [
+            Brand::create([
                 'name' => $brand,
                 'slug' => $slug,
                 'meta_tag_h1' => $faker->sentence(4),
@@ -131,9 +129,7 @@ class BrandSeeder extends Seeder
                 'meta_tag_description' => $faker->text(150),
                 'description' => $faker->text(300),
                 'indexation' => $faker->boolean,
-            ];
+            ]);
         }
-
-        DB::table('brands')->insert($brands);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
 {
@@ -147,8 +147,6 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        $products = [];
-
         foreach ($productsList as $product) {
             // Generate slug by replacing spaces with hyphens
             $slug = strtolower(str_replace(' ', '-', $product['name']));
@@ -158,7 +156,7 @@ class ProductSeeder extends Seeder
              * TODO Update seeder logic
              * Work: Delete status column
              */
-            $products[] = [
+            Product::create([
                 // 🚨 range numberBetween() must represent actual count of brands from BrandSeeder
                 'brand_id' => $faker->numberBetween(1, 100),
                 'name' => $product['name'],
@@ -183,9 +181,7 @@ class ProductSeeder extends Seeder
                 'count' => $faker->optional($weight = 0.5, $default = 1)->numberBetween(2, 6),
                 'status' => 'in-stock',
                 'indexation' => $faker->boolean,
-            ];
-
-            DB::table('products')->insert($products);
+            ]);
         }
     }
 }

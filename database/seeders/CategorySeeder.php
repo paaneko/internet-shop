@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -199,12 +199,10 @@ class CategorySeeder extends Seeder
             ],
         ];
 
-        $categories = [];
-
         foreach ($categoriesList as $category) {
             // Generate slug by replacing spaces with hyphens
             $slug = strtolower(str_replace(' ', '-', $category['name']));
-            $categories[] = [
+            Category::create([
                 'parent_id' => $category['parent_id'],
                 'name' => $category['name'],
                 'slug' => $slug,
@@ -213,9 +211,7 @@ class CategorySeeder extends Seeder
                 'meta_tag_description' => $faker->text(150),
                 'description' => $faker->text(300),
                 'indexation' => $faker->boolean,
-            ];
+            ]);
         }
-
-        DB::table('categories')->insert($categories);
     }
 }
