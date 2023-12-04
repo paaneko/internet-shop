@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
 
             CharacteristicGroupSeeder::class,
             CharacteristicSeeder::class,
+            CharacteristicAttributeSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();
