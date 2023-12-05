@@ -80,6 +80,7 @@ class ProductResource extends Resource
                                                     'categories'
                                                 )
                                                     ->nullable()
+                                                    ->multiple()
                                                     ->relationship(
                                                         'categories',
                                                         'name'
