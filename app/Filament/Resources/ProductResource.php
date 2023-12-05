@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\Product\Status;
 use App\Filament\Resources\ProductResource\Pages;
+use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -85,6 +86,11 @@ class ProductResource extends Resource
                                                         'categories',
                                                         'name'
                                                     )
+                                                    ->getOptionLabelFromRecordUsing(
+                                                        fn (Category $record
+                                                        ) => $record->name_with_parent
+                                                    )
+                                                    ->preload()
                                                     ->native(false),
                                                 Forms\Components\Select::make(
                                                     'brand_id'
