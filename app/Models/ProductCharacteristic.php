@@ -7,29 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class CharacteristicAttribute extends Model
+class ProductCharacteristic extends Model
 {
     use HasFactory;
 
     protected $fillable
         = [
-            'name',
             'characteristic_id',
             'sorting_order',
         ];
 
-    public function characteristic(): BelongsTo
+    public function product(): BelongsTo
     {
-        return $this->belongsTo(Characteristic::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function productCharacteristics(): BelongsToMany
+    public function characteristic(): BelongsTo
+    {
+        return $this->belongsTo(
+            Characteristic::class
+        );
+    }
+
+    public function productAttributes(): BelongsToMany
     {
         return $this->belongsToMany(
-            ProductCharacteristic::class,
+            CharacteristicAttribute::class,
             'product_characteristic_attributes',
-            'characteristic_attribute',
             'product_characteristic_id',
+            'characteristic_attribute_id',
         );
     }
 }

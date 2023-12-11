@@ -5,12 +5,15 @@ namespace App\Filament\Resources;
 use App\Enums\Product\Status;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Category;
+use App\Models\Characteristic;
+use App\Models\CharacteristicAttribute;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class ProductResource extends Resource
 {
@@ -190,6 +193,66 @@ class ProductResource extends Resource
                                     ])
                                     ->columns(2),
                             ]),
+                        Forms\Components\Tabs\Tab::make('Characteristics')
+                            ->schema([
+                                Forms\Components\Repeater::make(
+                                    'productCharacteristics'
+                                )
+                                    ->relationship()
+                                    ->itemLabel(
+                                        function (array $state): string {
+                                            return self::getCharacteristicLabel(
+                                                $state['characteristic_id']
+                                            );
+                                        }
+                                    )
+                                    ->schema([
+                                        Forms\Components\Select::make(
+                                            'characteristic_id'
+                                        )
+                                            ->required()
+                                            ->relationship(
+                                                'characteristic',
+                                                'name'
+                                            )
+                                            ->afterStateUpdated(
+                                                fn (Forms\Set $set) => $set(
+                                                    'characteristic_attribute_id',
+                                                    null
+                                                )
+                                            )
+                                            ->searchable()
+                                            ->preload()
+                                            ->live()
+                                            ->native(false),
+                                        Forms\Components\Select::make(
+                                            'characteristic_attribute_id'
+                                        )
+                                            ->required()
+                                            ->relationship(
+                                                'productAttributes',
+                                                'name'
+                                            )
+                                            ->options(
+                                                fn (Forms\Get $get
+                                                ): Collection => CharacteristicAttribute::query(
+                                                )->where(
+                                                    'characteristic_id',
+                                                    $get('characteristic_id')
+                                                )->pluck('name', 'id')
+                                            )
+                                            ->live()
+                                            ->multiple()
+                                            ->preload()
+                                            ->native(false),
+                                    ])
+                                    ->maxItems(fn () => Characteristic::count())
+                                    ->collapsible()
+                                    ->columns(2)
+                                    ->defaultItems(0)
+                                    ->orderColumn('sorting_order')
+                                    ->reorderableWithButtons(),
+                            ]),
                     ])
                     ->persistTabInQueryString()
                     ->columnSpanFull(),
@@ -243,5 +306,20 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    private static function getCharacteristicLabel(?int $id): string
+    {
+        $characteristic
+            = Characteristic::with(
+                'characteristicGroup'
+            )->find($id);
+
+        if (! $characteristic) {
+            return '';
+        }
+
+        return $characteristic->characteristicGroup->name
+            .' > '.$characteristic->name;
     }
 }

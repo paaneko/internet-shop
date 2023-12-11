@@ -10,10 +10,11 @@ class CharacteristicGroup extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'sorting_order',
-    ];
+    protected $fillable
+        = [
+            'name',
+            'sorting_order',
+        ];
 
     public function characteristic(): HasMany
     {

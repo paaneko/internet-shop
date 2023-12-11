@@ -11,24 +11,34 @@ class Characteristic extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'is_collapsed' => 'boolean',
-    ];
+    protected $casts
+        = [
+            'is_collapsed' => 'boolean',
+        ];
 
-    protected $fillable = [
-        'characteristic_group_id',
-        'name',
-        'hint_text',
-        'is_collapsed',
-    ];
+    protected $fillable
+        = [
+            'characteristic_group_id',
+            'name',
+            'hint_text',
+            'is_collapsed',
+        ];
 
     public function characteristicGroup(): BelongsTo
     {
-        return $this->belongsTo(CharacteristicGroup::class, 'characteristic_group_id');
+        return $this->belongsTo(
+            CharacteristicGroup::class,
+            'characteristic_group_id'
+        );
     }
 
     public function attributes(): HasMany
     {
         return $this->hasMany(CharacteristicAttribute::class);
+    }
+
+    public function productsCharacteristics(): HasMany
+    {
+        return $this->hasMany(ProductCharacteristic::class);
     }
 }
