@@ -102,6 +102,35 @@ class CategoryResource extends Resource
                                     ->columnSpan(['lg' => 1]),
                             ])
                             ->columns(3),
+                        Forms\Components\Tabs\Tab::make('FAQ')
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\Repeater::make('faqs')
+                                            ->hiddenLabel()
+                                            ->relationship()
+                                            ->itemLabel(
+                                                fn (array $state
+                                                ): string => $state['question']
+                                                    ?? ''
+                                            )
+                                            ->schema([
+                                                Forms\Components\TextInput::make(
+                                                    'question'
+                                                )
+                                                    ->required(),
+                                                Forms\Components\Textarea::make(
+                                                    'answer'
+                                                )
+                                                    ->required(),
+                                            ])
+                                            ->cloneable()
+                                            ->columns(2)
+                                            ->collapsible()
+                                            ->reorderableWithButtons()
+                                            ->orderColumn('sorting_order'),
+                                    ]),
+                            ]),
                     ])
                     ->persistTabInQueryString()
                     ->columnSpanFull(),
