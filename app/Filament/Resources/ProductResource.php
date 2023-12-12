@@ -246,12 +246,45 @@ class ProductResource extends Resource
                                             ->preload()
                                             ->native(false),
                                     ])
-                                    ->maxItems(fn () => Characteristic::count())
+                                    ->maxItems(
+                                        fn () => Characteristic::count()
+                                    )
                                     ->collapsible()
                                     ->columns(2)
                                     ->defaultItems(0)
                                     ->orderColumn('sorting_order')
                                     ->reorderableWithButtons(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('FAQ')
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\Repeater::make('faqs')
+                                            ->relationship()
+                                            ->hiddenLabel()
+                                            ->itemLabel(
+                                                fn (array $state
+                                                ): string => $state['question']
+                                                    ?? ''
+                                            )
+                                            ->schema([
+                                                Forms\Components\TextInput::make(
+                                                    'question'
+                                                )
+                                                    ->required(),
+                                                Forms\Components\Textarea::make(
+                                                    'answer'
+                                                )
+                                                    ->required(),
+                                            ])
+                                            ->defaultItems(0)
+                                            ->cloneable()
+                                            ->columns(2)
+                                            ->collapsible()
+                                            ->reorderableWithButtons()
+                                            ->orderColumn('sorting_order'),
+                                    ]),
+
                             ]),
                     ])
                     ->persistTabInQueryString()

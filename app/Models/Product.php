@@ -55,4 +55,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductCharacteristic::class);
     }
+
+    public function faqs(): HasMany
+    {
+        return $this->hasMany(ProductFaq::class);
+    }
 }
