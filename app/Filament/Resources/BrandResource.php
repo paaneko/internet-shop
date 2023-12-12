@@ -80,6 +80,36 @@ class BrandResource extends Resource
                                     ->columnSpan(['lg' => 1]),
                             ])
                             ->columns(3),
+                        Forms\Components\Tabs\Tab::make('FAQ')
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\Repeater::make('faqs')
+                                            ->hiddenLabel()
+                                            ->itemLabel(
+                                                fn (array $state
+                                                ): string => $state['question']
+                                                    ?? ''
+                                            )
+                                            ->relationship()
+                                            ->schema([
+                                                Forms\Components\TextInput::make(
+                                                    'question'
+                                                )
+                                                    ->required(),
+                                                Forms\Components\Textarea::make(
+                                                    'answer'
+                                                )
+                                                    ->required(),
+                                            ])
+                                            ->defaultItems(0)
+                                            ->cloneable()
+                                            ->columns(2)
+                                            ->collapsible()
+                                            ->reorderableWithButtons()
+                                            ->orderColumn('sorting_order'),
+                                    ]),
+                            ]),
                     ])
                     ->persistTabInQueryString()
                     ->columnSpanFull(),
