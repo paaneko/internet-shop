@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use App\Enums\Product\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Product extends Model
         = [
             'indexation' => 'boolean',
             'status' => Status::class,
+            'price' => MoneyCast::class,
         ];
 
     protected $fillable
