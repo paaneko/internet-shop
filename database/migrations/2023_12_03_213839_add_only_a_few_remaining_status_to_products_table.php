@@ -11,6 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // I'm tryed to use ->change(), but it throws error,
+        // so we need to add this overwork
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
+
         // TODO add logic to fi-resource that renders this enums based
         // only on current product qty and make field disabled
         // or
@@ -19,7 +25,16 @@ return new class extends Migration
 
         // 🧠 Do not forget remove status column from seeder
         Schema::table('products', function (Blueprint $table) {
-            //
+            $table->enum(
+                'status',
+                [
+                    'in-stock',
+                    'out-of-stock',
+                    'only-a-few-remaining',
+                    'only-pre-order',
+                    'discontinued',
+                ]
+            );
         });
     }
 
@@ -29,7 +44,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->enum('status', ['in-stock', 'out-of-stock', 'only-a-few-remaining', 'only-pre-order', 'discontinued']);
+            $table->dropColumn('status');
         });
     }
 };
