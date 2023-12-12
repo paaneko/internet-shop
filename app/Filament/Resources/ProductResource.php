@@ -281,6 +281,7 @@ class ProductResource extends Resource
                                             ->cloneable()
                                             ->columns(2)
                                             ->collapsible()
+                                            ->collapsed()
                                             ->reorderableWithButtons()
                                             ->orderColumn('sorting_order'),
                                     ]),

@@ -124,9 +124,11 @@ class CategoryResource extends Resource
                                                 )
                                                     ->required(),
                                             ])
+                                            ->defaultItems(0)
                                             ->cloneable()
                                             ->columns(2)
                                             ->collapsible()
+                                            ->collapsed()
                                             ->reorderableWithButtons()
                                             ->orderColumn('sorting_order'),
                                     ]),
