@@ -61,6 +61,25 @@ class BrandResource extends Resource
                                     ->columnSpan(['lg' => 2]),
                                 Forms\Components\Group::make()
                                     ->schema([
+                                        Forms\Components\Section::make(
+                                            'Associations'
+                                        )
+                                            ->schema([
+                                                Forms\Components\Select::make(
+                                                    'productRecommendations'
+                                                )
+                                                    ->relationship(
+                                                        'productRecommendations',
+                                                        'name'
+                                                    )
+                                                    ->label(
+                                                        'Product Recommendations'
+                                                    )
+                                                    ->multiple()
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->native(false),
+                                            ]),
                                         Forms\Components\Section::make()
                                             ->schema([
                                                 Forms\Components\Toggle::make(

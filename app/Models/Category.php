@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Category extends Model
 {
@@ -67,5 +68,10 @@ class Category extends Model
     public function faqs(): HasMany
     {
         return $this->hasMany(CategoryFaq::class);
+    }
+
+    public function productRecommendations(): MorphToMany
+    {
+        return $this->morphToMany(Product::class, 'productable');
     }
 }

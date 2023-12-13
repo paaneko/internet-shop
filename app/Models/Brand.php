@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Brand extends Model
 {
@@ -32,5 +33,10 @@ class Brand extends Model
     public function faqs(): HasMany
     {
         return $this->hasMany(BrandFaq::class);
+    }
+
+    public function productRecommendations(): MorphToMany
+    {
+        return $this->morphToMany(Product::class, 'productable');
     }
 }

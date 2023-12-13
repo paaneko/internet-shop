@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Product extends Model
 {
@@ -59,5 +60,25 @@ class Product extends Model
     public function faqs(): HasMany
     {
         return $this->hasMany(ProductFaq::class);
+    }
+
+    public function recommendedInCategories(): MorphToMany
+    {
+        return $this->morphedByMany(Category::class, 'productable');
+    }
+
+    public function recommendedInBrands(): MorphToMany
+    {
+        return $this->morphedByMany(Brand::class, 'productable');
+    }
+
+    public function recommendedInProducts(): MorphToMany
+    {
+        return $this->morphedByMany(Product::class, 'productable');
+    }
+
+    public function productRecommendations(): MorphToMany
+    {
+        return $this->morphToMany(Product::class, 'productable');
     }
 }

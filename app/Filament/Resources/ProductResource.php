@@ -13,6 +13,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class ProductResource extends Resource
@@ -103,6 +104,28 @@ class ProductResource extends Resource
                                                         'brand',
                                                         'name'
                                                     )
+                                                    ->native(false),
+                                                Forms\Components\Select::make(
+                                                    'productRecommendations'
+                                                )
+                                                    ->relationship(
+                                                        'productRecommendations',
+                                                        'name',
+                                                        fn (
+                                                            Builder $query,
+                                                            Product $record
+                                                        ) => $query->whereNotIn(
+                                                            'id',
+                                                            [$record->id]
+                                                        )
+
+                                                    )
+                                                    ->label(
+                                                        'Product Recommendations'
+                                                    )
+                                                    ->multiple()
+                                                    ->searchable()
+                                                    ->preload()
                                                     ->native(false),
                                             ]),
                                         Forms\Components\Section::make()

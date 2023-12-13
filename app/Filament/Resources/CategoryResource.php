@@ -82,6 +82,20 @@ class CategoryResource extends Resource
                                                     ->searchable()
                                                     ->preload()
                                                     ->native(false),
+                                                Forms\Components\Select::make(
+                                                    'productRecommendations'
+                                                )
+                                                    ->relationship(
+                                                        'productRecommendations',
+                                                        'name'
+                                                    )
+                                                    ->label(
+                                                        'Product Recommendations'
+                                                    )
+                                                    ->multiple()
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->native(false),
                                             ]),
                                         Forms\Components\Section::make()
                                             ->schema([
