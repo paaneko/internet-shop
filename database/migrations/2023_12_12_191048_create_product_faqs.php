@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained();
             $table->string('question');
             $table->text('answer');
-            $table->tinyInteger('sorting_order');
+            $table->tinyInteger('sorting_order')->default(0);
             $table->timestamps();
         });
     }
