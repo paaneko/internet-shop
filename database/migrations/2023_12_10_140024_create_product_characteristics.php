@@ -19,7 +19,7 @@ return new class extends Migration
                     ->constrained();
                 $table->foreignId('characteristic_id')
                     ->constrained();
-                $table->string('sorting_order');
+                $table->string('sorting_order')->default(0);
                 $table->timestamps();
             }
         );

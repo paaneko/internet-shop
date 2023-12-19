@@ -18,11 +18,14 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
-            CategoryProductSeeder::class,
 
             CharacteristicGroupSeeder::class,
             CharacteristicSeeder::class,
             CharacteristicAttributeSeeder::class,
+
+            ProductCharacteristicSeeder::class,
+
+            ProductableSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();
