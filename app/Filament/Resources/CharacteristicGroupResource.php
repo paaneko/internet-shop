@@ -14,7 +14,15 @@ class CharacteristicGroupResource extends Resource
 {
     protected static ?string $model = CharacteristicGroup::class;
 
+    protected static ?string $slug = 'shop/characteristic-group';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationLabel = 'Characteristic Groups';
+
+    protected static ?string $navigationGroup = 'Shop';
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
