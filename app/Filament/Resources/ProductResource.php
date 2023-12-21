@@ -186,19 +186,19 @@ class ProductResource extends Resource
                                         )
                                             ->label('Product Code')
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('SKU')
+                                        Forms\Components\TextInput::make('sku')
                                             ->label('SKU')
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('UPC')
+                                        Forms\Components\TextInput::make('upc')
                                             ->label('UPC')
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('EAN')
+                                        Forms\Components\TextInput::make('ean')
                                             ->label('EAN')
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('JAN')
+                                        Forms\Components\TextInput::make('jan')
                                             ->label('JAN')
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('MPN')
+                                        Forms\Components\TextInput::make('mpn')
                                             ->label('MPN')
                                             ->maxLength(255),
                                     ])
@@ -330,13 +330,35 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('status')
-                    ->badge(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('sku')
+                    ->label('sku')
+                    ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('brand.name')
+                    ->label('Brand')
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money('USD')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('count')
+                    ->label('Quantity')
+                    ->toggleable()
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->toggleable()
+                    ->alignCenter(),
+                Tables\Columns\IconColumn::make('indexation')
+                    ->label('Indexation')
+                    ->toggleable()
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
