@@ -22,6 +22,8 @@ class CharacteristicGroupResource extends Resource
 
     protected static ?string $navigationGroup = 'Shop';
 
+    protected static ?string $navigationParentItem = 'Characteristics';
+
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
@@ -47,9 +49,12 @@ class CharacteristicGroupResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('sorting_order')
-                    ->searchable(),
+                    ->label('Sorting Order')
+                    ->sortable()
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
