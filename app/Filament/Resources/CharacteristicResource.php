@@ -22,8 +22,6 @@ class CharacteristicResource extends Resource
 
     protected static ?string $navigationGroup = 'Shop';
 
-    protected static ?string $navigationParentItem = 'Characteristic Groups';
-
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
@@ -85,6 +83,15 @@ class CharacteristicResource extends Resource
                                         )
                                             ->default(false),
                                     ]),
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make(
+                                            'sorting_order'
+                                        )
+                                            ->required()
+                                            ->numeric()
+                                            ->default(0),
+                                    ]),
                             ])
                             ->columnSpan(['lg' => 1]),
                     ])
@@ -100,7 +107,25 @@ class CharacteristicResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('characteristicGroup.name'),
+                Tables\Columns\TextColumn::make('characteristicGroup.name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Characteristic Group'),
+                Tables\Columns\TextColumn::make('sorting_order')
+                    ->label('Sorting Order')
+                    ->sortable()
+                    ->alignCenter(),
+                Tables\Columns\IconColumn::make('is_collapsed')
+                    ->label('Is Collapsed')
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
