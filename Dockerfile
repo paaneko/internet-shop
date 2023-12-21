@@ -30,7 +30,6 @@ RUN apk add --no-cache \
 # Install php extensions
 RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions \
-    @composer \
     redis-stable \
     imagick-stable \
     xdebug-stable \
@@ -56,14 +55,24 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/startup.sh /run/nginx/startup.sh
 
 # Create directory for Laravel application
-RUN mkdir -p /var/www
+RUN mkdir -p /var/www/
+
+WORKDIR /var/www
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php && \
+    php -r "unlink('composer-setup.php');"
+
+COPY . /var/www/
+
+RUN php /var/www/composer.phar install
+
+RUN php artisan key:generate
 
 # Change owner of web server files
 RUN chown -R www-data:www-data /var/www
 
 CMD sh /run/nginx/startup.sh
-
-WORKDIR /var/www
 
 EXPOSE 80
 
