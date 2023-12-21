@@ -25,10 +25,10 @@ class AppServiceProvider extends ServiceProvider
          * models, but you already have data in database.
          * e.g. change model path
          */
-        Relation::enforceMorphMap([
-            'product' => 'App\Models\Product',
-            'category' => 'App\Models\Category',
-            'brand' => 'App\Models\Brand',
-        ]);
+        //        Relation::enforceMorphMap([
+        //            'product' => 'App\Models\Product',
+        //            'category' => 'App\Models\Category',
+        //            'brand' => 'App\Models\Brand',
+        //        ]);
     }
 }
