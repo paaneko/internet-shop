@@ -23,11 +23,11 @@ return new class extends Migration
             $table->text('meta_tag_description')->nullable();
             $table->longText('description')->nullable();
             $table->string('product_code')->nullable();
-            $table->string('SKU')->nullable();
-            $table->string('UPC')->nullable();
-            $table->string('EAN')->nullable();
-            $table->string('JAN')->nullable();
-            $table->string('MPN')->nullable();
+            $table->string('sku')->nullable();
+            $table->string('upc')->nullable();
+            $table->string('ean')->nullable();
+            $table->string('jan')->nullable();
+            $table->string('mpn')->nullable();
             $table->integer('price')->default(0);
             $table->smallInteger('count')->default(0);
             $table->enum(

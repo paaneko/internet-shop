@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('characteristics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('characteristic_group_id')->constrained()->nullOnDelete();
+            $table->foreignId('characteristic_group_id')->constrained()
+                ->nullOnDelete();
             $table->string('name');
             $table->string('hint_text')->nullable();
             $table->boolean('is_collapsed');
+            $table->tinyInteger('sorting_order')->default(0);
             $table->timestamps();
-
         });
     }
 

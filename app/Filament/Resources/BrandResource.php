@@ -14,7 +14,15 @@ class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $slug = 'shop/brands';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationGroup = 'Shop';
+
+    protected static ?string $navigationParentItem = 'Products';
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -141,14 +149,12 @@ class BrandResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image_url'),
-                Tables\Columns\TextColumn::make('meta_tag_h1')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('meta_tag_title')
-                    ->searchable(),
+                Tables\Columns\IconColumn::make('indexation')
+                    ->label('indexation')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

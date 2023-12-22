@@ -35,10 +35,10 @@ class ProductFactory extends Factory
             'meta_tag_description' => fake()->text(150),
             'description' => fake()->text(300),
             'product_code' => strtoupper(fake()->bothify('####??')),
-            'SKU' => strtoupper(fake()->bothify('####??')),
-            'UPC' => strtoupper(fake()->bothify('????-####')),
-            'JAN' => fake()->firstNameMale(),
-            'MPN' => fake()->isbn13(),
+            'sku' => strtoupper(fake()->bothify('####??')),
+            'upc' => strtoupper(fake()->bothify('????-####')),
+            'jan' => fake()->firstNameMale(),
+            'mpn' => fake()->isbn13(),
             // 🧠 This statement produce numbers multiples ten
             'price' => intval(
                 round(fake()->numberBetween(10, 700) / 10) * 10

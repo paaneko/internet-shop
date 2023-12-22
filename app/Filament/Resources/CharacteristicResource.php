@@ -14,7 +14,15 @@ class CharacteristicResource extends Resource
 {
     protected static ?string $model = Characteristic::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $slug = 'shop/characteristic';
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+
+    protected static ?string $navigationLabel = 'Characteristics';
+
+    protected static ?string $navigationGroup = 'Shop';
+
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
@@ -29,14 +37,20 @@ class CharacteristicResource extends Resource
                                         Forms\Components\TextInput::make('name')
                                             ->required()
                                             ->maxLength(255),
-                                        Forms\Components\Textarea::make('hint_text'),
+                                        Forms\Components\Textarea::make(
+                                            'hint_text'
+                                        ),
                                     ]),
                                 Forms\Components\Section::make('Attributes')
                                     ->schema([
-                                        Forms\Components\Repeater::make('attributes')
+                                        Forms\Components\Repeater::make(
+                                            'attributes'
+                                        )
                                             ->relationship()
                                             ->simple(
-                                                Forms\Components\TextInput::make('name')
+                                                Forms\Components\TextInput::make(
+                                                    'name'
+                                                )
                                                     ->required()
                                                     ->maxLength(255),
                                             )
@@ -50,17 +64,33 @@ class CharacteristicResource extends Resource
                             ->schema([
                                 Forms\Components\Section::make('Associations')
                                     ->schema([
-                                        Forms\Components\Select::make('characteristic_group_id')
+                                        Forms\Components\Select::make(
+                                            'characteristic_group_id'
+                                        )
                                             ->required()
-                                            ->relationship('characteristicGroup', 'name')
+                                            ->relationship(
+                                                'characteristicGroup',
+                                                'name'
+                                            )
                                             ->searchable()
                                             ->preload()
                                             ->native(false),
                                     ]),
                                 Forms\Components\Section::make()
                                     ->schema([
-                                        Forms\Components\Toggle::make('is_collapsed')
+                                        Forms\Components\Toggle::make(
+                                            'is_collapsed'
+                                        )
                                             ->default(false),
+                                    ]),
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make(
+                                            'sorting_order'
+                                        )
+                                            ->required()
+                                            ->numeric()
+                                            ->default(0),
                                     ]),
                             ])
                             ->columnSpan(['lg' => 1]),
@@ -77,7 +107,25 @@ class CharacteristicResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('characteristicGroup.name'),
+                Tables\Columns\TextColumn::make('characteristicGroup.name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Characteristic Group'),
+                Tables\Columns\TextColumn::make('sorting_order')
+                    ->label('Sorting Order')
+                    ->sortable()
+                    ->alignCenter(),
+                Tables\Columns\IconColumn::make('is_collapsed')
+                    ->label('Is Collapsed')
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

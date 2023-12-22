@@ -42,7 +42,7 @@ build:
     - docker push $TAG_LATEST
 
 pest-testing:
-  image: lorisleiva/laravel-docker:8.1
+  image: lorisleiva/laravel-docker:8.2
   stage: test
   script:
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
