@@ -149,14 +149,12 @@ class BrandResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image_url'),
-                Tables\Columns\TextColumn::make('meta_tag_h1')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('meta_tag_title')
-                    ->searchable(),
+                Tables\Columns\IconColumn::make('indexation')
+                    ->label('indexation')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
