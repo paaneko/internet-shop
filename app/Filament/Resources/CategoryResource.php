@@ -165,20 +165,15 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('parent_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image_url'),
-                Tables\Columns\TextColumn::make('meta_tag_h1')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('meta_tag_title')
+                Tables\Columns\TextColumn::make('parent.name')
+                    ->label('Parent Category')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('indexation')
-                    ->boolean(),
+                    ->label('Indexation')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
