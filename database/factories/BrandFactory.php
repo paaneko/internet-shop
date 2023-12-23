@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Brand>
@@ -24,7 +25,10 @@ class BrandFactory extends Factory
          * @see database/seeders/BrandSeeder.php
          */
         return [
-            'name' => ucfirst(fake()->word()).strtoupper(fake()->bothify('??')),
+            'name' => $name = ucfirst(fake()->word()).strtoupper(
+                fake()->bothify('??')
+            ),
+            'slug' => Str::of($name)->slug(),
             'meta_tag_h1' => fake()->sentence(4),
             'meta_tag_title' => fake()->sentence(5),
             'meta_tag_description' => fake()->text(150),
