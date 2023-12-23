@@ -123,10 +123,11 @@ class ProductResource extends Resource
                                                         'name',
                                                         fn (
                                                             Builder $query,
-                                                            Product $record
-                                                        ) => $query->whereNotIn(
+                                                            ?Product $record
+                                                        ) => $query->where(
                                                             'id',
-                                                            [$record->id]
+                                                            '!=',
+                                                            $record->id ?? null
                                                         )
 
                                                     )
