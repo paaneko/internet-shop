@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Product;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -53,6 +54,16 @@ class CategoryFactory extends Factory
                     ->random()->id;
                 $category->save();
             }
+        });
+    }
+
+    public function createWithProductRecommendations(): static
+    {
+        return $this->afterCreating(function (Category $category) {
+            $category->productRecommendations()->attach(
+                Product::all()->pluck('id')
+                    ->random(fake()->numberBetween(1, 6))
+            );
         });
     }
 }

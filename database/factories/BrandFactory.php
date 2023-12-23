@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -35,5 +37,15 @@ class BrandFactory extends Factory
             'description' => fake()->text(300),
             'indexation' => fake()->boolean,
         ];
+    }
+
+    public function createWithProductRecommendations(): static
+    {
+        return $this->afterCreating(function (Brand $brand) {
+            $brand->productRecommendations()->attach(
+                Product::all()->pluck('id')
+                    ->random(fake()->numberBetween(1, 6))
+            );
+        });
     }
 }

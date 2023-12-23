@@ -69,4 +69,14 @@ class ProductFactory extends Factory
             $product->save();
         });
     }
+
+    public function createWithProductRecommendations(): static
+    {
+        return $this->afterCreating(function (Product $product) {
+            $product->productRecommendations()->attach(
+                Product::all()->pluck('id')
+                    ->random(fake()->numberBetween(1, 6))
+            );
+        });
+    }
 }
