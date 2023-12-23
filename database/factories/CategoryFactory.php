@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
@@ -26,11 +27,12 @@ class CategoryFactory extends Factory
          * @see database/seeders/CategorySeeder.php
          */
         return [
-            'name' => strtoupper(
+            'name' => $name = strtoupper(
                 fake()
                     ->optional(0.6, fake()->word)
                     ->words(2, true)
             ),
+            'slug' => Str::of($name)->slug(),
             'meta_tag_h1' => fake()->sentence(4),
             'meta_tag_title' => fake()->sentence(5),
             'meta_tag_description' => fake()->text(150),
@@ -39,11 +41,9 @@ class CategoryFactory extends Factory
         ];
     }
 
-    public function configure(): static
+    public function createOptionalWithParentCategory(): static
     {
-        return $this->afterMaking(function (Category $category) {
-            // ...
-        })->afterCreating(function (Category $category) {
+        return $this->afterCreating(function (Category $category) {
             /**
              * Make 66% of all columns children of random parent column
              */
