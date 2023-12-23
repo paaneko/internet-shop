@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Characteristic;
-use App\Models\CharacteristicAttribute;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Database\Factories\CharacteristicAttributeFactory;
 use Illuminate\Database\Seeder;
 
 class CharacteristicAttributeSeeder extends Seeder
@@ -14,15 +13,9 @@ class CharacteristicAttributeSeeder extends Seeder
      */
     public function run(): void
     {
-        CharacteristicAttribute::factory()->count(
-            Characteristic::all()->count() * 3
-        )
-            ->state(
-                new Sequence(
-                    fn (Sequence $sequence
-                    ) => ['sorting_order' => $sequence->index]
-                )
-            )
+        CharacteristicAttributeFactory::new()
+            ->count(Characteristic::all()->count() * 3)
+            ->withSortingOrder()
             ->create();
     }
 }
