@@ -25,7 +25,7 @@ class ProductCharacteristicFactory extends Factory
         ];
     }
 
-    public function configure()
+    public function configure(): static
     {
         return $this->afterCreating(
             function (ProductCharacteristic $productCharacteristic) {

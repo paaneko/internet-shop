@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Brand;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BrandFaq>
@@ -22,5 +23,15 @@ class BrandFaqFactory extends Factory
             'question' => fake()->sentence(),
             'answer' => fake()->text(),
         ];
+    }
+
+    public function withSortingOrder(): static
+    {
+        return $this->state(
+            new Sequence(
+                fn (Sequence $sequence
+                ) => ['sorting_order' => $sequence->index + 1]
+            )
+        );
     }
 }

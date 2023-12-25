@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CharacteristicGroup;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Database\Factories\CharacteristicGroupFactory;
 use Illuminate\Database\Seeder;
 
 class CharacteristicGroupSeeder extends Seeder
@@ -13,12 +12,8 @@ class CharacteristicGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        CharacteristicGroup::factory()->count(25)
-            ->state(
-                new Sequence(
-                    fn (Sequence $sequence
-                    ) => ['sorting_order' => $sequence->index + 1]
-                )
-            )->create();
+        CharacteristicGroupFactory::new()->count(25)
+            ->withSortingOrder()
+            ->create();
     }
 }

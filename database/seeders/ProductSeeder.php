@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Brand;
 use App\Models\Product;
-use App\Models\ProductFaq;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Database\Factories\ProductFactory;
+use Database\Factories\ProductFaqFactory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -16,27 +14,13 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::factory()->count(50)
-            ->state(
-                new Sequence(
-                    fn (Sequence $sequence) => [
-                        'brand_id' => Brand::all()->random(),
-                    ]
-                )
-            )
-            ->create(function (array $attributes) {
-                return [
-                    'slug' => Str::of($attributes['name'])->slug(),
-                ];
-            });
+        ProductFactory::new()->count(50)
+            ->createWithExistingCategories()
+            ->withExistingBrand()
+            ->create();
 
-        ProductFaq::factory(Product::all()->count() * 3)
-            ->state(
-                new Sequence(
-                    fn (Sequence $sequence
-                    ) => ['sorting_order' => $sequence->index]
-                )
-            )
+        ProductFaqFactory::new()->count(Product::all()->count() * 3)
+            ->createWithSortingOrder()
             ->create();
     }
 }
