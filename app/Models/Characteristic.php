@@ -22,6 +22,7 @@ class Characteristic extends Model
             'name',
             'hint_text',
             'is_collapsed',
+            'sorting_order',
         ];
 
     public function characteristicGroup(): BelongsTo
