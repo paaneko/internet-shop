@@ -16,6 +16,7 @@ class CategorySeeder extends Seeder
     {
         CategoryFactory::new()->count(30)
             ->createOptionalWithParentCategory()
+            ->withSortingOrder()
             ->create();
 
         CategoryFaqFactory::new()->count(Category::all()->count() * 3)

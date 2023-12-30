@@ -29,6 +29,7 @@ class Category extends Model
             'meta_tag_description',
             'description',
             'indexation',
+            'sorting_order',
         ];
 
     /**
