@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Str;
 
 /**
@@ -65,5 +66,15 @@ class CategoryFactory extends Factory
                     ->random(fake()->numberBetween(1, 6))
             );
         });
+    }
+
+    public function withSortingOrder(): static
+    {
+        return $this->state(
+            new Sequence(
+                fn (Sequence $sequence
+                ) => ['sorting_order' => $sequence->index + 1]
+            )
+        );
     }
 }

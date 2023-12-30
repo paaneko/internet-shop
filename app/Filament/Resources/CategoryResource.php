@@ -120,6 +120,14 @@ class CategoryResource extends Resource
                                                 )
                                                     ->default(true),
                                             ]),
+                                        Forms\Components\Section::make()
+                                            ->schema([
+                                                Forms\Components\TextInput::make(
+                                                    'sorting_order'
+                                                )
+                                                    ->label('Sorting Order')
+                                                    ->numeric(),
+                                            ]),
                                     ])
                                     ->columnSpan(['lg' => 1]),
                             ])
@@ -170,7 +178,12 @@ class CategoryResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('parent.name')
                     ->label('Parent Category')
+                    ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('sorting_order')
+                    ->label('Sorting Order')
+                    ->sortable()
+                    ->alignCenter(),
                 Tables\Columns\IconColumn::make('indexation')
                     ->label('Indexation')
                     ->alignCenter(),
