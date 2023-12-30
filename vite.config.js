@@ -11,9 +11,6 @@ export default defineConfig({
     // Use it if you running app on herd
     // Otherwise comment this
     server: {
-        host: "internet-shop.test",
-        watch: {
-            usePolling: true
-        }
+        host: "internet-shop.test"
     }
 });
