@@ -34,22 +34,34 @@
                 </div>
             </div>
         </div>
-        <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                <div class="w-10 rounded-full">
-                    @svg('gmdi-logo-dev-o')
+        @auth()
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                    <div class="w-10 rounded-full">
+                        @svg('gmdi-logo-dev-o')
+                    </div>
                 </div>
+                <ul tabindex="0"
+                    class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li>
+                        <a class="justify-between">
+                            Profile
+                            <span class="badge">New</span>
+                        </a>
+                    </li>
+                    <li><a>Settings</a></li>
+                    <li>
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
-            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li>
-                    <a class="justify-between">
-                        Profile
-                        <span class="badge">New</span>
-                    </a>
-                </li>
-                <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
-            </ul>
-        </div>
+        @else
+            <span><a class="link ml-5" href="/login">Login</a></span>
+            <span class="mx-2">or</span>
+            <span><a class="link" href="/register">Register</a></span>
+        @endauth
     </div>
 </div>

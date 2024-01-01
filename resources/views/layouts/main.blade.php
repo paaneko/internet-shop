@@ -1,17 +1,18 @@
-<!doctype html>
-<html lang="en" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    @googlefonts('poppins')
-    @vite('resources/css/app.css')
-</head>
-<body>
-@include('widgets.header')
-@yield('layout')
-@include('widgets.footer')
-</body>
-</html>
+@extends('layouts.index')
+
+@section('layout')
+    @include('widgets.header')
+    <div class="container">
+        @yield('content')
+        @if(session()->has('success'))
+            <div class="fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-[-16px]"
+                 x-data="{ show: true }"
+                 x-init="setTimeout(() => show = false, 4000)"
+                 x-show="show"
+            >
+                <x-shared.flash-alert.success :message="session('success')" />
+            </div>
+        @endif
+    </div>
+    @include('widgets.footer')
+@endsection

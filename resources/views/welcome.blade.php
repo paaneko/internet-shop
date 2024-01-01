@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.main')
 
 @section('content')
     <h1 class="container p-12">My component</h1>

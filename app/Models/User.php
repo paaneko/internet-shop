@@ -48,10 +48,17 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
         ];
 
+    public function setPasswordAttribute($password): void
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
-        // FIXME add real user check
-        // See Why is my panel showing a 403 error in production? artice
-        return true; // TODO: Implement canAccessPanel() method.
+        if (auth()->user()->is_admin) {
+            return true;
+        }
+
+        return false;
     }
 }
