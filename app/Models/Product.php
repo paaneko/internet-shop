@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 
 class Product extends Model
 {
@@ -44,6 +45,11 @@ class Product extends Model
             'indexation',
         ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
@@ -62,6 +68,21 @@ class Product extends Model
     public function productCharacteristics(): HasMany
     {
         return $this->hasMany(ProductCharacteristic::class);
+    }
+
+    public function groupedProductCharacteristics(): Collection
+    {
+        return $this->productCharacteristics()->get()->mapToGroups(
+            function ($item) {
+                return [
+                    $item->characteristic->characteristicGroup->name => [
+                        $item->characteristic->name => $item->productAttributes->pluck(
+                            'name'
+                        ),
+                    ],
+                ];
+            }
+        );
     }
 
     public function faqs(): HasMany

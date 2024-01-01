@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Characteristic;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CharacteristicAttribute>
@@ -20,7 +21,9 @@ class CharacteristicAttributeFactory extends Factory
     {
         return [
             'characteristic_id' => Characteristic::all()->pluck('id')->random(),
-            'name' => fake()->word,
+            'name' => Str::ucfirst(
+                fake()->words(fake()->numberBetween(1, 3), true)
+            ),
         ];
     }
 

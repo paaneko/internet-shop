@@ -34,9 +34,14 @@ class ProductCharacteristicFactory extends Factory
                 )->attributes()
                     ->pluck('id');
 
-                if (! empty($random_attributes)) {
+                if (! $random_attributes->isEmpty()) {
                     $productCharacteristic->productAttributes()->attach(
-                        $random_attributes
+                        $random_attributes->random(
+                            fake()->optional(0.1, 1)->numberBetween(
+                                1,
+                                round($random_attributes->count() / 2)
+                            )
+                        )
                     );
                 }
             }
