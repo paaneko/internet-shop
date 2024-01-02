@@ -1,3 +1,5 @@
+import forms from "@tailwindcss/forms";
+
 /** @type {import("tailwindcss").Config} */
 module.exports = {
     content: [
@@ -15,5 +17,6 @@ module.exports = {
             center: true
         }
     },
-    plugins: [require("daisyui")]
+    plugins: [forms, require("daisyui")]
 };
+

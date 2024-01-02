@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('layout')
-    @include('widgets.header')
+    <livewire:layout.header />
     <div class="container">
         @yield('content')
         @if(session()->has('success'))
