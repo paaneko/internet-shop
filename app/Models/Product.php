@@ -90,6 +90,11 @@ class Product extends Model
         return $this->hasMany(ProductFaq::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(ProductComment::class);
+    }
+
     public function recommendedInCategories(): MorphToMany
     {
         return $this->morphedByMany(Category::class, 'productable');

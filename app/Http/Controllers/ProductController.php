@@ -23,6 +23,7 @@ class ProductController extends Controller
                 4
             ),
             'productFaqs' => $product->faqs,
+            'productComments' => $product->comments,
         ]);
     }
 }

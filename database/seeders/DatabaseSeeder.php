@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
 
+            ProductCommentSeeder::class,
+
             CharacteristicGroupSeeder::class,
             CharacteristicSeeder::class,
             CharacteristicAttributeSeeder::class,

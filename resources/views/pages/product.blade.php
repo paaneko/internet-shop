@@ -53,6 +53,23 @@
             @endforeach
         @endforeach
     </div>
+    <div class="w-[60%] pt-28">
+        <h3 class="text-2xl text-gray-500">
+            <strong class="text-black">Comments</strong>
+            {{ $product->name }}
+        </h3>
+        <x-entities.product-comment-form :slug="$product->slug" />
+        <div class="space-y-5 mt-10">
+            @if($productComments->isEmpty())
+                <div class="border p-8 text-center bg-gray-100">
+                    No comments yet. Be the first to comment!
+                </div>
+            @endif
+            @foreach($productComments as $comment)
+                <x-entities.product-comment :$comment />
+            @endforeach
+        </div>
+    </div>
     <div class="pt-28">
         <h3 class="text-2xl text-gray-500">
             <strong class="text-black">Analogues</strong>
