@@ -31,4 +31,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'esputnik' => [
+        'api_key' => env('ESPUTNIK_API_KEY'),
+        'api_username' => env('ESPUTNIK_API_USERNAME'),
+        'groups' => [
+            'newsletters' => env('ESPUTNIK_GROUP_NEWSLETTER_ID'),
+        ],
+        'domain' => env('ESPUTNIK_DOMAIN'),
+    ],
+
 ];

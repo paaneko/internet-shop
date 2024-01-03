@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProductCommentController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/newsletters', NewsletterController::class);
 
 Route::view('/profile', 'profile')
     ->middleware(['auth'])
