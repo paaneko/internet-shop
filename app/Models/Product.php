@@ -11,10 +11,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $casts
         = [
@@ -113,5 +117,25 @@ class Product extends Model
     public function productRecommendations(): MorphToMany
     {
         return $this->morphToMany(Product::class, 'productable');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('main')
+            ->format('webp')
+            ->withResponsiveImages()
+            ->nonQueued();
+
+        $this->addMediaConversion('thumb')
+            ->format('webp')
+            ->width(228)
+            ->height(228)
+            ->nonQueued();
+
+        $this->addMediaConversion('mini')
+            ->format('webp')
+            ->width(50)
+            ->height(50)
+            ->nonQueued();
     }
 }

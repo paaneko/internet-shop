@@ -16,6 +16,7 @@ class ProductSeeder extends Seeder
     {
         ProductFactory::new()->count(25)
             ->createWithExistingCategories()
+            ->createWithMedia()
             ->withExistingBrand()
             ->create();
 

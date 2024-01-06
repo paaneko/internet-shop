@@ -11,9 +11,13 @@
         </div>
     </div>
     <figure class="flex justify-center">
-        <img class="mb-4"
-             src="https://duda.com.ua/image/cache/catalog/image/cache/catalog/products_photo/21006/bong-v-keyse-bitch-bong-auu-228x228.webp"
-             alt="Shoes" />
+        @if(! $productItem->getFirstMedia())
+            @svg('gmdi-hide-image-tt', 'mb-4 w-[228px] h-[228px] text-lime-600')
+        @else
+            <img class="mb-4 w-[228px] h-[228px]"
+                 src="{{ $productItem->getFirstMedia()?->getUrl('thumb') }}"
+                 alt="" />
+        @endif
     </figure>
     <div class="p-0">
         <div class="h-6 flex items-center space-x-1 mb-2">

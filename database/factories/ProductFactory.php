@@ -82,4 +82,19 @@ class ProductFactory extends Factory
             );
         });
     }
+
+    public function createWithMedia(): static
+    {
+        return $this->afterCreating(function (Product $product) {
+            $media_path = storage_path('fake-media/product/').fake()
+                ->numberBetween(
+                    1,
+                    13
+                ).'.jpg';
+
+            $product->addMedia($media_path)
+                ->preservingOriginal()
+                ->toMediaCollection('default', 'media-product');
+        });
+    }
 }

@@ -163,20 +163,16 @@ class ProductResource extends Resource
 
                         Forms\Components\Tabs\Tab::make('Images')
                             ->schema([
-                                /*
-                                 * TODO create Photo Gallery logic
-                                 * 1) adding multiple images
-                                 * 2) photo order directions
-                                 */
-                                Forms\Components\Section::make('Photo Gallery')
+                                Forms\Components\Section::make('Main Photo')
                                     ->schema([
-                                        Forms\Components\FileUpload::make(
-                                            'image_url'
+                                        Forms\Components\SpatieMediaLibraryFileUpload::make(
+                                            'productImages'
                                         )
-                                            ->hiddenLabel()
-                                            ->image(),
-                                    ])
-                                    ->collapsible(),
+                                            ->multiple()
+                                            ->reorderable()
+                                            ->disk('media-product'),
+                                    ]),
+
                             ]),
                         Forms\Components\Tabs\Tab::make('Info')
                             ->schema([

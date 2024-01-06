@@ -12,7 +12,7 @@
         </ul>
     </div>
     <h1 class="text-3xl font-medium mb-4 pb-[1px]">{{$product->name}}</h1>
-    <div role="tablist" class="tabs tabs-bordered rounded-none mb-[-1px] w-[600px] ">
+    <div role="tablist" class="tabs tabs-bordered rounded-none mb-[-1px] w-[550px] ">
         <a role="tab" class="tab tab-active">Overview</a>
         <a role="tab" class="tab">Specs</a>
         <a role="tab" class="tab">Reviews</a>
@@ -21,10 +21,19 @@
     </div>
     <div class="flex">
         <!-- Left Sidebar (40%) -->
-        <div class="p-6 w-[600px] border border-r-0 leading-none">
-            <span class="text-xs text-gray-400 ">Product code</span>
-            <br>
-            <span class="font-medium">{{ $product->sku }}</span>
+        <div class="p-6 min-w-[550] border border-r-0 leading-none">
+            <div class="absolute">
+                <span class=" text-xs text-gray-400">Product code</span>
+                <br>
+                <span class="font-medium">{{ $product->sku }}</span>
+            </div>
+            <figure class="flex justify-center mt-14">
+                @if(! $product->getFirstMedia())
+                    @svg('gmdi-hide-image-tt', 'mb-4 w-[500px] h-[500px] text-lime-600')
+                @else
+                    {{ $mainMedia('main') }}
+                @endif
+            </figure>
         </div>
 
         <!-- Right Content (60%) -->
