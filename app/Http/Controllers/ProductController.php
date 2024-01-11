@@ -8,9 +8,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return view('pages.products', [
-            'products' => Product::paginate(16),
-        ]);
+        return view('pages.products');
     }
 
     public function show(Product $product)

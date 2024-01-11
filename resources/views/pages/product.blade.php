@@ -67,7 +67,8 @@
             <strong class="text-black">Comments</strong>
             {{ $product->name }}
         </h3>
-        <x-entities.product-comment-form :slug="$product->slug" />
+        <livewire:product.create-comment :slug="$product->slug" />
+        {{--        <x-entities.product-comment-form :slug="$product->slug" />--}}
         <div class="space-y-5 mt-10">
             @if($productComments->isEmpty())
                 <div class="border p-8 text-center bg-gray-100">
@@ -84,11 +85,7 @@
             <strong class="text-black">Analogues</strong>
             {{ $product->name }}
         </h3>
-        <div class="mt-10 grid grid-flow-col grid-cols-6 border-l">
-            @foreach($productRecommendations as $productItem)
-                <x-entities.product-card class="border-l-0" :$productItem />
-            @endforeach
-        </div>
+        <livewire:product.analogues-list :products="$productRecommendations" />
     </div>
     <div class="mt-28">
         <h3 class=" text-2xl text-gray-500">

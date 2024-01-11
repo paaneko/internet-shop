@@ -13,6 +13,13 @@ Route::view('/profile', 'profile')
 
 Route::get('/products', [ProductController::class, 'index']);
 
+Route::get('/wishlist', function () {
+    return view('pages.wishlist');
+});
+Route::get('/compare-products', function () {
+    return view('pages.compare-products');
+});
+
 Route::get('p/{product:slug}', [ProductController::class, 'show']);
 
 Route::post(

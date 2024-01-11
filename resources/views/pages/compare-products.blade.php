@@ -10,7 +10,7 @@
         <!-- Right Content (60%) -->
         <div class="flex-1">
             <div class="grid-cols-4 border border-l-0 p-4">Top bar</div>
-            <livewire:pages.products-list />
+            <livewire:pages.compare-products />
         </div>
     </div>
 @endsection
