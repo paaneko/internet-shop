@@ -6,11 +6,6 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        return view('pages.products');
-    }
-
     public function show(Product $product)
     {
         // TODO optimize this part of code with `with()` and fix N + 1 problem

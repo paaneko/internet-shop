@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -31,6 +34,11 @@ class Category extends Model
             'indexation',
             'sorting_order',
         ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     /**
      * Get the formatted category name, considering parent-child relationship.
@@ -64,6 +72,70 @@ class Category extends Model
             'category_id',
             'product_id'
         );
+    }
+
+    public function productAttributes(Collection $productIds): Collection
+    {
+        return
+            DB::table('characteristic_attributes')
+                ->where('categories.slug', $this->slug)
+                ->whereIn('products.id', $productIds)
+                ->join(
+                    'product_characteristic_attributes',
+                    'characteristic_attributes.id',
+                    '=',
+                    'product_characteristic_attributes.characteristic_attribute_id'
+                )
+                ->join(
+                    'product_characteristics',
+                    'product_characteristic_attributes.product_characteristic_id',
+                    '=',
+                    'product_characteristics.id'
+                )
+                ->join(
+                    'products',
+                    'product_characteristics.product_id',
+                    '=',
+                    'products.id'
+                )
+                ->join(
+                    'category_product',
+                    'products.id',
+                    '=',
+                    'category_product.product_id'
+                )
+                ->join(
+                    'categories',
+                    'category_product.category_id',
+                    '=',
+                    'categories.id'
+                )
+                ->join(
+                    'characteristics',
+                    'product_characteristics.characteristic_id',
+                    '=',
+                    'characteristics.id'
+                )
+                ->select(
+                    'characteristic_attributes.id',
+                    'characteristic_attributes.name as attribute_name',
+                    'characteristics.name as characteristic_name',
+                    DB::raw('COUNT(*) as attribute_count')
+                )
+                ->groupBy('characteristic_attributes.id', 'characteristic_name')
+                ->get()
+                ->mapToGroups(function ($item) {
+                    $item = (array) $item;
+
+                    return [
+                        $item['characteristic_name'] => [
+                            'id' => $item['id'],
+                            'slug' => Str::slug($item['attribute_name']),
+                            'name' => $item['attribute_name'],
+                            'count' => $item['attribute_count'],
+                        ],
+                    ];
+                });
     }
 
     public function faqs(): HasMany

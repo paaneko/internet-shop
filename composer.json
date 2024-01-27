@@ -20,7 +20,8 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "livewire/volt": "^1.0",
-        "spatie/laravel-google-fonts": "^1.2"
+        "spatie/laravel-google-fonts": "^1.2",
+        "spatie/url": "^2.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -28,7 +28,7 @@ class CharacteristicAttribute extends Model
         return $this->belongsToMany(
             ProductCharacteristic::class,
             'product_characteristic_attributes',
-            'characteristic_attribute',
+            'characteristic_attribute_id',
             'product_characteristic_id',
         );
     }

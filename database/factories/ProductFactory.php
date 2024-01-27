@@ -73,6 +73,19 @@ class ProductFactory extends Factory
         });
     }
 
+    public function createWithExistingOneCategory(): static
+    {
+        /**
+         * Attach 1 random category to product.
+         */
+        return $this->afterCreating(function (Product $product) {
+            $product->categories()->attach(
+                Category::all()->random()->pluck('id')
+            );
+            $product->save();
+        });
+    }
+
     public function createWithProductRecommendations(): static
     {
         return $this->afterCreating(function (Product $product) {

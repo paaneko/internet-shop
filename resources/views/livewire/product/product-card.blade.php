@@ -32,7 +32,7 @@
         </div>
         <div class="h-12 mb-2">
             <a class="link font-medium leading-0 line-clamp-2 transition-all ease-in-out duration-150 hover:text-lime-600"
-               href=/p/{{$product->slug}}
+               href={{asset($product->slug)}}
             >{{$product->name}}</a>
         </div>
         <div class="flex items-center space-x-3 mb-4">

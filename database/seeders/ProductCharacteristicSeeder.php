@@ -13,7 +13,7 @@ class ProductCharacteristicSeeder extends Seeder
      */
     public function run(): void
     {
-        ProductCharacteristic::factory()->count(Product::all()->count() * 20)
+        ProductCharacteristic::factory()->count(Product::all()->count() * 3)
             ->create();
     }
 }
