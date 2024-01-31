@@ -31,8 +31,8 @@ switch ($searching_segment) {
         Route::get('/{product:slug}', [ProductController::class, 'show']);
         break;
     default:
-        Route::get('/{slug}', ProductFilter::class)->where(
-            'slug',
+        Route::get('/{url}', ProductFilter::class)->where(
+            'url',
             '.*'
         );
 }

@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -123,19 +122,7 @@ class Category extends Model
                     DB::raw('COUNT(*) as attribute_count')
                 )
                 ->groupBy('characteristic_attributes.id', 'characteristic_name')
-                ->get()
-                ->mapToGroups(function ($item) {
-                    $item = (array) $item;
-
-                    return [
-                        $item['characteristic_name'] => [
-                            'id' => $item['id'],
-                            'slug' => Str::slug($item['attribute_name']),
-                            'name' => $item['attribute_name'],
-                            'count' => $item['attribute_count'],
-                        ],
-                    ];
-                });
+                ->get();
     }
 
     public function faqs(): HasMany
