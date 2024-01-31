@@ -14,6 +14,7 @@ class ProductCharacteristicSeeder extends Seeder
     public function run(): void
     {
         ProductCharacteristic::factory()->count(Product::all()->count() * 3)
+            ->createWithRandomAttributes()
             ->create();
     }
 }

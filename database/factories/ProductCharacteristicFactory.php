@@ -25,7 +25,7 @@ class ProductCharacteristicFactory extends Factory
         ];
     }
 
-    public function configure(): static
+    public function createWithRandomAttributes(): static
     {
         return $this->afterCreating(
             function (ProductCharacteristic $productCharacteristic) {
