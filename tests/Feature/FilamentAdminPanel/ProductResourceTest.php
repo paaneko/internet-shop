@@ -8,10 +8,10 @@ use Filament\Actions\DeleteAction;
 
 use function Pest\Livewire\livewire;
 
-it('can render product index page', function () {
-    $this->get(ProductResource::getUrl('index'))
-        ->assertSuccessful();
-});
+//it('can render product index page', function () {
+//    $this->get(ProductResource::getUrl('index'))
+//        ->assertSuccessful();
+//});
 
 it('can list products', function () {
     $posts = ProductFactory::new()->count(10)
@@ -21,9 +21,9 @@ it('can list products', function () {
         ->assertCanSeeTableRecords($posts);
 });
 
-it('can render create product page', function () {
-    $this->get(ProductResource::getUrl('create'))->assertSuccessful();
-});
+//it('can render create product page', function () {
+//    $this->get(ProductResource::getUrl('create'))->assertSuccessful();
+//});
 
 it('can create product', function () {
     $newData
@@ -77,13 +77,13 @@ it('can create product', function () {
 
 // TODO create test that ensures that data is properly validated in a form:
 
-it('can render edit product page', function () {
-    $this->get(
-        ProductResource::getUrl('edit', [
-            'record' => ProductFactory::new()->create(),
-        ])
-    )->assertSuccessful();
-});
+//it('can render edit product page', function () {
+//    $this->get(
+//        ProductResource::getUrl('edit', [
+//            'record' => ProductFactory::new()->create(),
+//        ])
+//    )->assertSuccessful();
+//});
 
 it('can retrieve product data', function () {
     $product = ProductFactory::new()

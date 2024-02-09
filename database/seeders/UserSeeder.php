@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -13,11 +12,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'name' => 'paaneko',
-            'email' => 'paaneko@gmail.com',
-            'password' => Hash::make('root'),
-            'is_admin' => true,
-        ]);
+        UserFactory::new()->create();
     }
 }

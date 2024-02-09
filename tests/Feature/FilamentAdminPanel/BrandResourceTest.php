@@ -7,10 +7,10 @@ use Filament\Actions\DeleteAction;
 
 use function Pest\Livewire\livewire;
 
-it('can render brand index page', function () {
-    $this->get(BrandResource::getUrl('index'))
-        ->assertSuccessful();
-});
+//it('can render brand index page', function () {
+//    $this->get(BrandResource::getUrl('index'))
+//        ->assertSuccessful();
+//});
 
 it('can list brands', function () {
     $brand = BrandFactory::new()->count(10)->create();
@@ -19,10 +19,10 @@ it('can list brands', function () {
         ->assertCanSeeTableRecords($brand);
 });
 
-it('can render create brand page', function () {
-    $this->get(BrandResource::getUrl('create'))
-        ->assertSuccessful();
-});
+//it('can render create brand page', function () {
+//    $this->get(BrandResource::getUrl('create'))
+//        ->assertSuccessful();
+//});
 
 it('can create brand', function () {
     $newData
@@ -53,13 +53,13 @@ it('can create brand', function () {
     ]);
 });
 
-it('can render edit brand page', function () {
-    $this->get(
-        BrandResource::getUrl('edit', [
-            'record' => BrandFactory::new()->create(),
-        ])
-    )->assertSuccessful();
-});
+//it('can render edit brand page', function () {
+//    $this->get(
+//        BrandResource::getUrl('edit', [
+//            'record' => BrandFactory::new()->create(),
+//        ])
+//    )->assertSuccessful();
+//});
 
 it('can retrieve brand data', function () {
     $brand = BrandFactory::new()

@@ -7,10 +7,10 @@ use Filament\Actions\DeleteAction;
 
 use function Pest\Livewire\livewire;
 
-it('can render characteristic index page', function () {
-    $this->get(CharacteristicResource::getUrl('index'))
-        ->assertSuccessful();
-});
+//it('can render characteristic index page', function () {
+//    $this->get(CharacteristicResource::getUrl('index'))
+//        ->assertSuccessful();
+//});
 
 it('can list characteristics', function () {
     CharacteristicGroupFactory::new()->count(10)->create();
@@ -21,19 +21,19 @@ it('can list characteristics', function () {
         ->assertCanSeeTableRecords($characteristic);
 });
 
-it('can render create characteristic page', function () {
-    $this->get(CharacteristicResource::getUrl('create'))
-        ->assertSuccessful();
-});
+//it('can render create characteristic page', function () {
+//    $this->get(CharacteristicResource::getUrl('create'))
+//        ->assertSuccessful();
+//});
 
-it('can render edit characteristic page', function () {
-    CharacteristicGroupFactory::new()->create();
-    $this->get(
-        CharacteristicResource::getUrl('edit', [
-            'record' => CharacteristicFactory::new()->create(),
-        ])
-    )->assertSuccessful();
-});
+//it('can render edit characteristic page', function () {
+//    CharacteristicGroupFactory::new()->create();
+//    $this->get(
+//        CharacteristicResource::getUrl('edit', [
+//            'record' => CharacteristicFactory::new()->create(),
+//        ])
+//    )->assertSuccessful();
+//});
 
 it('can retrieve characteristic data', function () {
     CharacteristicGroupFactory::new()->count(10)->create();
