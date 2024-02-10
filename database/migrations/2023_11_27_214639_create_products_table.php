@@ -17,7 +17,6 @@ return new class extends Migration
                 ->nullOnDelete();
             $table->string('name');
             $table->string('slug');
-            $table->string('image_url')->nullable();
             $table->string('meta_tag_h1')->nullable();
             $table->string('meta_tag_title')->nullable();
             $table->text('meta_tag_description')->nullable();

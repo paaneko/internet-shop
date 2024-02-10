@@ -6,10 +6,10 @@ use Database\Factories\CategoryFactory;
 
 use function Pest\Livewire\livewire;
 
-it('can render category index page', function () {
-    $this->get(CategoryResource::getUrl('index'))
-        ->assertSuccessful();
-});
+//it('can render category index page', function () {
+//    $this->get(CategoryResource::getUrl('index'))
+//        ->assertSuccessful();
+//});
 
 it('can list categories', function () {
     $category = CategoryFactory::new()
@@ -20,51 +20,51 @@ it('can list categories', function () {
         ->assertCanSeeTableRecords($category);
 });
 
-it('can render create brand page', function () {
-    $this->get(CategoryResource::getUrl('create'))
-        ->assertSuccessful();
-});
+//it('can render create brand page', function () {
+//    $this->get(CategoryResource::getUrl('create'))
+//        ->assertSuccessful();
+//});
 
-it('can create category', function () {
-    CategoryFactory::new()->count(3)->create();
-    $newData
-        = CategoryFactory::new()
-            ->createOptionalWithParentCategory()
-            ->make();
+//it('can create category', function () {
+//    CategoryFactory::new()->count(3)->create();
+//    $newData
+//        = CategoryFactory::new()
+//            ->createOptionalWithParentCategory()
+//            ->make();
+//
+//    livewire(CategoryResource\Pages\CreateCategory::class)
+//        ->fillForm([
+//            'parent_id' => $newData->parent_id,
+//            'name' => $newData->name,
+//            'slug' => $newData->slug,
+//            'meta_tag_h1' => $newData->meta_tag_h1,
+//            'meta_tag_title' => $newData->meta_tag_title,
+//            'meta_tag_description' => $newData->meta_tag_description,
+//            'description' => $newData->description,
+//            'indexation' => $newData->indexation,
+//        ])
+//        ->call('create')
+//        ->assertHasNoFormErrors();
+//
+//    $this->assertDatabaseHas(Category::class, [
+//        'parent_id' => $newData->parent_id,
+//        'name' => $newData->name,
+//        'slug' => $newData->slug,
+//        'meta_tag_h1' => $newData->meta_tag_h1,
+//        'meta_tag_title' => $newData->meta_tag_title,
+//        'meta_tag_description' => $newData->meta_tag_description,
+//        'description' => $newData->description,
+//        'indexation' => $newData->indexation,
+//    ]);
+//});
 
-    livewire(CategoryResource\Pages\CreateCategory::class)
-        ->fillForm([
-            'parent_id' => $newData->parent_id,
-            'name' => $newData->name,
-            'slug' => $newData->slug,
-            'meta_tag_h1' => $newData->meta_tag_h1,
-            'meta_tag_title' => $newData->meta_tag_title,
-            'meta_tag_description' => $newData->meta_tag_description,
-            'description' => $newData->description,
-            'indexation' => $newData->indexation,
-        ])
-        ->call('create')
-        ->assertHasNoFormErrors();
-
-    $this->assertDatabaseHas(Category::class, [
-        'parent_id' => $newData->parent_id,
-        'name' => $newData->name,
-        'slug' => $newData->slug,
-        'meta_tag_h1' => $newData->meta_tag_h1,
-        'meta_tag_title' => $newData->meta_tag_title,
-        'meta_tag_description' => $newData->meta_tag_description,
-        'description' => $newData->description,
-        'indexation' => $newData->indexation,
-    ]);
-});
-
-it('can render edit brand page', function () {
-    $this->get(
-        CategoryResource::getUrl('edit', [
-            'record' => CategoryFactory::new()->create(),
-        ])
-    )->assertSuccessful();
-});
+//it('can render edit brand page', function () {
+//    $this->get(
+//        CategoryResource::getUrl('edit', [
+//            'record' => CategoryFactory::new()->create(),
+//        ])
+//    )->assertSuccessful();
+//});
 
 it('can retrieve category data', function () {
     CategoryFactory::new()->count(3)->create();

@@ -14,7 +14,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        CategoryFactory::new()->count(30)
+        CategoryFactory::new()->count(6)
             ->createOptionalWithParentCategory()
             ->withSortingOrder()
             ->create();

@@ -73,6 +73,19 @@ class ProductFactory extends Factory
         });
     }
 
+    public function createWithExistingOneCategory(): static
+    {
+        /**
+         * Attach 1 random category to product.
+         */
+        return $this->afterCreating(function (Product $product) {
+            $product->categories()->attach(
+                Category::all()->random()->pluck('id')
+            );
+            $product->save();
+        });
+    }
+
     public function createWithProductRecommendations(): static
     {
         return $this->afterCreating(function (Product $product) {
@@ -80,6 +93,21 @@ class ProductFactory extends Factory
                 Product::all()->pluck('id')
                     ->random(fake()->numberBetween(1, 6))
             );
+        });
+    }
+
+    public function createWithMedia(): static
+    {
+        return $this->afterCreating(function (Product $product) {
+            $media_path = storage_path('fake-media/product/').fake()
+                ->numberBetween(
+                    1,
+                    13
+                ).'.jpg';
+
+            $product->addMedia($media_path)
+                ->preservingOriginal()
+                ->toMediaCollection('default', 'media-product');
         });
     }
 }

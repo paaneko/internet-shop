@@ -3,16 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -48,10 +48,8 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
         ];
 
-    public function canAccessPanel(Panel $panel): bool
+    public function setPasswordAttribute($password): void
     {
-        // FIXME add real user check
-        // See Why is my panel showing a 403 error in production? artice
-        return true; // TODO: Implement canAccessPanel() method.
+        $this->attributes['password'] = bcrypt($password);
     }
 }

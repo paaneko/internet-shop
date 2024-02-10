@@ -12,7 +12,7 @@ class CharacteristicSeeder extends Seeder
      */
     public function run(): void
     {
-        CharacteristicFactory::new()->count(150)
+        CharacteristicFactory::new()->count(5)
             ->withSortingOrder()
             ->create();
     }
