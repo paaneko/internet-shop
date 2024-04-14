@@ -35,10 +35,6 @@ class VariationResource extends Resource
                                     ->schema([
                                         Forms\Components\Section::make()
                                             ->schema([
-                                                Forms\Components\Toggle::make(
-                                                    'indexation'
-                                                )
-                                                    ->required(),
                                                 Forms\Components\Select::make(
                                                     'product_id'
                                                 )
@@ -52,6 +48,10 @@ class VariationResource extends Resource
                                                 )
                                                     ->required()
                                                     ->maxLength(255),
+                                                Forms\Components\ColorPicker::make(
+                                                    'color'
+                                                )
+                                                    ->required(),
                                                 Forms\Components\TextInput::make(
                                                     'slug'
                                                 )

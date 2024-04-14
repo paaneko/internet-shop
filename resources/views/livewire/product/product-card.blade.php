@@ -20,16 +20,21 @@
         @if(! $variation->getFirstMedia())
             @svg('gmdi-hide-image-tt', 'mb-4 w-[228px] h-[228px] text-lime-600')
         @else
-            <img class="mb-4 w-[228px] h-[228px]"
+            <img class="mb-2 w-[228px] h-[228px]"
                  src="{{ $variation->getFirstMedia()?->getUrl('thumb') }}"
                  alt="" />
         @endif
     </figure>
     <div class="p-0">
-        <div class="h-6 flex items-center space-x-1 mb-2">
-            @svg('heroicon-s-banknotes', 'w-6 h-6 text-violet-800')
-            <span class="text-sm">+333 bonuses</span>
-        </div>
+        <ul class="flex items-center justify-center space-x-1 mb-2">
+            @foreach($variation->product->variations->pluck("slug", "color") as $colorCode => $variationSlug)
+                <li class="inline-block border-2 rounded-lg @if($variation->slug === $variationSlug) border-black @else hover:border-gray-400 @endif cursor-pointer">
+                    <a href="/{{ $variationSlug }}">
+                        <div style="background-color: {{$colorCode}};" class="block w-6 h-6 m-0.5 rounded"></div>
+                    </a>
+                </li>
+            @endforeach
+        </ul>
         <div class="h-12 mb-2">
             <a class="link font-medium leading-0 line-clamp-2 transition-all ease-in-out duration-150 hover:text-lime-600"
                href={{asset($variation->slug)}}

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('mpn')->nullable();
             $table->integer('price')->default(0);
             $table->smallInteger('count')->default(0);
+            $table->string('color');
             $table->boolean('indexation');
             $table->timestamps();
         });

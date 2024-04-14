@@ -41,6 +41,19 @@
 </div>
 <div class="flex">
     <div class="p-6 flex flex-col justify-between w-[600px] h-[350px] border border-r-0">
+        <div class="relative">
+            @svg('heroicon-o-chevron-left', 'absolute w-8 h-8 top-1 left-0 fill-gray-500 cursor-pointer')
+            @svg('heroicon-o-chevron-right', 'absolute w-8 h-8 top-1 right-0 fill-gray-500 cursor-pointer')
+            <ul class="flex items-center justify-center space-x-2">
+                @foreach($variation->product->variations->pluck("slug", "color") as $colorCode => $variationSlug)
+                    <li class="inline-block border-2 rounded-lg @if($variation->slug === $variationSlug) border-black @else hover:border-gray-400 @endif cursor-pointer">
+                        <a href="/{{ $variationSlug }}">
+                            <div style="background-color: {{$colorCode}};" class="block w-8 h-8 m-1 rounded"></div>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
         <div class="grid grid-cols-2 grid-rows-3 gap-5">
             @foreach($variation->variationCharacteristics->take(4) as $characteristic)
                 <div>
@@ -55,33 +68,6 @@
         </div>
         <div class="flex justify-center text-center text-sm mb-4">
             <span class="link hover:text-green-600">See more characteristics</span>
-        </div>
-        <div class="relative">
-            @svg('heroicon-o-chevron-left', 'absolute w-8 h-8 top-1 left-0 fill-gray-500 cursor-pointer')
-            @svg('heroicon-o-chevron-right', 'absolute w-8 h-8 top-1 right-0 fill-gray-500 cursor-pointer')
-            <ul class="flex items-center justify-center space-x-2">
-                <li class="border-inherit inline-block border-2 rounded-lg border-black hover:border-black cursor-pointer">
-                    <div class="bg-red-600 block w-8 h-8 m-1 rounded"></div>
-                </li>
-                <li class="border-inherit inline-block border-2 rounded-lg border-gray-300 hover:border-black cursor-pointer">
-                    <div class="bg-green-600 block w-8 h-8 m-1 rounded"></div>
-                </li>
-                <li class="border-inherit inline-block border-2 rounded-lg border-gray-300 hover:border-black cursor-pointer">
-                    <div class="bg-blue-600 block w-8 h-8 m-1 rounded"></div>
-                </li>
-                <li class="border-inherit inline-block border-2 rounded-lg border-gray-300 hover:border-black cursor-pointer">
-                    <div class="bg-yellow-600 block w-8 h-8 m-1 rounded"></div>
-                </li>
-                <li class="border-inherit inline-block border-2 rounded-lg border-gray-300 hover:border-black cursor-pointer">
-                    <div class="bg-fuchsia-500 block w-8 h-8 m-1 rounded"></div>
-                </li>
-                <li class="border-inherit inline-block border-2 rounded-lg border-gray-300 hover:border-black cursor-pointer">
-                    <div class="bg-black block w-8 h-8 m-1 rounded"></div>
-                </li>
-                <li class="border-inherit inline-block border-2 rounded-lg border-gray-300 hover:border-black cursor-pointer">
-                    <div class="bg-white block w-8 h-8 m-1 rounded"></div>
-                </li>
-            </ul>
         </div>
     </div>
     <div class="p-6 flex flex-col flex-auto border">
