@@ -2,11 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Product\Status;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Category;
-use App\Models\Characteristic;
-use App\Models\CharacteristicAttribute;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,15 +11,12 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
     protected static ?string $slug = 'shop/products';
-
-    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationGroup = 'Shop';
 
@@ -42,55 +36,15 @@ class ProductResource extends Resource
                             ->schema([
                                 Forms\Components\Group::make()
                                     ->schema([
-                                        Forms\Components\Section::make()
+                                        Forms\Components\Section::make(
+                                            'Associations'
+                                        )
                                             ->schema([
                                                 Forms\Components\TextInput::make(
                                                     'name'
                                                 )
                                                     ->required()
                                                     ->maxLength(255),
-                                                Forms\Components\TextInput::make(
-                                                    'slug'
-                                                )
-                                                    ->required()
-                                                    ->maxLength(255),
-                                            ])
-                                            ->columns(2),
-                                        Forms\Components\Section::make('Seo')
-                                            ->schema([
-                                                Forms\Components\TextInput::make(
-                                                    'meta_tag_h1'
-                                                )
-                                                    ->maxLength(255),
-                                                Forms\Components\TextInput::make(
-                                                    'meta_tag_title'
-                                                )
-                                                    ->maxLength(255),
-                                                Forms\Components\Textarea::make(
-                                                    'meta_tag_description'
-                                                ),
-                                                Forms\Components\MarkdownEditor::make(
-                                                    'description'
-                                                ),
-                                            ]),
-                                    ])
-                                    ->columnSpan(['lg' => 2]),
-
-                                Forms\Components\Group::make()
-                                    ->schema([
-                                        Forms\Components\Section::make('Status')
-                                            ->schema([
-                                                Forms\Components\Radio::make(
-                                                    'status'
-                                                )
-                                                    ->required()
-                                                    ->options(Status::class)
-                                                    ->default('out-of-stock'),
-                                            ]),
-                                        Forms\Components\Section::make(
-                                            'Associations'
-                                        )
-                                            ->schema([
                                                 Forms\Components\Select::make(
                                                     'categories'
                                                 )
@@ -120,7 +74,7 @@ class ProductResource extends Resource
                                                 )
                                                     ->relationship(
                                                         'productRecommendations',
-                                                        'name',
+                                                        'id',
                                                         fn (
                                                             Builder $query,
                                                             ?Product $record
@@ -139,152 +93,10 @@ class ProductResource extends Resource
                                                     ->preload()
                                                     ->native(false),
                                             ]),
-                                        Forms\Components\Section::make()
-                                            ->schema([
-                                                Forms\Components\Placeholder::make(
-                                                    'created_at'
-                                                ),
-                                                Forms\Components\Placeholder::make(
-                                                    'updated_at'
-                                                ),
-                                            ])
-                                            ->hiddenOn('create'),
-                                        Forms\Components\Section::make()
-                                            ->schema([
-                                                Forms\Components\Toggle::make(
-                                                    'indexation'
-                                                )
-                                                    ->default(true),
-                                            ]),
                                     ])
                                     ->columnSpan(['lg' => 1]),
                             ])
-                            ->columns(3),
-
-                        Forms\Components\Tabs\Tab::make('Images')
-                            ->schema([
-                                Forms\Components\Section::make('Main Photo')
-                                    ->schema([
-                                        Forms\Components\SpatieMediaLibraryFileUpload::make(
-                                            'productImages'
-                                        )
-                                            ->multiple()
-                                            ->reorderable()
-                                            ->disk('media-product'),
-                                    ]),
-
-                            ]),
-                        Forms\Components\Tabs\Tab::make('Info')
-                            ->schema([
-                                Forms\Components\Section::make('Scus')
-                                    ->schema([
-                                        Forms\Components\TextInput::make(
-                                            'product_code'
-                                        )
-                                            ->label('Product Code')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('sku')
-                                            ->label('SKU')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('upc')
-                                            ->label('UPC')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('ean')
-                                            ->label('EAN')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('jan')
-                                            ->label('JAN')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('mpn')
-                                            ->label('MPN')
-                                            ->maxLength(255),
-                                    ])
-                                    ->columns(2),
-                                Forms\Components\Section::make(
-                                    'Price & Quantity'
-                                )
-                                    ->schema([
-                                        /*
-                                         * TODO create cast for money conversion
-                                         */
-                                        Forms\Components\TextInput::make(
-                                            'price'
-                                        )
-                                            ->required()
-                                            ->numeric()
-                                            ->default(0)
-                                            ->prefix('$'),
-                                        Forms\Components\TextInput::make(
-                                            'count'
-                                        )
-                                            ->required()
-                                            ->numeric()
-                                            ->default(0),
-                                    ])
-                                    ->columns(2),
-                            ]),
-                        Forms\Components\Tabs\Tab::make('Characteristics')
-                            ->schema([
-                                Forms\Components\Repeater::make(
-                                    'productCharacteristics'
-                                )
-                                    ->relationship()
-                                    ->itemLabel(
-                                        function (array $state): string {
-                                            return self::getCharacteristicLabel(
-                                                $state['characteristic_id']
-                                            );
-                                        }
-                                    )
-                                    ->schema([
-                                        Forms\Components\Select::make(
-                                            'characteristic_id'
-                                        )
-                                            ->required()
-                                            ->relationship(
-                                                'characteristic',
-                                                'name'
-                                            )
-                                            ->afterStateUpdated(
-                                                fn (Forms\Set $set) => $set(
-                                                    'characteristic_attribute_id',
-                                                    null
-                                                )
-                                            )
-                                            ->searchable()
-                                            ->preload()
-                                            ->live()
-                                            ->native(false),
-                                        Forms\Components\Select::make(
-                                            'characteristic_attribute_id'
-                                        )
-                                            ->required()
-                                            ->relationship(
-                                                'productAttributes',
-                                                'name'
-                                            )
-                                            ->options(
-                                                fn (Forms\Get $get
-                                                ): Collection => CharacteristicAttribute::query(
-                                                )->where(
-                                                    'characteristic_id',
-                                                    $get('characteristic_id')
-                                                )->pluck('name', 'id')
-                                            )
-                                            ->live()
-                                            ->multiple()
-                                            ->preload()
-                                            ->native(false),
-                                    ])
-                                    ->maxItems(
-                                        fn () => Characteristic::count()
-                                    )
-                                    ->collapsible()
-                                    ->columns(2)
-                                    ->defaultItems(0)
-                                    ->orderColumn('sorting_order')
-                                    ->reorderableWithButtons(),
-                            ]),
+                            ->columns(1),
                         Forms\Components\Tabs\Tab::make('FAQ')
                             ->schema([
                                 Forms\Components\Section::make()
@@ -327,43 +139,16 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('sku')
-                    ->label('sku')
+                Tables\Columns\TextColumn::make('id')
+                    ->label('Id')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('brand.name')
-                    ->label('Brand')
-                    ->sortable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money('USD')
-                    ->sortable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('count')
-                    ->label('Quantity')
-                    ->toggleable()
-                    ->alignCenter(),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->toggleable()
-                    ->alignCenter(),
-                Tables\Columns\IconColumn::make('indexation')
-                    ->label('Indexation')
-                    ->toggleable()
-                    ->alignCenter(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -392,20 +177,5 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
-    }
-
-    private static function getCharacteristicLabel(?int $id): string
-    {
-        $characteristic
-            = Characteristic::with(
-                'characteristicGroup'
-            )->find($id);
-
-        if (! $characteristic) {
-            return '';
-        }
-
-        return $characteristic->characteristicGroup->name
-            .' > '.$characteristic->name;
     }
 }

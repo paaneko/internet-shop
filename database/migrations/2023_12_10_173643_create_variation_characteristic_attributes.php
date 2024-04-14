@@ -12,15 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(
-            'product_characteristics',
+            'variation_characteristic_attributes',
             function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('product_id')
+                $table->primary(
+                    [
+                        'variation_characteristic_id',
+                        'characteristic_attribute_id',
+                    ]
+                );
+                $table->foreignId('variation_characteristic_id')->nullable()
                     ->constrained();
-                $table->foreignId('characteristic_id')
+                $table->foreignId('characteristic_attribute_id')->nullable()
                     ->constrained();
-                $table->string('sorting_order')->default(0);
-                $table->timestamps();
             }
         );
     }
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_characteristics');
+        Schema::dropIfExists('variation_characteristic_attributes');
     }
 };

@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 
-class Newsletter
+class NewsletterService
 {
     public function subscribe(string $email): int
     {

@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Url\Url;
 
-class ProductFilterService
+class CategoryFilterService
 {
     private const PAGINATION_COUNT = 8;
 
@@ -37,27 +37,20 @@ class ProductFilterService
         $this->getSelectedFilters();
     }
 
-    public function getProducts(): LengthAwarePaginator
+    public function getVariations(): LengthAwarePaginator
     {
         return ($this->selectedFilters->isEmpty())
-            ? $this->category->products()->paginate(
+            ? $this->category->variations()->paginate(
                 self::PAGINATION_COUNT
             )
-            : $this->category->products()->whereHas(
-                'productCharacteristics.productAttributes',
-                function ($query) {
-                    $query->whereIn(
-                        'characteristic_attributes.id',
-                        $this->selectedFilters
-                    );
-                }
-            )->paginate(self::PAGINATION_COUNT);
+            : $this->category->variationsByAttributes($this->selectedFilters)
+                ->paginate(self::PAGINATION_COUNT);
     }
 
     public function getCategoryFilters(): Collection
     {
         return $this->attachUrlsToCategoryFilters(
-            $this->getProductAttributes()
+            $this->getVariationAttributes()
         );
     }
 
@@ -66,7 +59,7 @@ class ProductFilterService
         return $this->urlAttributes->isEmpty();
     }
 
-    public function getProductAttributes(): Collection
+    public function getVariationAttributes(): Collection
     {
         /**
          *  Transform raw data from db and group each attribute
@@ -76,8 +69,8 @@ class ProductFilterService
          *  slugs in ulr and after parse them from url.
          */
 
-        return $this->category->productAttributes(
-            $this->selectFilterProductIds()
+        return $this->category->variationAttributes(
+            $this->selectFilterVariationIds()
         )
             ->mapToGroups(function ($item) {
                 $item = (array) $item;
@@ -102,7 +95,7 @@ class ProductFilterService
          *  instead of id's
          */
         CharacteristicAttribute::whereHas(
-            'productCharacteristics.product.categories',
+            'variationCharacteristics.variation.product.categories',
             function ($query) {
                 $query->where('categories.slug', $this->category->slug);
             }
@@ -113,20 +106,13 @@ class ProductFilterService
         });
     }
 
-    public function selectFilterProductIds(): Collection
+    public function selectFilterVariationIds(): Collection
     {
         /** TODO optimize by selecting only ids from query without mapping afterwards */
         $result = ($this->selectedFilters->isEmpty())
-            ? $this->category->products()->get()
-            : $this->category->products()->whereHas(
-                'productCharacteristics.productAttributes',
-                function ($query) {
-                    $query->whereIn(
-                        'characteristic_attributes.id',
-                        $this->selectedFilters
-                    );
-                }
-            )->get();
+            ? $this->category->variations()->get()
+            : $this->category->variationsByAttributes($this->selectedFilters)
+                ->get();
 
         return $result->map(function ($product) {
             return $product->id;

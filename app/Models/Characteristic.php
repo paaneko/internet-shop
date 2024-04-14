@@ -40,6 +40,6 @@ class Characteristic extends Model
 
     public function productsCharacteristics(): HasMany
     {
-        return $this->hasMany(ProductCharacteristic::class);
+        return $this->hasMany(VariationCharacteristic::class);
     }
 }

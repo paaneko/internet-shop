@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
-use App\Models\ProductCharacteristic;
+use App\Models\Variation;
+use App\Models\VariationCharacteristic;
 use Illuminate\Database\Seeder;
 
-class ProductCharacteristicSeeder extends Seeder
+class VariationCharacteristicSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        ProductCharacteristic::factory()->count(Product::all()->count() * 3)
+        VariationCharacteristic::factory()->count(Variation::all()->count() * 3)
             ->createWithRandomAttributes()
             ->create();
     }

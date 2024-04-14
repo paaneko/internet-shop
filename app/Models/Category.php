@@ -73,56 +73,110 @@ class Category extends Model
         );
     }
 
-    public function productAttributes(Collection $productIds): Collection
+    public function variations()
     {
+        $categoryProductsIds = $this->products()->pluck('id');
+
+        return Variation::whereIn('product_id', $categoryProductsIds);
+    }
+
+    public function variationsByAttributes(Collection $variationAttributesIds
+    ) {
         return
-            DB::table('characteristic_attributes')
-                ->where('categories.slug', $this->slug)
-                ->whereIn('products.id', $productIds)
-                ->join(
-                    'product_characteristic_attributes',
-                    'characteristic_attributes.id',
-                    '=',
-                    'product_characteristic_attributes.characteristic_attribute_id'
+            Variation::select('variations.*')
+                ->whereIn(
+                    'variation_characteristic_attributes.characteristic_attribute_id',
+                    $variationAttributesIds
                 )
                 ->join(
-                    'product_characteristics',
-                    'product_characteristic_attributes.product_characteristic_id',
+                    'variation_characteristics',
+                    'variations.id',
                     '=',
-                    'product_characteristics.id'
+                    'variation_characteristics.variation_id'
                 )
                 ->join(
-                    'products',
-                    'product_characteristics.product_id',
+                    'variation_characteristic_attributes',
+                    'variation_characteristics.id',
                     '=',
-                    'products.id'
+                    'variation_characteristic_attributes.variation_characteristic_id'
                 )
                 ->join(
                     'category_product',
-                    'products.id',
+                    // Assuming 'category_product' is the pivot table between 'categories' and 'products'
+                    'variations.product_id',
+                    // Assuming 'product_id' is the foreign key in 'variations' table
                     '=',
                     'category_product.product_id'
                 )
                 ->join(
                     'categories',
                     'category_product.category_id',
+                    // Assuming 'category_id' is the foreign key in 'category_product' table
                     '=',
                     'categories.id'
                 )
-                ->join(
-                    'characteristics',
-                    'product_characteristics.characteristic_id',
-                    '=',
-                    'characteristics.id'
-                )
-                ->select(
-                    'characteristic_attributes.id',
-                    'characteristic_attributes.name as attribute_name',
-                    'characteristics.name as characteristic_name',
-                    DB::raw('COUNT(*) as attribute_count')
-                )
-                ->groupBy('characteristic_attributes.id', 'characteristic_name')
-                ->get();
+                ->where('categories.slug', $this->slug);
+    }
+
+    public function variationAttributes(Collection $variationsIds): Collection
+    {
+        return DB::table('characteristic_attributes')
+            ->join(
+                'variation_characteristic_attributes',
+                'characteristic_attributes.id',
+                '=',
+                'variation_characteristic_attributes.characteristic_attribute_id'
+            )
+            ->join(
+                'variation_characteristics',
+                'variation_characteristic_attributes.variation_characteristic_id',
+                '=',
+                'variation_characteristics.id'
+            )
+            ->join(
+                'variations',
+                'variation_characteristics.variation_id',
+                '=',
+                'variations.id'
+            )
+            ->join(
+                'products',
+                'variations.product_id',
+                '=',
+                'products.id'
+            )
+            ->join(
+                'category_product',
+                'products.id',
+                '=',
+                'category_product.product_id'
+            )
+            ->join(
+                'categories',
+                'category_product.category_id',
+                '=',
+                'categories.id'
+            )
+            ->join(
+                'characteristics',
+                'variation_characteristics.characteristic_id',
+                '=',
+                'characteristics.id'
+            )
+            ->whereIn('variations.id', $variationsIds)
+            ->where('categories.slug', $this->slug)
+            ->select(
+                'characteristic_attributes.id',
+                'characteristic_attributes.name as attribute_name',
+                'characteristics.name as characteristic_name',
+                DB::raw('COUNT(*) as attribute_count')
+            )
+            ->groupBy(
+                'characteristic_attributes.id',
+                'attribute_name',
+                'characteristic_name'
+            )
+            ->get();
     }
 
     public function faqs(): HasMany

@@ -23,13 +23,13 @@ class CharacteristicAttribute extends Model
         return $this->belongsTo(Characteristic::class);
     }
 
-    public function productCharacteristics(): BelongsToMany
+    public function variationCharacteristics(): BelongsToMany
     {
         return $this->belongsToMany(
-            ProductCharacteristic::class,
-            'product_characteristic_attributes',
+            VariationCharacteristic::class,
+            'variation_characteristic_attributes',
             'characteristic_attribute_id',
-            'product_characteristic_id',
+            'variation_characteristic_id',
         );
     }
 }

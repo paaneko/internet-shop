@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Pages;
 
-use App\Services\ProductFilterService;
+use App\Services\CategoryFilterService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class ProductFilter extends Component
+class CategoryFilter extends Component
 {
     protected LengthAwarePaginator $products;
 
@@ -16,9 +16,9 @@ class ProductFilter extends Component
 
     public function mount(string $url): void
     {
-        $productFilterService = new ProductFilterService($url);
+        $productFilterService = new CategoryFilterService($url);
 
-        $this->products = $productFilterService->getProducts();
+        $this->products = $productFilterService->getVariations();
 
         $this->categoryFilters = $productFilterService->getCategoryFilters();
     }
@@ -26,7 +26,7 @@ class ProductFilter extends Component
     #[Layout('layouts.product-filter-layout')]
     public function render()
     {
-        return view('livewire.pages.product-filter', [
+        return view('livewire.pages.category-filter', [
             'categoryProducts' => $this->products,
         ]);
     }

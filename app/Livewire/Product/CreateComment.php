@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Product;
 
-use App\Models\Product;
+use App\Models\Variation;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -10,7 +10,7 @@ use Livewire\Component;
 class CreateComment extends Component
 {
     #[Locked]
-    public $slug;
+    public $variationSlug;
 
     #[Rule('required|max:255|min:2')]
     public $username = '';
@@ -18,19 +18,19 @@ class CreateComment extends Component
     #[Rule('required|max:1000')]
     public $body = '';
 
-    /** Model binding by `slug`  */
-    public function save(Product $product): void
+    /** Model binding by `id`  */
+    public function save(Variation $variation): void
     {
         $this->validate();
 
-        $product->comments()->create([
+        $variation->product->comments()->create([
             'username' => $this->username,
             'body' => $this->body,
         ]);
 
         session()->flash('success', 'Your comment was added successfully!');
 
-        redirect()->to('/p/'.$product->slug);
+        redirect()->to('/'.$variation->slug);
     }
 
     public function render()

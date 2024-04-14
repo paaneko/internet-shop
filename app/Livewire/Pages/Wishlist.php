@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Pages;
 
-use App\Models\Product;
+use App\Models\Variation;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -14,7 +14,7 @@ class Wishlist extends Component
         $wishlistProducts = session('wishlist', []);
 
         return view('livewire.pages.wishlist', [
-            'products' => Product::find($wishlistProducts),
+            'variations' => Variation::find($wishlistProducts),
         ]);
     }
 }

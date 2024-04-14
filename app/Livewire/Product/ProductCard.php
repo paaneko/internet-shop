@@ -2,25 +2,25 @@
 
 namespace App\Livewire\Product;
 
-use App\Models\Product;
-use App\Services\CompareProducts;
+use App\Models\Variation;
+use App\Services\CompareService;
 use App\Services\WishlistService;
 use Livewire\Component;
 
 class ProductCard extends Component
 {
-    public Product $product;
+    public Variation $variation;
 
     public function addToWishlist(WishlistService $wishlistService): void
     {
-        $wishlistService->addItemToggle($this->product->id);
+        $wishlistService->addItemToggle($this->variation->id);
 
         $this->dispatch('add-wishlist');
     }
 
-    public function addToCompareProducts(CompareProducts $compareProducts): void
-    {
-        $compareProducts->addItemToggle($this->product->id);
+    public function addToCompareProducts(CompareService $compareProducts
+    ): void {
+        $compareProducts->addItemToggle($this->variation->id);
 
         $this->dispatch('add-compare-products');
     }

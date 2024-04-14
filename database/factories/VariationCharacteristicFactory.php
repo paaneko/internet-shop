@@ -3,14 +3,14 @@
 namespace Database\Factories;
 
 use App\Models\Characteristic;
-use App\Models\Product;
-use App\Models\ProductCharacteristic;
+use App\Models\Variation;
+use App\Models\VariationCharacteristic;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductCharacteristic>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\VariationCharacteristic>
  */
-class ProductCharacteristicFactory extends Factory
+class VariationCharacteristicFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class ProductCharacteristicFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => Product::all()->pluck('id')->random(),
+            'variation_id' => Variation::all()->pluck('id')->random(),
             'characteristic_id' => Characteristic::all()->pluck('id')->random(),
         ];
     }
@@ -28,14 +28,14 @@ class ProductCharacteristicFactory extends Factory
     public function createWithRandomAttributes(): static
     {
         return $this->afterCreating(
-            function (ProductCharacteristic $productCharacteristic) {
+            function (VariationCharacteristic $variationCharacteristic) {
                 $random_attributes = Characteristic::find(
-                    $productCharacteristic->characteristic_id
+                    $variationCharacteristic->characteristic_id
                 )->attributes()
                     ->pluck('id');
 
                 if (! $random_attributes->isEmpty()) {
-                    $productCharacteristic->productAttributes()->attach(
+                    $variationCharacteristic->variationAttributes()->attach(
                         $random_attributes->random(
                             fake()->optional(0.1, 1)->numberBetween(
                                 1,

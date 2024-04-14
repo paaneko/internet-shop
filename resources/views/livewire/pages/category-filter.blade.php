@@ -25,11 +25,12 @@
     <div class="flex-1">
         <livewire:categories-list />
         <div class="grid grid-cols-4 grid-flow-row">
-            @foreach($categoryProducts as $product)
+            {{--            @dd($categoryProducts)--}}
+            @foreach($categoryProducts as $variation)
                 <livewire:product.product-card
                     class="border-l-0 border-t-0"
-                    :key="$product->id"
-                    :$product
+                    :key="$variation->id"
+                    :$variation
                 />
             @endforeach
         </div>

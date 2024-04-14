@@ -20,11 +20,25 @@ class CharacteristicAttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            'characteristic_id' => Characteristic::all()->pluck('id')->random(),
             'name' => Str::ucfirst(
                 fake()->words(fake()->numberBetween(1, 3), true)
             ),
         ];
+    }
+
+    public function createWithExistedRandomCharacteristic(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'characteristic_id' => Characteristic::all()->pluck('id')->random(),
+        ]);
+    }
+
+    public function createWithProvidedCharacteristicId(
+        int $characteristicId
+    ): static {
+        return $this->state(fn (array $attributes) => [
+            'characteristic_id' => $characteristicId,
+        ]);
     }
 
     public function withSortingOrder(): static

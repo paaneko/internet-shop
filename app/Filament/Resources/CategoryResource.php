@@ -125,6 +125,8 @@ class CategoryResource extends Resource
                                                 Forms\Components\TextInput::make(
                                                     'sorting_order'
                                                 )
+                                                    ->required()
+                                                    ->default(0)
                                                     ->label('Sorting Order')
                                                     ->numeric(),
                                             ]),

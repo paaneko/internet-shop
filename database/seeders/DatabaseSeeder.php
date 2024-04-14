@@ -19,14 +19,20 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
+            VariationSeeder::class,
 
             ProductCommentSeeder::class,
 
             CharacteristicGroupSeeder::class,
             CharacteristicSeeder::class,
-            CharacteristicAttributeSeeder::class,
 
-            ProductCharacteristicSeeder::class,
+            /**
+             * Attaching attributes to characteristics provided in CharacteristicSeeder
+             * But these seeder adds little random to attribute quantity
+             */
+            //            CharacteristicAttributeSeeder::class,
+
+            VariationCharacteristicSeeder::class,
 
             ProductableSeeder::class,
         ]);

@@ -1,4 +1,4 @@
-<form wire:submit="save('{{ $slug }}')" class="mt-10">
+<form wire:submit="save('{{ $variationSlug }}')" class="mt-10">
     <label>
         <div class="label">
             <span class="label-text font-semibold text-lg">Your name:</span>

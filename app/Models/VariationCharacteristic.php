@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ProductCharacteristic extends Model
+class VariationCharacteristic extends Model
 {
     use HasFactory;
 
@@ -17,9 +17,9 @@ class ProductCharacteristic extends Model
             'sorting_order',
         ];
 
-    public function product(): BelongsTo
+    public function variation(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Variation::class);
     }
 
     public function characteristic(): BelongsTo
@@ -29,12 +29,12 @@ class ProductCharacteristic extends Model
         );
     }
 
-    public function productAttributes(): BelongsToMany
+    public function variationAttributes(): BelongsToMany
     {
         return $this->belongsToMany(
             CharacteristicAttribute::class,
-            'product_characteristic_attributes',
-            'product_characteristic_id',
+            'variation_characteristic_attributes',
+            'variation_characteristic_id',
             'characteristic_attribute_id',
         );
     }

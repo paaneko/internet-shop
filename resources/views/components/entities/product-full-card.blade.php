@@ -1,4 +1,4 @@
-@props(['product'])
+@props(['variation'])
 
 <div
     class="flex items-center p-4 border border-b-0 h-18 bg-orange-600 bg-opacity-10 space-x-5">
@@ -42,11 +42,11 @@
 <div class="flex">
     <div class="p-6 flex flex-col justify-between w-[600px] h-[350px] border border-r-0">
         <div class="grid grid-cols-2 grid-rows-3 gap-5">
-            @foreach($product->productCharacteristics->take(4) as $characteristic)
+            @foreach($variation->variationCharacteristics->take(4) as $characteristic)
                 <div>
                     <div class="text-xs opacity-80">{{ $characteristic->characteristic->name }}</div>
                     <div class="flex flex-col">
-                        @foreach($characteristic->productAttributes as $attribute)
+                        @foreach($characteristic->variationAttributes as $attribute)
                             <span class="font-medium">{{ $attribute->name }}</span>
                         @endforeach
                     </div>
@@ -87,7 +87,7 @@
     <div class="p-6 flex flex-col flex-auto border">
         <div class="mb-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <div class="text-red-500 text-3xl leading-none">${{ $product->price }}</div>
+                <div class="text-red-500 text-3xl leading-none">${{ $variation->price }}</div>
                 <div>
                     <div class="text-xs font-semibold text-red-700 leading-none">SAVE $50</div>
                     <div class="text-xs font-medium text-gray-500 line-through">$550</div>

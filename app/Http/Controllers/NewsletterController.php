@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Newsletter;
+use App\Services\NewsletterService;
 use Illuminate\Http\RedirectResponse;
 
 class NewsletterController extends Controller
 {
-    public function __invoke(Newsletter $newsletter): RedirectResponse
+    public function __invoke(NewsletterService $newsletter): RedirectResponse
     {
         request()->validate([
             'email' => 'required|email|max:255',

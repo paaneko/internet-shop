@@ -1,140 +1,134 @@
 <?php
 
-use App\Livewire\Pages\ProductFilter;
-use App\Models\Category;
-use App\Models\Characteristic;
-use App\Models\ProductCharacteristic;
+use App\Livewire\Pages\CategoryFilter;
+use App\Models\VariationCharacteristic;
 use Database\Factories\CategoryFactory;
 use Database\Factories\CharacteristicAttributeFactory;
 use Database\Factories\CharacteristicFactory;
 use Database\Factories\CharacteristicGroupFactory;
 use Database\Factories\ProductFactory;
+use Database\Factories\VariationFactory;
 use Illuminate\Support\Str;
 
 it('can render page', function () {
     $category = CategoryFactory::new()->create();
 
-    Livewire::test(ProductFilter::class, ['url' => $category->slug])
+    Livewire::test(CategoryFilter::class, ['url' => $category->slug])
         ->assertStatus(200);
 });
 
-it('can display one product in category', function () {
+it('can display one variation in category', function () {
     $category = CategoryFactory::new()->create();
 
     $product = ProductFactory::new()
         ->hasAttached([$category])
         ->create();
-    //    CharacteristicGroupFactory::new()->count(3)
-    //        ->withSortingOrder()
-    //        ->create();
-    //    CharacteristicFactory::new()->count(5)
-    //        ->withSortingOrder()
-    //        ->create();
-    //    CharacteristicAttributeFactory::new()->count(
-    //        Characteristic::all()->count() * 2
-    //    )
-    //        ->withSortingOrder()
-    //        ->create();
-    //    ProductCharacteristic::factory()->count(5)
-    //        ->create();
-    //    dd(\App\Models\Product::first()->categories->first()->name);
-    //    dd(Category::all()->count());
-    Livewire::test(ProductFilter::class, ['url' => $category->slug])
-        ->assertSee($product->name);
+
+    $variation = VariationFactory::new()->state(
+        ['product_id' => $product]
+    )->create();
+
+    Livewire::test(CategoryFilter::class, ['url' => $category->slug])
+        ->assertSee($variation->name);
 });
 
-it('can display list products in category', function () {
+it('can display list of variations in category', function () {
     $category = CategoryFactory::new()->create();
 
-    $products = ProductFactory::new()
+    $variations = VariationFactory::new()
         ->count(8)
-        ->hasAttached([$category])
+        ->createWithCreatedProductWithProvidedCategory($category)
         ->create()
         ->pluck('name')
         ->toArray();
 
-    Livewire::test(ProductFilter::class, ['url' => $category->slug])
-        ->assertSeeInOrder($products);
+    Livewire::test(CategoryFilter::class, ['url' => $category->slug])
+        ->assertSeeInOrder($variations);
 });
 
-it('can display products in different categories', function () {
+it('can display variations in different categories', function () {
     $firstCategory = CategoryFactory::new()->create();
     $secondCategory = CategoryFactory::new()->create();
 
-    $firstCategoryProducts = ProductFactory::new()
-        ->count(4)
-        ->hasAttached([$firstCategory])
+    $firstCategoryVariation = VariationFactory::new()
+        ->count(8)
+        ->createWithCreatedProductWithProvidedCategory($firstCategory)
         ->create()
         ->pluck('name');
 
-    $secondCategoryProducts = ProductFactory::new()
-        ->count(4)
-        ->hasAttached([$secondCategory])
+    $secondCategoryVariation = VariationFactory::new()
+        ->count(8)
+        ->createWithCreatedProductWithProvidedCategory($secondCategory)
         ->create()
         ->pluck('name');
 
-    Livewire::test(ProductFilter::class, ['url' => $firstCategory->slug])
-        ->assertSeeInOrder($firstCategoryProducts->toArray())
-        ->assertDontSee($secondCategoryProducts->first());
+    Livewire::test(CategoryFilter::class, ['url' => $firstCategory->slug])
+        ->assertSeeInOrder($firstCategoryVariation->toArray())
+        ->assertDontSee($secondCategoryVariation->first());
 
-    Livewire::test(ProductFilter::class, ['url' => $secondCategory->slug])
-        ->assertSeeInOrder($secondCategoryProducts->toArray())
-        ->assertDontSee($firstCategoryProducts->first());
+    Livewire::test(CategoryFilter::class, ['url' => $secondCategory->slug])
+        ->assertSeeInOrder($secondCategoryVariation->toArray())
+        ->assertDontSee($firstCategoryVariation->first());
 });
 
-it('can filter products in category', function () {
+it('can filter variations in category', function () {
     $category = CategoryFactory::new()->create();
 
-    $products = ProductFactory::new()
+    $variations = VariationFactory::new()
         ->count(2)
-        ->hasAttached([$category])
+        ->createWithCreatedProductWithProvidedCategory($category)
         ->create();
 
-    $productWithoutCategory = ProductFactory::new()
+    $variationWithoutCategory = VariationFactory::new()
+        ->createWithRandomCreatedProduct()
         ->create();
 
     CharacteristicGroupFactory::new()->count(3)
-        ->withSortingOrder()->create();
+        ->withSortingOrder()
+        ->create();
 
-    $characteristics = CharacteristicFactory::new()->count(2)->withSortingOrder(
-    )->create();
+    $characteristics = CharacteristicFactory::new()->count(2)
+        ->withSortingOrder()
+        ->create();
 
     $attributes = CharacteristicAttributeFactory::new()->count(2)
-        ->withSortingOrder()->create();
+        ->createWithExistedRandomCharacteristic()
+        ->withSortingOrder()
+        ->create();
 
-    foreach ($products as $index => $product) {
-        $productCharacteristic = ProductCharacteristic::factory()
-            ->for($product)
+    foreach ($variations as $index => $variation) {
+        $variationCharacteristic = VariationCharacteristic::factory()
+            ->for($variation)
             ->for($characteristics[$index])
             ->create();
 
-        $productCharacteristic->productAttributes()->attach(
+        $variationCharacteristic->variationAttributes()->attach(
             $attributes[$index]
         );
     }
 
     Livewire::test(
-        ProductFilter::class,
+        CategoryFilter::class,
         ['url' => $category->slug.'/'.Str::slug($attributes[0]->name)]
     )
-        ->assertSee($products[0]->name)
-        ->assertDontSee($products[1]->name)
-        ->assertDontSee($productWithoutCategory);
+        ->assertSee($variations[0]->name)
+        ->assertDontSee($variations[1]->name)
+        ->assertDontSee($variationWithoutCategory);
 
     Livewire::test(
-        ProductFilter::class,
+        CategoryFilter::class,
         ['url' => $category->slug.'/not_existing_attribute_slug']
     )
-        ->assertSee($products[0]->name)
-        ->assertSee($products[1]->name)
-        ->assertDontSee($productWithoutCategory);
+        ->assertSee($variations[0]->name)
+        ->assertSee($variations[1]->name)
+        ->assertDontSee($variationWithoutCategory);
 
-    Livewire::test(ProductFilter::class, [
+    Livewire::test(CategoryFilter::class, [
         'url' => $category->slug.'/not_existing_attribute_slug/'.Str::slug(
             $attributes[0]->name
         ),
     ])
-        ->assertSee($products[0]->name)
-        ->assertDontSee($products[1]->name)
-        ->assertDontSee($productWithoutCategory);
+        ->assertSee($variations[0]->name)
+        ->assertDontSee($variations[1]->name)
+        ->assertDontSee($variationWithoutCategory);
 });

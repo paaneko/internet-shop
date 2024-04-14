@@ -1,9 +1,9 @@
 @php
     $wishListSession = collect(session()->get('wishlist', []));
-    $compareProductsSession = collect(session()->get('compare-products', []));
+    $compareProductsSession = collect(session()->get('compare', []));
 
-    $inWishlist = $wishListSession->contains($product->id);
-    $inCompareProducts = $compareProductsSession->contains($product->id);
+    $inWishlist = $wishListSession->contains($variation->id);
+    $inCompareProducts = $compareProductsSession->contains($variation->id);
 @endphp
 
 <div class='p-4 w-auto border rounded-none'>
@@ -13,15 +13,15 @@
             New
         </div>
         <div class="text-sm font-bold">
-            <span class="font-normal opacity-80">Code: </span>{{$product->product_code}}
+            <span class="font-normal opacity-80">Code: </span>{{$variation->product_code}}
         </div>
     </div>
     <figure class="flex justify-center">
-        @if(! $product->getFirstMedia())
+        @if(! $variation->getFirstMedia())
             @svg('gmdi-hide-image-tt', 'mb-4 w-[228px] h-[228px] text-lime-600')
         @else
             <img class="mb-4 w-[228px] h-[228px]"
-                 src="{{ $product->getFirstMedia()?->getUrl('thumb') }}"
+                 src="{{ $variation->getFirstMedia()?->getUrl('thumb') }}"
                  alt="" />
         @endif
     </figure>
@@ -32,8 +32,8 @@
         </div>
         <div class="h-12 mb-2">
             <a class="link font-medium leading-0 line-clamp-2 transition-all ease-in-out duration-150 hover:text-lime-600"
-               href={{asset($product->slug)}}
-            >{{$product->name}}</a>
+               href={{asset($variation->slug)}}
+            >{{$variation->name}}</a>
         </div>
         <div class="flex items-center space-x-3 mb-4">
             <div class="h-5 flex items-center space-x-1">

@@ -5,9 +5,9 @@ namespace App\Services;
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\Collection;
 
-class CompareProducts
+class CompareService
 {
-    private const NAME = 'compare-products';
+    private const NAME = 'compare';
 
     protected SessionManager $session;
 

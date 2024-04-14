@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\CharacteristicAttributeFactory;
 use Database\Factories\CharacteristicFactory;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +14,7 @@ class CharacteristicSeeder extends Seeder
     public function run(): void
     {
         CharacteristicFactory::new()->count(5)
+            ->has(CharacteristicAttributeFactory::new()->count(3), 'attributes')
             ->withSortingOrder()
             ->create();
     }

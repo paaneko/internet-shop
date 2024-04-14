@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\NewsletterController;
-use App\Http\Controllers\ProductController;
-use App\Livewire\Pages\ProductFilter;
-use App\Models\Product;
+use App\Http\Controllers\VariationController;
+use App\Livewire\Pages\CategoryFilter;
+use App\Models\Variation;
 use Illuminate\Support\Facades\Route;
 use Spatie\Url\Url;
 
@@ -18,8 +18,8 @@ Route::view('/profile', 'profile')
 Route::get('/wishlist', function () {
     return view('pages.wishlist');
 });
-Route::get('/compare-products', function () {
-    return view('pages.compare-products');
+Route::get('/compare', function () {
+    return view('pages.compare');
 });
 
 $searching_segment = Url::fromString(url()->current())->getSegment(
@@ -27,11 +27,11 @@ $searching_segment = Url::fromString(url()->current())->getSegment(
 );
 
 switch ($searching_segment) {
-    case Product::where('slug', $searching_segment)->exists():
-        Route::get('/{product:slug}', [ProductController::class, 'show']);
+    case Variation::where('slug', $searching_segment)->exists():
+        Route::get('/{variation:slug}', [VariationController::class, 'show']);
         break;
     default:
-        Route::get('/{url}', ProductFilter::class)->where(
+        Route::get('/{url}', CategoryFilter::class)->where(
             'url',
             '.*'
         );
