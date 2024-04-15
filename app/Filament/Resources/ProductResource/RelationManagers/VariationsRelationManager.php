@@ -1,31 +1,23 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\ProductResource\RelationManagers;
 
-use App\Filament\Resources\VariationResource\Pages;
 use App\Filament\Shared\ProductResource\GetCharacteristicLabel;
 use App\Models\CharacteristicAttribute;
-use App\Models\Variation;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 
-class VariationResource extends Resource
+class VariationsRelationManager extends RelationManager
 {
     use GetCharacteristicLabel;
 
-    protected static ?string $model = Variation::class;
+    protected static string $relationship = 'variations';
 
-    protected static ?string $slug = 'shop/variations';
-
-    protected static ?string $navigationGroup = 'Shop';
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -155,7 +147,7 @@ class VariationResource extends Resource
                                             ->itemLabel(
                                                 function (array $state
                                                 ): string {
-                                                    return self::getCharacteristicLabel(
+                                                    return $this->getCharacteristicLabel(
                                                         $state['characteristic_id']
                                                     );
                                                 }
@@ -211,66 +203,38 @@ class VariationResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('sku')
-                    ->label('sku')
-                    ->sortable()
-                    ->searchable(),
+                    ->label('SKU'),
+                Tables\Columns\ColorColumn::make('color')
+                    ->label('Color'),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money('USD')
-                    ->sortable()
-                    ->toggleable(),
+                    ->label('Name'),
                 Tables\Columns\TextColumn::make('count')
                     ->label('Quantity')
-                    ->toggleable()
                     ->alignCenter(),
                 Tables\Columns\IconColumn::make('indexation')
                     ->label('Indexation')
-                    ->toggleable()
                     ->alignCenter(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListVariations::route('/'),
-            'create' => Pages\CreateVariation::route('/create'),
-            'edit' => Pages\EditVariation::route('/{record}/edit'),
-        ];
     }
 }
