@@ -87,12 +87,18 @@
     <div class="p-6 flex flex-col flex-auto border">
         <div class="mb-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <div class="text-red-500 text-3xl leading-none">${{ $variation->price }}</div>
-                <div>
-                    <div class="text-xs font-semibold text-red-700 leading-none">SAVE $50</div>
-                    <div class="text-xs font-medium text-gray-500 line-through">$550</div>
-                </div>
+                @if($variation->old_price === 0)
+                    <div class="text-3xl font-medium leading-none">${{ $variation->price }}</div>
+                @else
+                    <div class="text-red-500 text-3xl leading-none">${{ $variation->old_price }}</div>
+                    <div>
+                        <div class="text-xs font-semibold text-red-700 leading-none">SAVE
+                            ${{$variation->price - $variation->old_price}}</div>
+                        <div class="text-xs font-medium text-gray-500 line-through">${{ $variation->price }}</div>
+                    </div>
+                @endif
             </div>
+
             <div
                 class="font-semibold uppercase px-4 rounded-none py-2 leading-none text-lime-700 bg-green-200">
                 In Stock

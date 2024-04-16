@@ -51,8 +51,12 @@
         </div>
         <div class="flex justify-between items-center">
             <div class="leading-none font-medium">
-                <div class="text-xs text-gray-500 line-through">$600</div>
-                <div class="text-red-500 text-lg leading-none">$550</div>
+                @if($variation->old_price === 0)
+                    <div class="text-lg">${{$variation->price}}</div>
+                @else
+                    <div class="text-xs text-gray-500 line-through">${{$variation->price}}</div>
+                    <div class="text-red-500 text-lg leading-none">${{$variation->old_price}}</div>
+                @endif
             </div>
             <div class="flex space-x-2">
                 <div wire:click="addToCompareProducts"

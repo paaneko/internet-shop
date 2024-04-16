@@ -139,13 +139,21 @@ class VariationResource extends Resource
                                                     ->default(0)
                                                     ->prefix('$'),
                                                 Forms\Components\TextInput::make(
+                                                    'old_price'
+                                                )
+                                                    ->label('Compare at price')
+                                                    ->required()
+                                                    ->numeric()
+                                                    ->default(0)
+                                                    ->prefix('$'),
+                                                Forms\Components\TextInput::make(
                                                     'count'
                                                 )
                                                     ->required()
                                                     ->numeric()
                                                     ->default(0),
                                             ])
-                                            ->columns(2),
+                                            ->columns(3),
                                         Forms\Components\Repeater::make(
                                             'variationCharacteristics'
                                         )

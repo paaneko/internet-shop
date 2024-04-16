@@ -38,7 +38,17 @@ class VariationFactory extends Factory
             'mpn' => fake()->isbn13(),
             // 🧠 This statement produce numbers multiples ten
             'price' => intval(
-                round(fake()->numberBetween(10, 700) / 10) * 10
+                $price = round(fake()->numberBetween(200, 1700) / 10) * 10
+            ),
+            // Adds 50% chance of returning 0
+            'old_price' => intval(
+                (fake()->numberBetween(0, 1) === 0)
+                    ? 0
+                    : (
+                        $price - round(
+                            fake()->numberBetween(10, 100) / 10
+                        ) * 10
+                    )
             ),
             // 🧠 This statement produce numbers `0` and `1-6` with 50/50 chance
             'count' => fake()->optional($weight = 0.5, $default = 0)
