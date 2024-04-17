@@ -41,6 +41,7 @@ class VariationResource extends Resource
                                                     'product_id'
                                                 )
                                                     ->required()
+                                                    ->searchable()
                                                     ->relationship(
                                                         'product',
                                                         'name'

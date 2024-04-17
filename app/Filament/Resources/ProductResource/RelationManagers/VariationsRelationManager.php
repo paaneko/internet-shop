@@ -33,6 +33,7 @@ class VariationsRelationManager extends RelationManager
                                                     'product_id'
                                                 )
                                                     ->required()
+                                                    ->searchable()
                                                     ->relationship(
                                                         'product',
                                                         'name'
