@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('price')->default(0);
             $table->integer('old_price')->default(0);
             $table->smallInteger('count')->default(0);
+            $table->string('color');
             $table->boolean('indexation');
             $table->timestamps();
         });

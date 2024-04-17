@@ -44,6 +44,7 @@ class Variation extends Model implements HasMedia
             'price',
             'old_price',
             'count',
+            'color',
             'indexation',
         ];
 

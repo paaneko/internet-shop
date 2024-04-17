@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('characteristic_attributes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('characteristic_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->tinyInteger('sorting_order')->default(0);
-            $table->timestamps();
-        });
+        Schema::create(
+            'characteristic_attributes',
+            function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('characteristic_id')->constrained()
+                    ->cascadeOnDelete();
+                $table->string('name');
+                $table->tinyInteger('sorting_order')->default(0);
+                $table->timestamps();
+            }
+        );
     }
 
     /**

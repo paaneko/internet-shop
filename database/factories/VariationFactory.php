@@ -53,6 +53,7 @@ class VariationFactory extends Factory
             // 🧠 This statement produce numbers `0` and `1-6` with 50/50 chance
             'count' => fake()->optional($weight = 0.5, $default = 0)
                 ->numberBetween(1, 6),
+            'color' => fake()->hexColor,
             'indexation' => fake()->boolean,
         ];
     }
