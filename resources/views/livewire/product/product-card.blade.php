@@ -1,11 +1,3 @@
-@php
-    $wishListSession = collect(session()->get('wishlist', []));
-    $compareProductsSession = collect(session()->get('compare', []));
-
-    $inWishlist = $wishListSession->contains($variation->id);
-    $inCompareProducts = $compareProductsSession->contains($variation->id);
-@endphp
-
 <div class='p-4 w-auto border rounded-none'>
     <div class="flex justify-between items-center mb-2">
         <div
@@ -67,9 +59,9 @@
                 <div wire:click="addToCompareProducts"
                      class="rounded-full p-2 cursor-pointer
                      transition-all ease-in-out duration-150
-                     {{ $inCompareProducts ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
+                     {{ $isInCompare ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
                 >
-                    @if($inCompareProducts)
+                    @if($isInCompare)
                         @svg('heroicon-s-scale', 'h-5 w-5 text-white')
                     @else
                         @svg('heroicon-s-scale', 'h-5 w-5')
@@ -78,20 +70,30 @@
                 <div wire:click="addToWishlist"
                      class="rounded-full p-2 cursor-pointer
                      transition-all ease-in-out duration-150
-                     {{ $inWishlist ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
+                     {{ $isInWishlist ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
                 >
-                    @if($inWishlist)
+                    @if($isInWishlist)
                         @svg('heroicon-s-heart', 'h-5 w-5 text-white')
                     @else
                         @svg('heroicon-s-heart', 'h-5 w-5')
                     @endif
                 </div>
-                <div
-                    class="bg-lime-600 rounded-full p-2 cursor-pointer
+                @if($isInCart)
+                    <div class="p-1 flex justify-around items-center w-16 rounded-full bg-lime-500 text-white">
+                        <span wire:click="addToCart"
+                              class="text-xl hover:text-lime-700 cursor-pointer">+</span>
+                        <span>1</span>
+                        <span class="text-xl hover:text-lime-700 cursor-pointer">-</span>
+                    </div>
+                @else
+                    <div
+                        wire:click="addToCart"
+                        class="bg-lime-600 rounded-full p-2 cursor-pointer
                      transition-all ease-in-out duration-150 hover:bg-lime-700"
-                >
-                    @svg('heroicon-s-shopping-bag', 'h-5 w-5 text-white')
-                </div>
+                    >
+                        @svg('heroicon-s-shopping-bag', 'h-5 w-5 text-white')
+                    </div>
+                @endif
             </div>
         </div>
     </div>

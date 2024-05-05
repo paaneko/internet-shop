@@ -17,20 +17,25 @@ class WishlistService
         $this->session = $session;
     }
 
-    public function addItemToggle($id): void
+    public function addItemToggle($variationId): void
     {
         $data = $this->getItems();
 
-        if (! $data->contains($id)) {
-            $this->session->push(self::NAME, $id);
+        if (! $data->contains($variationId)) {
+            $this->session->push(self::NAME, $variationId);
         } else {
             $this->session->put(
                 self::NAME,
-                $data->reject(function ($value) use ($id) {
-                    return $value === $id;
+                $data->reject(function ($value) use ($variationId) {
+                    return $value === $variationId;
                 })
             );
         }
+    }
+
+    public function isItemInWishlist(int $variationId): bool
+    {
+        return $this->getItems()->contains($variationId);
     }
 
     protected function getItems(): Collection

@@ -8,8 +8,7 @@ use App\Services\CompareService;
 use App\Services\WishlistService;
 use Livewire\Component;
 
-// TODO rename this class to VariationCard
-class ProductCard extends Component
+class VariationActionBlock extends Component
 {
     public Variation $variation;
 
@@ -32,15 +31,11 @@ class ProductCard extends Component
     public function addToWishlist(): void
     {
         $this->wishlistService->addItemToggle($this->variation->id);
-
-        $this->dispatch('add-wishlist');
     }
 
-    public function addToCompareProducts(): void
+    public function addToCompare(): void
     {
         $this->compareService->addItemToggle($this->variation->id);
-
-        $this->dispatch('add-compare-products');
     }
 
     public function addToCart(): void
@@ -50,11 +45,11 @@ class ProductCard extends Component
 
     public function render()
     {
-        return view('livewire.product.product-card', [
-            'isInCompare' => $this->compareService->isItemInCompare(
+        return view('livewire.product.variation-action-block', [
+            'isInWishlist' => $this->wishlistService->isItemInWishlist(
                 $this->variation->id
             ),
-            'isInWishlist' => $this->wishlistService->isItemInWishlist(
+            'isInCompare' => $this->compareService->isItemInCompare(
                 $this->variation->id
             ),
             'isInCart' => $this->cartService->isItemInCart(
