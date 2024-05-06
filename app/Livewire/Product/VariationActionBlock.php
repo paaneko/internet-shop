@@ -41,6 +41,8 @@ class VariationActionBlock extends Component
     public function addToCart(): void
     {
         $this->cartService->addItem($this->variation->id);
+
+        $this->dispatch('open-cart-modal');
     }
 
     public function render()

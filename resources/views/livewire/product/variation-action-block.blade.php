@@ -72,7 +72,7 @@
         <div class="p-6 flex flex-col flex-auto border">
             <div class="mb-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    @if($variation->old_price === 0)
+                    @if($variation->old_price == 0)
                         <div class="text-3xl font-medium leading-none">${{ $variation->price }}</div>
                     @else
                         <div class="text-red-500 text-3xl leading-none">${{ $variation->old_price }}</div>
@@ -91,16 +91,14 @@
             </div>
             @if($isInCart)
                 <div
-                    class="flex justify-between items-center btn-lg mb-1 w-full text-xl text-white uppercase rounded-none bg-lime-500">
-                    <span wire:click="addToCart" class="text-6xl hover:text-lime-700 cursor-pointer">+</span>
-                    <span class="font-medium text-4xl">1</span>
-                    <span class="text-6xl hover:text-lime-700 cursor-pointer">-</span>
+                    x-on:click="$dispatch('open-cart-modal')"
+                    class="p-4 text-center font-medium text-xl text-lime-500 uppercase bg-white rounded-md hover:text-white border-2 border-lime-500 hover:bg-lime-500 cursor-pointer">
+                    Checkout
                 </div>
             @else
                 <div
                     wire:click="addToCart"
-                    class="btn btn-lg mb-1 w-full text-xl text-white uppercase bg-lime-500 rounded-none hover:bg-lime-700">
-                    @svg('gmdi-shopping-cart', 'h-8 w-8')
+                    class="p-4 text-center font-medium text-xl text-white uppercase bg-lime-500 rounded-md hover:bg-lime-600 cursor-pointer">
                     Add To Cart
                 </div>
             @endif

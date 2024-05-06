@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Variation;
 use Illuminate\Session\SessionManager;
-use Illuminate\Support\Collection;
 use RuntimeException;
 
 class CartService
@@ -18,20 +17,22 @@ class CartService
         $this->session = $session;
     }
 
-    public function addItem(int $productId): void
+    public function addItem(int $variationId): void
     {
         $cartData = $this->session->get(self::NAME);
-        $variation = Variation::find($productId);
+        $variation = Variation::find($variationId);
 
         if (isset($cartData[$variation->id])) {
             $cartData[$variation->id]['quantity'] += 1;
         } else {
-            $cartData[$productId] = [
-                'productId' => $productId,
+            $cartData[$variationId] = [
+                'variationId' => $variationId,
                 'name' => $variation->name,
                 'quantity' => 1,
                 'price' => $variation->price,
                 'old_price' => $variation->old_price,
+                'color' => $variation->color,
+                'thumb' => $variation->getFirstMedia()?->getUrl('thumb'),
             ];
         }
 
@@ -75,13 +76,18 @@ class CartService
         $this->session->put(self::NAME, $cartData);
     }
 
-    public function isItemInCart(int $variationId): bool
+    public function removeCartEntirely(): void
     {
-        return $this->getItems()->has($variationId);
+        $this->session->put(self::NAME, []);
     }
 
-    public function getItems(): Collection
+    public function isItemInCart(int $variationId): bool
     {
-        return collect($this->session->get(self::NAME, []));
+        return isset($this->getItems()[$variationId]);
+    }
+
+    public function getItems(): array
+    {
+        return $this->session->get(self::NAME, []);
     }
 }
