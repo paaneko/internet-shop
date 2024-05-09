@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Modal\Cart;
 use App\Livewire\Product\ProductCard;
 use Database\Factories\ProductFactory;
 use Database\Factories\VariationFactory;
@@ -80,3 +81,37 @@ it(
             ->assertDontSee('$0');
     }
 );
+
+it('render cart modal component on add to cart button click', function () {
+    ProductFactory::new()->create();
+
+    $first_variation = VariationFactory::new()
+        ->createWithRandomCreatedProduct()
+        ->create();
+
+    Livewire::test(ProductCard::class, [
+        'variation' => $first_variation,
+    ])
+        ->call('addToCart')
+        ->assertDispatched('open-cart-modal');
+});
+
+it('adds item to cart when button add to cart clicked', function () {
+    ProductFactory::new()->create();
+
+    $first_variation = VariationFactory::new()
+        ->createWithRandomCreatedProduct()
+        ->create();
+
+    Livewire::test(ProductCard::class, [
+        'variation' => $first_variation,
+    ])
+        ->call('addToCart')
+        ->assertDispatched('open-cart-modal');
+
+    Livewire::test(Cart::class)
+        ->call('openModal')
+        ->assertSee($first_variation->name)
+        // test for cart quantity
+        ->assertSee(1);
+});
