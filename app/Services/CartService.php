@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\Variation;
 use Illuminate\Session\SessionManager;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use RuntimeException;
 
 class CartService
 {
-    private const NAME = 'cart';
+    public const NAME = 'cart';
 
     private SessionManager $session;
 
@@ -89,5 +92,29 @@ class CartService
     public function getItems(): array
     {
         return $this->session->get(self::NAME, []);
+    }
+
+    public function removeCartEntirelyByUser(User $user): void
+    {
+        $sessionRow = DB::table('sessions')->where('user_id', $user->id)->first(
+        );
+
+        if ($sessionRow) {
+            $sessionData = unserialize(
+                base64_decode($sessionRow->payload)
+            );
+
+            if (isset($sessionData[self::NAME])) {
+                unset($sessionData[self::NAME]);
+            }
+
+            DB::table('sessions')->where('user_id', $user->id)->update([
+                'payload' => base64_encode(serialize($sessionData)),
+            ]);
+        } else {
+            throw new \Exception(
+                'User do not have a session or the session has expired'
+            );
+        }
     }
 }

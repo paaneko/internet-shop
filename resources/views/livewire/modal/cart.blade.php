@@ -78,8 +78,10 @@
                                     return ($item['old_price'] == 0) ? $item['price'] * $item['quantity'] : $item['old_price'] * $item['quantity'];}
                                 )}}
                             </div>
-                            <button type="button"
-                                    class="text-white bg-lime-500 hover:bg-lime-600 font-medium rounded-md text-lg px-5 py-2.5 text-center">
+                            <button
+                                wire:click="checkout"
+                                type="button"
+                                class="text-white bg-lime-500 hover:bg-lime-600 font-medium rounded-md text-lg px-5 py-2.5 text-center">
                                 Checkout
                             </button>
                         </div>

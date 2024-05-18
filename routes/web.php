@@ -9,6 +9,14 @@ use Spatie\Url\Url;
 
 require __DIR__.'/auth.php';
 
+Route::get('/checkout-cancel', function () {
+    return '<div>Error</div>';
+});
+
+Route::get('/checkout-success', function () {
+    return '<div>success</div>';
+});
+
 Route::post('/newsletters', NewsletterController::class);
 
 Route::view('/profile', 'profile')
