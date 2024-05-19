@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Variation;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Cashier;
+use Stripe\Collection;
 
 class CheckoutService
 {
@@ -23,12 +24,14 @@ class CheckoutService
         return auth()->user()->checkout(
             $this->syncCartDataWithDatabase($cartData),
             [
-                'success_url' => url('checkout-success'),
-                'cancel_url' => url('checkout-cancel'),
+                'success_url' => route('checkout-success')
+                    .'?checkout_session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('checkout-cancel'),
                 'shipping_address_collection' => [
                     'allowed_countries' => self::ALLOWED_COUNTRIES,
                 ],
                 'metadata' => [
+
                     'user_id' => auth()->user()->id,
                 ],
             ],
@@ -61,6 +64,8 @@ class CheckoutService
                     'metadata' => [
                         'item_id' => $variation->id,
                         'item_type' => $variation->getMorphClass(),
+                        'color' => $variation->color,
+                        'sku' => $variation->sku,
                     ],
                 ],
                 'unit_amount' => ($variation->getRawOriginal('old_price') == 0)
@@ -81,10 +86,22 @@ class CheckoutService
             $order = $user->orders()->create([
                 'stripe_checkout_session_id' => $sessionDto->id,
                 'order_number' => 'OR'.rand(10000, 99999),
-                'amount_shipping' => $sessionDto->amount_shipping,
-                'amount_discount' => $sessionDto->amount_discount,
-                'amount_subtotal' => $sessionDto->amount_subtotal,
-                'amount_total' => $sessionDto->amount_total,
+                'amount_shipping' => round(
+                    floatval($sessionDto->amount_total) / 100,
+                    precision: 2
+                ),
+                'amount_discount' => round(
+                    floatval($sessionDto->amount_discount) / 100,
+                    precision: 2
+                ),
+                'amount_subtotal' => round(
+                    floatval($sessionDto->amount_subtotal) / 100,
+                    precision: 2
+                ),
+                'amount_total' => round(
+                    floatval($sessionDto->amount_total) / 100,
+                    precision: 2
+                ),
                 'billing_address' => [
                     'city' => $sessionDto->city,
                     'country' => $sessionDto->country,
@@ -106,6 +123,7 @@ class CheckoutService
 
             $lineItemsDto = $this->retrieveSessionCheckoutLineItems($sessionId);
 
+            /** @var Collection $orderItems */
             $orderItems = $lineItemsDto->data->map(
                 function (LineItemDto $lineItemDto) {
                     $productDto = $this->retrieveLineItemProduct($lineItemDto);
@@ -114,11 +132,30 @@ class CheckoutService
                         'item_id' => $productDto->item_id,
                         'item_type' => $productDto->item_type,
                         'name' => $productDto->name,
-                        'price' => $lineItemDto->price,
+                        'color' => $productDto->color,
+                        'sku' => $productDto->sku,
+                        // TODO
+                        // Here i manually cast data, because i do not know how i can disable
+                        // casting while im saving in db while eloquent. If i do not do that
+                        // the price would be casted twice, so here im receiving price e.g 26 000,
+                        // database would save 2 600 000
+                        'price' => round(
+                            floatval($lineItemDto->price) / 100,
+                            precision: 2
+                        ),
                         'quantity' => $lineItemDto->quantity,
-                        'discount' => $lineItemDto->amount_discount,
-                        'sub_total' => $lineItemDto->amount_subtotal,
-                        'total' => $lineItemDto->amount_total,
+                        'discount' => round(
+                            floatval($lineItemDto->amount_discount) / 100,
+                            precision: 2
+                        ),
+                        'sub_total' => round(
+                            floatval($lineItemDto->amount_subtotal) / 100,
+                            precision: 2
+                        ),
+                        'total' => round(
+                            floatval($lineItemDto->amount_total) / 100,
+                            precision: 2
+                        ),
                     ]);
                 }
             );

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,10 @@ class Order extends Model
         = [
             'billing_address' => 'collection',
             'shipping_address' => 'collection',
+            'amount_total' => MoneyCast::class,
+            'amount_subtotal' => MoneyCast::class,
+            'amount_discount' => MoneyCast::class,
+            'amount_shipping' => MoneyCast::class,
         ];
 
     protected $fillable

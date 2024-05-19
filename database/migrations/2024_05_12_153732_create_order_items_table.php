@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained();
             $table->morphs('item');
             $table->string('name');
+            $table->string('color');
+            $table->string('sku');
             $table->tinyInteger('quantity');
             $table->integer('discount')->default(0);
             $table->integer('price');

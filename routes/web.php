@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Checkout\CheckoutCancelController;
+use App\Http\Controllers\Checkout\CheckoutSuccessController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\VariationController;
 use App\Livewire\Pages\CategoryFilter;
@@ -9,13 +11,13 @@ use Spatie\Url\Url;
 
 require __DIR__.'/auth.php';
 
-Route::get('/checkout-cancel', function () {
-    return '<div>Error</div>';
-});
+Route::get('/checkout-success', CheckoutSuccessController::class)->name(
+    'checkout-success'
+)->middleware('auth');
 
-Route::get('/checkout-success', function () {
-    return '<div>success</div>';
-});
+Route::get('/checkout-cancel', CheckoutCancelController::class)->name(
+    'checkout-cancel'
+)->middleware('auth');
 
 Route::post('/newsletters', NewsletterController::class);
 
