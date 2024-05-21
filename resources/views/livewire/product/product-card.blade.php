@@ -1,11 +1,3 @@
-@php
-    $wishListSession = collect(session()->get('wishlist', []));
-    $compareProductsSession = collect(session()->get('compare', []));
-
-    $inWishlist = $wishListSession->contains($variation->id);
-    $inCompareProducts = $compareProductsSession->contains($variation->id);
-@endphp
-
 <div class='p-4 w-auto border rounded-none'>
     <div class="flex justify-between items-center mb-2">
         <div
@@ -56,7 +48,7 @@
         </div>
         <div class="flex justify-between items-center">
             <div class="leading-none font-medium">
-                @if($variation->old_price === 0)
+                @if($variation->old_price == 0)
                     <div class="text-lg">${{$variation->price}}</div>
                 @else
                     <div class="text-xs text-gray-500 line-through">${{$variation->price}}</div>
@@ -66,10 +58,10 @@
             <div class="flex space-x-2">
                 <div wire:click="addToCompareProducts"
                      class="rounded-full p-2 cursor-pointer
-                     transition-all ease-in-out duration-150
-                     {{ $inCompareProducts ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
+                     transition-all ease-in-out duration-150 border border-transparent
+                     {{ $isInCompare ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
                 >
-                    @if($inCompareProducts)
+                    @if($isInCompare)
                         @svg('heroicon-s-scale', 'h-5 w-5 text-white')
                     @else
                         @svg('heroicon-s-scale', 'h-5 w-5')
@@ -77,21 +69,32 @@
                 </div>
                 <div wire:click="addToWishlist"
                      class="rounded-full p-2 cursor-pointer
-                     transition-all ease-in-out duration-150
-                     {{ $inWishlist ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
+                     transition-all ease-in-out duration-150 border border-transparent
+                     {{ $isInWishlist ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
                 >
-                    @if($inWishlist)
+                    @if($isInWishlist)
                         @svg('heroicon-s-heart', 'h-5 w-5 text-white')
                     @else
                         @svg('heroicon-s-heart', 'h-5 w-5')
                     @endif
                 </div>
-                <div
-                    class="bg-lime-600 rounded-full p-2 cursor-pointer
-                     transition-all ease-in-out duration-150 hover:bg-lime-700"
-                >
-                    @svg('heroicon-s-shopping-bag', 'h-5 w-5 text-white')
-                </div>
+                @if($isInCart)
+                    <div
+                        x-on:click="$dispatch('open-cart-modal')"
+                        class="rounded-full p-2 cursor-pointer transition-all ease-in-out duration-150
+                        border border-lime-500 hover:bg-lime-500 text-lime-500 hover:text-white"
+                    >
+                        @svg('heroicon-s-check-circle', 'h-5 w-5')
+                    </div>
+                @else
+                    <div
+                        wire:click="addToCart"
+                        class="bg-lime-500 rounded-full p-2 cursor-pointer
+                     transition-all ease-in-out duration-150 hover:bg-lime-600"
+                    >
+                        @svg('heroicon-s-shopping-bag', 'h-5 w-5 text-white')
+                    </div>
+                @endif
             </div>
         </div>
     </div>

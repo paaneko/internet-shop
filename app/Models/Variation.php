@@ -23,6 +23,7 @@ class Variation extends Model implements HasMedia
             'indexation' => 'boolean',
             'status' => Status::class,
             'price' => MoneyCast::class,
+            'old_price' => MoneyCast::class,
         ];
 
     protected $fillable

@@ -45,7 +45,7 @@
 
         <!-- Right Content (60%) -->
         <div class="flex-1">
-            <x-entities.product-full-card :$variation />
+            <livewire:product.variation-action-block :$variation />
         </div>
     </div>
     <div class="pt-28 w-[60%]">
