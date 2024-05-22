@@ -15,7 +15,7 @@ class CheckoutSuccessController extends Controller
 
         $order = auth()->user()
             ->orders()
-            ->with(['user', 'items'])
+            ->with(['user', 'items.item.media'])
             ->where(
                 'stripe_checkout_session_id',
                 $checkoutSessionId

@@ -2,7 +2,7 @@
 
 @section('layout')
     <livewire:layout.header />
-    <div class="container flex flex-grow">
+    <div class="container">
         @yield('content')
         @if (session()->has('success'))
             <div

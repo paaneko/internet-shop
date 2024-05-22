@@ -8,7 +8,11 @@
     <div class="flex flex-grow items-center justify-between">
         <div class="flex items-center">
             <div class="relative mr-3">
-                <img class="h-[80px] w-[80px] rounded bg-white p-1" src="{{ $orderItem->thumb }}" alt="order image" />
+                <img
+                    class="h-[80px] w-[80px] rounded bg-white p-1"
+                    src="{{ $orderItem->item->getFirstMedia()?->getUrl('thumb') }}"
+                    alt="order image"
+                />
                 <div
                     style="background-color: {{ $orderItem->color }}"
                     class="absolute bottom-0 right-0 h-[20px] w-[20px] rounded"

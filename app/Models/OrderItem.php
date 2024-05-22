@@ -8,6 +8,7 @@ use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class OrderItem extends Model
 {
@@ -36,6 +37,11 @@ class OrderItem extends Model
             'sub_total',
             'total',
         ];
+
+    public function item(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     public function order(): BelongsTo
     {
