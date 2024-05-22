@@ -21,6 +21,7 @@ beforeAll(function () {
     define('TEST_CITY', 'test_city');
     define('TEST_COUNTRY', 'test_country');
     define('TEST_LINE', 'test_line');
+    define('POSTAL_CODE', 'test_postal_code');
 
     define('PRODUCT_PRICE', 1000);
     define('PRODUCT_PRICE_WITHOUT_CAST', 100000);
@@ -68,7 +69,7 @@ beforeEach(function () {
             return new StripeSessionDto(
                 id: TEST_STRIPE_CHECKOUT_SESSION_ID,
                 name: 'test_name',
-                user_id: $this->user->id,
+                user_id: "{$this->user->id}",
                 amount_shipping: 0,
                 amount_discount: 0,
                 amount_subtotal: PRODUCT_PRICE_WITHOUT_CAST,
@@ -77,7 +78,7 @@ beforeEach(function () {
                 country: TEST_COUNTRY,
                 line1: TEST_LINE,
                 line2: null,
-                postal_code: 11111,
+                postal_code: POSTAL_CODE,
                 state: null
             );
         }
@@ -102,7 +103,7 @@ beforeEach(function () {
         ): StripeLineItemProductDto {
             return new StripeLineItemProductDto(
                 name: $this->variation->name,
-                item_id: $this->variation->id,
+                item_id: "{$this->variation->id}",
                 color: $this->variation->color,
                 sku: $this->variation->sku,
                 item_type: $this->variation->getMorphClass()

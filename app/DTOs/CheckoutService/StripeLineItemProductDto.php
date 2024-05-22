@@ -10,7 +10,7 @@ class StripeLineItemProductDto
 {
     public function __construct(
         public string $name,
-        public int $item_id,
+        public string $item_id,
         public string $color,
         public string $sku,
         public string $item_type,

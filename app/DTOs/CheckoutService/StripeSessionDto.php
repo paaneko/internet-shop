@@ -11,7 +11,7 @@ class StripeSessionDto
     public function __construct(
         public string $id,
         public string $name,
-        public int $user_id,
+        public string $user_id,
         public int $amount_shipping,
         public int $amount_discount,
         public int $amount_subtotal,
@@ -20,7 +20,7 @@ class StripeSessionDto
         public string $country,
         public string $line1,
         public ?string $line2,
-        public int $postal_code,
+        public string $postal_code,
         public ?string $state,
     ) {
     }
