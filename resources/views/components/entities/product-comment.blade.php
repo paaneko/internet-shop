@@ -1,9 +1,10 @@
-@props(['comment'])
-
+@props([
+    'comment',
+])
 
 <div class="border">
-    <div class="flex py-5 px-8 justify-between bg-gray-100">
-        <div class="font-semibold text-lg">{{ $comment->username }}</div>
+    <div class="flex justify-between bg-gray-100 px-8 py-5">
+        <div class="text-lg font-semibold">{{ $comment->username }}</div>
         <div>{{ $comment->created_at->diffForHumans() }}</div>
     </div>
     <div class="p-5">

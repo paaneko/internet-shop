@@ -1,96 +1,92 @@
-<div class='p-4 w-auto border rounded-none'>
-    <div class="flex justify-between items-center mb-2">
-        <div
-            class="text-xs font-medium text-white px-1.5 rounded-none pt-1 pb-1 leading-none bg-orange-600">
-            New
-        </div>
+<div class="w-auto rounded-none border p-4">
+    <div class="mb-2 flex items-center justify-between">
+        <div class="rounded-none bg-orange-600 px-1.5 pb-1 pt-1 text-xs font-medium leading-none text-white">New</div>
         <div class="text-sm font-bold">
-            <span class="font-normal opacity-80">Code: </span>{{$variation->product_code}}
+            <span class="font-normal opacity-80">Code:</span>
+            {{ $variation->product_code }}
         </div>
     </div>
     <figure class="flex justify-center">
-        @if(! $variation->getFirstMedia())
-            @svg('gmdi-hide-image-tt', 'mb-4 w-[228px] h-[228px] text-lime-600')
+        @if (! $variation->getFirstMedia())
+            @svg('gmdi-hide-image-tt', 'mb-4 h-[228px] w-[228px] text-lime-600')
         @else
-            <img class="mb-2 w-[228px] h-[228px]"
-                 src="{{ $variation->getFirstMedia()?->getUrl('thumb') }}"
-                 alt="" />
+            <img class="mb-2 h-[228px] w-[228px]" src="{{ $variation->getFirstMedia()?->getUrl('thumb') }}" alt="" />
         @endif
     </figure>
     <div class="p-0">
-        <ul class="flex items-center justify-center space-x-1 mb-2">
-            @foreach($variation->product->variations->pluck("slug", "color") as $colorCode => $variationSlug)
-                <li class="inline-block border-2 rounded-lg @if($variation->slug === $variationSlug) border-black @else hover:border-gray-400 @endif cursor-pointer">
+        <ul class="mb-2 flex items-center justify-center space-x-1">
+            @foreach ($variation->product->variations->pluck('slug', 'color') as $colorCode => $variationSlug)
+                <li
+                    class="@if($variation->slug === $variationSlug) border-black @else hover:border-gray-400 @endif inline-block cursor-pointer rounded-lg border-2"
+                >
                     <a href="/{{ $variationSlug }}">
-                        <div style="background-color: {{$colorCode}};" class="block w-6 h-6 m-0.5 rounded"></div>
+                        <div style="background-color: {{ $colorCode }}" class="m-0.5 block h-6 w-6 rounded"></div>
                     </a>
                 </li>
             @endforeach
         </ul>
-        <div class="h-12 mb-2">
-            <a class="link font-medium leading-0 line-clamp-2 transition-all ease-in-out duration-150 hover:text-lime-600"
-               href={{asset($variation->slug)}}
-            >{{$variation->name}}</a>
+        <div class="mb-2 h-12">
+            <a
+                class="leading-0 link line-clamp-2 font-medium transition-all duration-150 ease-in-out hover:text-lime-600"
+                href="{{ asset($variation->slug) }}"
+            >
+                {{ $variation->name }}
+            </a>
         </div>
-        <div class="flex items-center space-x-3 mb-4">
-            <div class="h-5 flex items-center space-x-1">
-                @svg('heroicon-o-star', 'w-4 h-4 text-amber-500 fill-amber-500')
+        <div class="mb-4 flex items-center space-x-3">
+            <div class="flex h-5 items-center space-x-1">
+                @svg('heroicon-o-star', 'h-4 w-4 fill-amber-500 text-amber-500')
                 <span class="text-xs font-semibold">4.8</span>
             </div>
-            <div
-                class="text-xs font-semibold px-1.5 rounded-none pt-1 pb-1 leading-none text-lime-600 bg-[#F5F8E7]">
+            <div class="rounded-none bg-[#F5F8E7] px-1.5 pb-1 pt-1 text-xs font-semibold leading-none text-lime-600">
                 In Stock
             </div>
         </div>
-        <div class="flex items-center space-x-2 mb-4 ">
-            @svg('heroicon-s-truck', 'w-5 h-5 text-red-600')
+        <div class="mb-4 flex items-center space-x-2">
+            @svg('heroicon-s-truck', 'h-5 w-5 text-red-600')
             <span class="text-xs opacity-80">SHIPS IN 5-7 BUSINESS DAYS</span>
         </div>
-        <div class="flex justify-between items-center">
-            <div class="leading-none font-medium">
-                @if($variation->old_price == 0)
-                    <div class="text-lg">${{$variation->price}}</div>
+        <div class="flex items-center justify-between">
+            <div class="font-medium leading-none">
+                @if ($variation->old_price == 0)
+                    <div class="text-lg">${{ $variation->price }}</div>
                 @else
-                    <div class="text-xs text-gray-500 line-through">${{$variation->price}}</div>
-                    <div class="text-red-500 text-lg leading-none">${{$variation->old_price}}</div>
+                    <div class="text-xs text-gray-500 line-through">${{ $variation->price }}</div>
+                    <div class="text-lg leading-none text-red-500">${{ $variation->old_price }}</div>
                 @endif
             </div>
             <div class="flex space-x-2">
-                <div wire:click="addToCompareProducts"
-                     class="rounded-full p-2 cursor-pointer
-                     transition-all ease-in-out duration-150 border border-transparent
-                     {{ $isInCompare ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
+                <div
+                    wire:click="addToCompareProducts"
+                    class="{{ $isInCompare ? 'bg-lime-500 hover:bg-lime-600' : 'bg-gray-100 hover:bg-gray-200' }} cursor-pointer rounded-full border border-transparent p-2 transition-all duration-150 ease-in-out"
                 >
-                    @if($isInCompare)
+                    @if ($isInCompare)
                         @svg('heroicon-s-scale', 'h-5 w-5 text-white')
                     @else
                         @svg('heroicon-s-scale', 'h-5 w-5')
                     @endif
                 </div>
-                <div wire:click="addToWishlist"
-                     class="rounded-full p-2 cursor-pointer
-                     transition-all ease-in-out duration-150 border border-transparent
-                     {{ $isInWishlist ? "bg-lime-500 hover:bg-lime-600" : "bg-gray-100 hover:bg-gray-200" }}"
+                <div
+                    wire:click="addToWishlist"
+                    class="{{ $isInWishlist ? 'bg-lime-500 hover:bg-lime-600' : 'bg-gray-100 hover:bg-gray-200' }} cursor-pointer rounded-full border border-transparent p-2 transition-all duration-150 ease-in-out"
                 >
-                    @if($isInWishlist)
+                    @if ($isInWishlist)
                         @svg('heroicon-s-heart', 'h-5 w-5 text-white')
                     @else
                         @svg('heroicon-s-heart', 'h-5 w-5')
                     @endif
                 </div>
-                @if($isInCart)
+                @if ($isInCart)
                     <div
                         x-on:click="$dispatch('open-cart-modal')"
-                        class="rounded-full p-2 cursor-pointer transition-all ease-in-out duration-150
-                        border border-lime-500 hover:bg-lime-500 text-lime-500 hover:text-white"
+                        class="cursor-pointer rounded-full border border-lime-500 p-2 text-lime-500 transition-all duration-150 ease-in-out hover:bg-lime-500 hover:text-white"
                     >
                         @svg('heroicon-s-check-circle', 'h-5 w-5')
                     </div>
                 @else
                     <div
                         wire:click="addToCart"
-                        class="bg-lime-500 rounded-full p-2 cursor-pointer
-                     transition-all ease-in-out duration-150 hover:bg-lime-600"
+                        class="cursor-pointer rounded-full bg-lime-500 p-2 transition-all duration-150 ease-in-out hover:bg-lime-600"
                     >
                         @svg('heroicon-s-shopping-bag', 'h-5 w-5 text-white')
                     </div>

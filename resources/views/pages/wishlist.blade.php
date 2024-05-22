@@ -3,9 +3,7 @@
 @section('content')
     <div class="flex">
         <!-- Left Sidebar (40%) -->
-        <div class="w-96 border">
-            Left Sidebar
-        </div>
+        <div class="w-96 border">Left Sidebar</div>
 
         <!-- Right Content (60%) -->
         <div class="flex-1">

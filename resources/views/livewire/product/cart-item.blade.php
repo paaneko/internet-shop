@@ -1,34 +1,34 @@
-<div class="w-min-4xl flex justify-between items-center p-2 bg-gray-100 rounded-md">
+<div class="w-min-4xl flex items-center justify-between rounded-md bg-gray-100 p-2">
     <div class="flex w-[450px] items-center space-x-2">
-        @svg('heroicon-s-trash', 'w-6 h-6 hover:text-red-600 cursor-pointer')
+        @svg('heroicon-s-trash', 'h-6 w-6 cursor-pointer hover:text-red-600')
         <div class="relative">
-            <img class="w-[80px] h-[80px] p-1 bg-white rounded"
-                 src="https://i.moyo.ua/img/products/5241/70_174.jpg?1714991108"
-                 alt="cart-item image" />
-            <div
-                class="absolute bottom-0 right-0 w-[18px] h-[18px] rounded bg-red-500"></div>
+            <img
+                class="h-[80px] w-[80px] rounded bg-white p-1"
+                src="https://i.moyo.ua/img/products/5241/70_174.jpg?1714991108"
+                alt="cart-item image"
+            />
+            <div class="absolute bottom-0 right-0 h-[18px] w-[18px] rounded bg-red-500"></div>
         </div>
-        <div class="font-medium ">{{$item['name']}}</div>
+        <div class="font-medium">{{ $item['name'] }}</div>
     </div>
-    <div class="w-[200px] flex justify-between items-center">
-        <div class="flex items-center justify-between py-1 rounded bg-white w-[85px]">
-            <span
-                wire:click="addToCart"
-                class="px-2 text-2xl font-medium cursor-pointer hover:text-lime-500">+</span>
-            <span class="text-lg">{{$item['quantity']}}</span>
-            <span
-                wire:click="removeFromCart"
-                class="px-2 text-2xl font-medium cursor-pointer hover:text-lime-500">-</span>
+    <div class="flex w-[200px] items-center justify-between">
+        <div class="flex w-[85px] items-center justify-between rounded bg-white py-1">
+            <span wire:click="addToCart" class="cursor-pointer px-2 text-2xl font-medium hover:text-lime-500">+</span>
+            <span class="text-lg">{{ $item['quantity'] }}</span>
+            <span wire:click="removeFromCart" class="cursor-pointer px-2 text-2xl font-medium hover:text-lime-500">
+                -
+            </span>
         </div>
-        @if($item['old_price'] == 0)
-            <div class="text-lg">${{$item['price'] * $item['quantity']}}</div>
+
+        @if ($item['old_price'] == 0)
+            <div class="text-lg">${{ $item['price'] * $item['quantity'] }}</div>
         @else
-            <div class="flex justify-end items-end flex-col">
-                <div class="text-xs text-gray-500 line-through">${{$item['price'] * $item['quantity']}}</div>
-                <div class="text-red-500 font-medium text-lg leading-none">
-                    ${{$item['old_price'] * $item['quantity']}}</div>
+            <div class="flex flex-col items-end justify-end">
+                <div class="text-xs text-gray-500 line-through">${{ $item['price'] * $item['quantity'] }}</div>
+                <div class="text-lg font-medium leading-none text-red-500">
+                    ${{ $item['old_price'] * $item['quantity'] }}
+                </div>
             </div>
         @endif
     </div>
 </div>
-
