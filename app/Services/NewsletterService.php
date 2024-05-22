@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
@@ -14,7 +16,7 @@ class NewsletterService
         )
             ->post(
                 config('services.esputnik.domain')
-                .'/api/v1/contact',
+                . '/api/v1/contact',
                 [
                     'contacts' => [
                         'channels' => [

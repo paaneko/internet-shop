@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Category;
@@ -21,10 +23,10 @@ class VariationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $name = ucfirst(fake()->words(2, true)).' «'.ucfirst(
+            'name' => $name = ucfirst(fake()->words(2, true)) . ' «' . ucfirst(
                 fake()->words(2, true)
             )
-                .'»',
+                . '»',
             'slug' => Str::of($name)->slug(),
             'meta_tag_h1' => fake()->sentence(4),
             'meta_tag_title' => fake()->sentence(5),
@@ -85,11 +87,11 @@ class VariationFactory extends Factory
     public function createWithMedia(): static
     {
         return $this->afterCreating(function (Variation $product) {
-            $media_path = storage_path('fake-media/product/').fake()
+            $media_path = storage_path('fake-media/product/') . fake()
                 ->numberBetween(
                     1,
                     13
-                ).'.jpg';
+                ) . '.jpg';
 
             $product->addMedia($media_path)
                 ->preservingOriginal()

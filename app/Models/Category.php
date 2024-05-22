@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -52,7 +54,7 @@ class Category extends Model
     {
         return Attribute::get(
             fn (): string => $this->parent && $this->parent->name
-                ? $this->parent->name.' > '.$this->name
+                ? $this->parent->name . ' > ' . $this->name
                 : $this->name
 
         );

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Brand;
@@ -27,7 +29,7 @@ class BrandFactory extends Factory
          * @see database/seeders/BrandSeeder.php
          */
         return [
-            'name' => $name = ucfirst(fake()->word()).strtoupper(
+            'name' => $name = ucfirst(fake()->word()) . strtoupper(
                 fake()->bothify('??')
             ),
             'slug' => Str::of($name)->slug(),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Checkout\CheckoutCancelController;
 use App\Http\Controllers\Checkout\CheckoutSuccessController;
 use App\Http\Controllers\NewsletterController;
@@ -9,7 +11,7 @@ use App\Models\Variation;
 use Illuminate\Support\Facades\Route;
 use Spatie\Url\Url;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/checkout-success', CheckoutSuccessController::class)->name(
     'checkout-success'

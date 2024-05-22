@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,7 +25,7 @@ class CharacteristicGroupFactory extends Factory
                     0.3,
                     fake()->word()
                 )->words(2, true)
-            ).'Group',
+            ) . 'Group',
         ];
     }
 

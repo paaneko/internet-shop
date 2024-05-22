@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Shared\ProductResource;
 
 use App\Models\Characteristic;
@@ -18,6 +20,6 @@ trait GetCharacteristicLabel
         }
 
         return $characteristic->characteristicGroup->name
-            .' > '.$characteristic->name;
+            . ' > ' . $characteristic->name;
     }
 }

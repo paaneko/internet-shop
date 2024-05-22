@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\DTOs\CheckoutService\LineItemDto;
@@ -25,7 +27,7 @@ class CheckoutService
             $this->syncCartDataWithDatabase($cartData),
             [
                 'success_url' => route('checkout-success')
-                    .'?checkout_session_id={CHECKOUT_SESSION_ID}',
+                    . '?checkout_session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('checkout-cancel'),
                 'shipping_address_collection' => [
                     'allowed_countries' => self::ALLOWED_COUNTRIES,
@@ -85,7 +87,7 @@ class CheckoutService
 
             $order = $user->orders()->create([
                 'stripe_checkout_session_id' => $sessionDto->id,
-                'order_number' => 'OR'.rand(10000, 99999),
+                'order_number' => 'OR' . rand(10000, 99999),
                 'amount_shipping' => round(
                     floatval($sessionDto->amount_total) / 100,
                     precision: 2

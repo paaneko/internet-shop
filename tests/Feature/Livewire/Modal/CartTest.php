@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Modal\Cart;
 use App\Services\CartService;
 use Database\Factories\ProductFactory;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Services\CartService;
 use Database\Factories\ProductFactory;
 use Database\Factories\VariationFactory;

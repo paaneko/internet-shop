@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\DTOs\CheckoutService\LineItemDto;
 use App\DTOs\CheckoutService\StripeLineItemProductDto;
 use App\DTOs\CheckoutService\StripeLineItemsDto;
@@ -153,13 +155,13 @@ it('properly save and display prices', function () {
     Session::forget(CartService::NAME);
 
     $response = $this->get(
-        '/checkout-success?checkout_session_id='.TEST_STRIPE_CHECKOUT_SESSION_ID
+        '/checkout-success?checkout_session_id=' . TEST_STRIPE_CHECKOUT_SESSION_ID
     );
 
     $response
-        ->assertSee('1 x $'.$this->variation->price)
-        ->assertSee('$'.PRODUCT_PRICE)
-        ->assertDontSee('$'.PRODUCT_PRICE_WITHOUT_CAST);
+        ->assertSee('1 x $' . $this->variation->price)
+        ->assertSee('$' . PRODUCT_PRICE)
+        ->assertDontSee('$' . PRODUCT_PRICE_WITHOUT_CAST);
 });
 
 it('properly save and display order info', function () {
@@ -168,7 +170,7 @@ it('properly save and display order info', function () {
     Session::forget(CartService::NAME);
 
     $response = $this->get(
-        '/checkout-success?checkout_session_id='.TEST_STRIPE_CHECKOUT_SESSION_ID
+        '/checkout-success?checkout_session_id=' . TEST_STRIPE_CHECKOUT_SESSION_ID
     );
 
     $response

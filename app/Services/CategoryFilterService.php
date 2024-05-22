@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\Category;
@@ -153,6 +155,6 @@ class CategoryFilterService
 
     protected function buildUrl(Collection $urlCollection): string
     {
-        return '/'.$this->category->slug.'/'.$urlCollection->implode('/');
+        return '/' . $this->category->slug . '/' . $urlCollection->implode('/');
     }
 }

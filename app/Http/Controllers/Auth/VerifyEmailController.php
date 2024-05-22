@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -17,7 +19,7 @@ class VerifyEmailController extends Controller
     ): RedirectResponse {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(
-                RouteServiceProvider::HOME.'?verified=1'
+                RouteServiceProvider::HOME . '?verified=1'
             );
         }
 
@@ -25,6 +27,6 @@ class VerifyEmailController extends Controller
             event(new Verified($request->user()));
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+        return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
     }
 }

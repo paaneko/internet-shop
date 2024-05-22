@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Pages\CategoryFilter;
 use App\Models\VariationCharacteristic;
 use Database\Factories\CategoryFactory;
@@ -109,7 +111,7 @@ it('can filter variations in category', function () {
 
     Livewire::test(
         CategoryFilter::class,
-        ['url' => $category->slug.'/'.Str::slug($attributes[0]->name)]
+        ['url' => $category->slug . '/' . Str::slug($attributes[0]->name)]
     )
         ->assertSee($variations[0]->name)
         ->assertDontSee($variations[1]->name)
@@ -117,14 +119,14 @@ it('can filter variations in category', function () {
 
     Livewire::test(
         CategoryFilter::class,
-        ['url' => $category->slug.'/not_existing_attribute_slug']
+        ['url' => $category->slug . '/not_existing_attribute_slug']
     )
         ->assertSee($variations[0]->name)
         ->assertSee($variations[1]->name)
         ->assertDontSee($variationWithoutCategory);
 
     Livewire::test(CategoryFilter::class, [
-        'url' => $category->slug.'/not_existing_attribute_slug/'.Str::slug(
+        'url' => $category->slug . '/not_existing_attribute_slug/' . Str::slug(
             $attributes[0]->name
         ),
     ])

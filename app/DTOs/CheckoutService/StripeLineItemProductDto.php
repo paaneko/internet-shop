@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DTOs\CheckoutService;
 
 use Stripe\Product;
@@ -8,7 +10,7 @@ class StripeLineItemProductDto
 {
     public function __construct(
         public string $name,
-        public string $item_id,
+        public int $item_id,
         public string $color,
         public string $sku,
         public string $item_type,

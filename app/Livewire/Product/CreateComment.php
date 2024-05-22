@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Product;
 
 use App\Models\Variation;
@@ -30,7 +32,7 @@ class CreateComment extends Component
 
         session()->flash('success', 'Your comment was added successfully!');
 
-        redirect()->to('/'.$variation->slug);
+        redirect()->to('/' . $variation->slug);
     }
 
     public function render()
