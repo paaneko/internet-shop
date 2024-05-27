@@ -15,7 +15,7 @@ class CharacteristicSeeder extends Seeder
      */
     public function run(): void
     {
-        CharacteristicFactory::new()->count(5)
+        CharacteristicFactory::new()->count(30)
             ->has(CharacteristicAttributeFactory::new()->count(3), 'attributes')
             ->withSortingOrder()
             ->create();

@@ -15,8 +15,6 @@ class Cart extends Component
 
     protected CheckoutService $checkoutService;
 
-    public bool $isModalOpen = false;
-
     public function boot(
         CartService $cartService,
         CheckoutService $checkoutService
@@ -32,20 +30,10 @@ class Cart extends Component
         );
     }
 
-    #[On('open-cart-modal')]
-    public function openModal(): void
+    #[On('add-item-to-cart')]
+    public function addToCart(int $id): void
     {
-        $this->isModalOpen = true;
-    }
-
-    public function closeModal(): void
-    {
-        $this->isModalOpen = false;
-    }
-
-    public function addToCart(int $variationId): void
-    {
-        $this->cartService->addItem($variationId);
+        $this->cartService->addItem($id);
     }
 
     public function removeFromCart(int $variationId): void

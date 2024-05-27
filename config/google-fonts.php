@@ -11,6 +11,7 @@ return [
     'fonts' => [
         'default' => 'https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400;1,700',
         'poppins' => 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700',
+        'opensans' => 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800',
     ],
 
     /*

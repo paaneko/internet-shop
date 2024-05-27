@@ -24,7 +24,7 @@ class CharacteristicFactory extends Factory
             'characteristic_group_id' => CharacteristicGroup::all()
                 ->pluck('id')->random(),
             'name' => ucfirst(fake()->words(2, true)),
-            'hint_text' => fake()->sentence(),
+            'hint_text' => fake()->optional()->sentence(),
             'is_collapsed' => fake()->boolean,
         ];
     }

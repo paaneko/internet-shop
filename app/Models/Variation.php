@@ -91,7 +91,8 @@ class Variation extends Model implements HasMedia
     {
         $this->addMediaConversion('main')
             ->format('webp')
-            ->withResponsiveImages()
+            ->width(600)
+            ->height(600)
             ->nonQueued();
 
         $this->addMediaConversion('thumb')

@@ -8,11 +8,15 @@ use App\Models\Variation;
 use App\Services\CartService;
 use App\Services\CompareService;
 use App\Services\WishlistService;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class VariationActionBlock extends Component
 {
     public Variation $variation;
+
+    /** @var Collection|Variation[] */
+    public Collection|array $relatedVariations;
 
     protected WishlistService $wishlistService;
 
@@ -38,13 +42,6 @@ class VariationActionBlock extends Component
     public function addToCompare(): void
     {
         $this->compareService->addItemToggle($this->variation->id);
-    }
-
-    public function addToCart(): void
-    {
-        $this->cartService->addItem($this->variation->id);
-
-        $this->dispatch('open-cart-modal');
     }
 
     public function render()

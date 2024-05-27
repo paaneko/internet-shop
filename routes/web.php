@@ -29,10 +29,10 @@ Route::view('/profile', 'profile')
 
 Route::get('/wishlist', function () {
     return view('pages.wishlist');
-});
+})->name('wishlist');
 Route::get('/compare', function () {
     return view('pages.compare');
-});
+})->name('compare');
 
 $searching_segment = Url::fromString(url()->current())->getSegment(
     1

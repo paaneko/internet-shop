@@ -7,6 +7,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Variation;
+use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -97,5 +98,48 @@ class VariationFactory extends Factory
                 ->preservingOriginal()
                 ->toMediaCollection('default', 'media-product');
         });
+    }
+
+    /** Fuction for generating fake description  */
+    public static function generateHtmlContent()
+    {
+        $faker = Faker::create();
+        $html = '';
+
+        // Detailed Product Description
+        $html .= '<p>' . $faker->text(300) . '</p>';
+        $html .= '<p>' . $faker->paragraph(4) . '</p>';
+        $html .= '<p>' . $faker->paragraph(5) . '</p>';
+
+        // Section: Product Features
+        $html .= '<div class="font-semibold text-xl">Product Features</div>';
+        $html .= '<ul class="">';
+        for ($o = 0; $o < $faker->numberBetween(4, 8); $o++) {
+            $html .= '<li>' . $faker->sentence . '</li>';
+        }
+        $html .= '</ul>';
+
+        // Section: Additional Information
+        $html .= '<div class="font-semibold text-xl">Additional Information</div>';
+        $html .= '<p>' . $faker->paragraph(10) . '</p>';
+
+        // Section: Package Contents
+        $html .= '<div class="font-semibold text-xl">Package Contents</div>';
+        $html .= '<ul>';
+        for ($i = 0; $i < $faker->numberBetween(5, 10); $i++) {
+            $html .= '<li><b>' . $faker->sentence . '</b> – ' . $faker->numberBetween(1, 3) . ' ' . $faker->word . '</li>';
+        }
+        $html .= '</ul>';
+
+        // Section: Design and Build Quality
+        $html .= '<div class="font-semibold text-xl">Design and Build Quality</div>';
+        $html .= '<p>' . $faker->paragraph(4) . '</p>';
+        $html .= '<p>' . $faker->paragraph(6) . '</p>';
+
+        // Section: Dimensions
+        $html .= '<div class="font-semibold text-xl">Dimensions</div>';
+        $html .= '<p>' . $faker->text(500) . '</p>';
+
+        return $html;
     }
 }

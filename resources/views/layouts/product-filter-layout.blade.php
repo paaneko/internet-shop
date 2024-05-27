@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
 @section('layout')
-    <livewire:layout.header />
-    <div class="container">
+    <header class="fixed top-0 z-20 w-full bg-white shadow-md">
+        <livewire:layout.header />
+    </header>
+    <div class="container mt-[160px]">
         {{ $slot }}
         @if (session()->has('success'))
             <div

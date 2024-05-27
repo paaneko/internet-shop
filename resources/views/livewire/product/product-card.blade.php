@@ -1,4 +1,4 @@
-<div class="w-auto rounded-none border p-4">
+<div class="w-auto rounded-md border border-neutral-400/70 bg-white p-4">
     <div class="mb-2 flex items-center justify-between">
         <div class="rounded-none bg-orange-600 px-1.5 pb-1 pt-1 text-xs font-medium leading-none text-white">New</div>
         <div class="text-sm font-bold">
@@ -15,7 +15,7 @@
     </figure>
     <div class="p-0">
         <ul class="mb-2 flex items-center justify-center space-x-1">
-            @foreach ($variation->product->variations->pluck('slug', 'color') as $colorCode => $variationSlug)
+            @foreach ($variation->product->variations->take(4)->pluck('slug', 'color') as $colorCode => $variationSlug)
                 <li
                     class="@if($variation->slug === $variationSlug) border-black @else hover:border-gray-400 @endif inline-block cursor-pointer rounded-lg border-2"
                 >
@@ -27,7 +27,7 @@
         </ul>
         <div class="mb-2 h-12">
             <a
-                class="leading-0 link line-clamp-2 font-medium transition-all duration-150 ease-in-out hover:text-lime-600"
+                class="leading-0 link text-md line-clamp-2 font-medium tracking-tight transition-all duration-150 ease-in-out hover:text-lime-600 hover:underline"
                 href="{{ asset($variation->slug) }}"
             >
                 {{ $variation->name }}
@@ -78,14 +78,18 @@
                 </div>
                 @if ($isInCart)
                     <div
-                        x-on:click="$dispatch('open-cart-modal')"
+                        x-on:click="$dispatch('toggle-cart-modal')"
                         class="cursor-pointer rounded-full border border-lime-500 p-2 text-lime-500 transition-all duration-150 ease-in-out hover:bg-lime-500 hover:text-white"
                     >
                         @svg('heroicon-s-check-circle', 'h-5 w-5')
                     </div>
                 @else
                     <div
-                        wire:click="addToCart"
+                        x-on:click="
+                            $wire.dispatch('add-item-to-cart', { id: {{ $variation->id }} })
+                            $dispatch('toggle-cart-modal')
+                            $wire.$refresh()
+                        "
                         class="cursor-pointer rounded-full bg-lime-500 p-2 transition-all duration-150 ease-in-out hover:bg-lime-600"
                     >
                         @svg('heroicon-s-shopping-bag', 'h-5 w-5 text-white')

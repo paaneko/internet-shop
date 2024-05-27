@@ -10,77 +10,54 @@ $logout = function (Logout $logout) {
 
 ?>
 
-<div class="container navbar bg-base-100 py-8">
-    <div class="navbar-start">
-        <a class="btn btn-ghost text-2xl">YOURBRAND.COM</a>
-    </div>
-    <div class="navbar-center space-x-8">
-        <div class="btn btn-md rounded-none">Product catalogue</div>
-        <div class="join">
+<div class="container flex flex-col rounded-b-md pb-1 pt-5">
+    <div class="flex items-center justify-between space-x-8">
+        <a href="/" class="btn btn-ghost flex items-center space-x-1 text-2xl">
+            @svg('icon-lime', 'h-[46px] w-[46px]')
             <div>
-                <div>
-                    <input class="input join-item input-bordered w-[700px] rounded-none" placeholder="Search" />
-                </div>
+                <span class="leading-none">
+                    <span class="text-3xl font-semibold leading-none text-lime-700">LimeTech</span>
+                </span>
+                <div class="flex text-xs font-medium text-lime-600">Where Tech Meets Fresh</div>
             </div>
-            <div class="indicator">
-                <button class="btn join-item rounded-none">Search</button>
-            </div>
-        </div>
-    </div>
-    <div class="navbar-end">
-        <div @click="$dispatch('open-cart-modal')" class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
-                <div class="indicator">
-                    @svg('gmdi-shopping-cart', 'h-6 w-6')
-                    <span class="badge indicator-item badge-sm">8</span>
+        </a>
+        <form class="flex flex-grow">
+            <label for="default-search" class="sr-only mb-2 text-sm font-medium">Search</label>
+            <div class="relative w-full">
+                <div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
+                    @svg('heroicon-c-magnifying-glass', 'h-5 w-5 text-lime-600')
                 </div>
-            </div>
-        </div>
-        @auth()
-            <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button" class="avatar btn btn-circle btn-ghost">
-                    <div class="w-10 rounded-full">
-                        @svg('gmdi-logo-dev-o')
-                    </div>
-                </div>
-                <ul
-                    tabindex="0"
-                    class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+                <input
+                    type="search"
+                    id="default-search"
+                    class="block w-full rounded-md border border-gray-400/70 bg-gray-50 p-[14.5px] ps-10 text-sm text-gray-900"
+                    placeholder="Search Products, Brands..."
+                    required
+                />
+                <button
+                    type="submit"
+                    class="absolute bottom-[7px] end-2 rounded-lg bg-lime-600 px-4 py-2 text-sm font-medium text-white hover:bg-lime-700"
                 >
-                    <li>
-                        <a href="/profile" class="justify-between">
-                            Profile
-                            <span class="badge">New</span>
-                        </a>
-                    </li>
-                    <li wire:click="logout">
-                        <a>{{ __('Log Out') }}</a>
-                    </li>
-                </ul>
+                    Search
+                </button>
             </div>
-        @else
-            <a
-                href="{{ route('login') }}"
-                class="font-semibold text-gray-600 hover:text-gray-900 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500"
-                wire:navigate
-            >
-                Log in
-            </a>
-
-            @if (Route::has('register'))
-                <a
-                    href="{{ route('register') }}"
-                    class="ms-4 font-semibold text-gray-600 hover:text-gray-900 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500"
-                    wire:navigate
-                >
-                    Register
-                </a>
-            @endif
-
-            {{-- <span><a class="link ml-5" href="/login">Login</a></span> --}}
-            {{-- <span class="mx-2">or</span> --}}
-            {{-- <span><a class="link" href="/register">Register</a></span> --}}
-        @endauth
+        </form>
+        <div class="flex justify-between">
+            @auth()
+                <x-entities.header.account-auth />
+            @else
+                <x-entities.header.account-guest />
+            @endauth
+            <x-entities.header.account-interaction-icons />
+        </div>
+        <x-shared.ui.modal>
+            <x-slot name="body">
+                <livewire:modal.cart />
+            </x-slot>
+        </x-shared.ui.modal>
     </div>
-    <livewire:modal.cart />
+    <div class="mb-1 mt-3 h-[1px] w-full bg-neutral-200/70"></div>
+    <div>
+        <x-entities.header.categories-bar />
+    </div>
 </div>

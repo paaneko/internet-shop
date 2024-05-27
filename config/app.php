@@ -189,4 +189,15 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Social Media Links
+    |--------------------------------------------------------------------------
+    |
+    | Social media links on project source code
+    |
+    */
+
+    'app_github_url' => env('APP_GITHUB_URL'),
+    'app_gitlab_url' => env('APP_GITLAB_URL'),
 ];

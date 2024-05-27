@@ -45,12 +45,6 @@ class ProductCard extends Component
         $this->dispatch('add-compare-products');
     }
 
-    public function addToCart(): void
-    {
-        $this->cartService->addItem($this->variation->id);
-        $this->dispatch('open-cart-modal');
-    }
-
     public function render()
     {
         return view('livewire.product.product-card', [

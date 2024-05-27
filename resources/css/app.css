@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.variation-characteristic-row:nth-child(even) {
+    @apply bg-lime-200/70;
+}

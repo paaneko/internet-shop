@@ -15,7 +15,7 @@ class VariationCharacteristicSeeder extends Seeder
      */
     public function run(): void
     {
-        VariationCharacteristic::factory()->count(Variation::all()->count() * 3)
+        VariationCharacteristic::factory()->count(Variation::all()->count() * 5)
             ->createWithRandomAttributes()
             ->create();
     }

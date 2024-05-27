@@ -1,145 +1,140 @@
-<div>
-    <div class="h-18 flex items-center space-x-5 border border-b-0 bg-orange-600 bg-opacity-10 p-4">
-        <div class="rounded-none bg-orange-600 px-3 py-1.5 text-sm font-semibold uppercase leading-none text-white">
-            SALE!
-        </div>
-        <div>
-            <div class="font-medium">Hurry up to buy gifts. Discounts of up to 45%</div>
-            <div class="flex items-end space-x-2 leading-none">
-                <span class="text-sm leading-none">Ends in:</span>
-                <div class="grid auto-cols-max grid-flow-col gap-1 text-center">
-                    <div class="flex flex-col rounded-sm bg-neutral p-0.5 text-neutral-content">
-                        <div class="font-mono countdown text-sm">
-                            <span style="--value: 15"></span>
-                        </div>
-                    </div>
-                    <span>:</span>
-                    <div class="flex flex-col rounded-sm bg-neutral p-0.5 text-neutral-content">
-                        <div class="font-mono countdown text-sm">
-                            <span style="--value: 10"></span>
-                        </div>
-                    </div>
-                    <span>:</span>
-                    <div class="flex flex-col rounded-sm bg-neutral p-0.5 text-neutral-content">
-                        <div class="font-mono countdown text-sm">
-                            <span style="--value: 24"></span>
-                        </div>
-                    </div>
-                    <span>:</span>
-                    <div class="flex flex-col rounded-sm bg-neutral p-0.5 text-neutral-content">
-                        <div class="font-mono countdown text-sm">
-                            <span style="--value: 30"></span>
-                        </div>
-                    </div>
+@php
+    $variationAttributes = $variation->variationCharacteristics->flatMap(function ($characteristic) {
+        return $characteristic->variationAttributes->pluck('name');
+    });
+@endphp
+
+<div class="flex justify-between space-x-5">
+    <div class="flex flex-auto flex-grow rounded-md border border-neutral-400/70 bg-white">
+        <div class="flex flex-row space-x-5 p-5">
+            <div class="">
+                <h1 class="text-2xl font-semibold leading-tight tracking-tight">
+                    {{ $variation->name }}
+                    {{ $variationAttributes->take(6)->implode(', ') }}
+                </h1>
+                <div class="my-2 flex justify-between">
+                    <x-shared.ui.rating-count />
+                    <span class="rounded bg-green-100 px-2.5 py-1 text-sm font-medium text-green-800">IN STOCK</span>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="flex">
-        <div class="flex h-[350px] w-[650px] flex-col justify-between border border-r-0 p-6">
-            <div class="relative">
-                @svg('heroicon-o-chevron-left', 'absolute left-0 top-1 h-8 w-8 cursor-pointer fill-gray-500')
-                @svg('heroicon-o-chevron-right', 'absolute right-0 top-1 h-8 w-8 cursor-pointer fill-gray-500')
-                <ul class="flex items-center justify-center space-x-2">
-                    @foreach ($variation->product->variations->pluck('slug', 'color') as $colorCode => $variationSlug)
-                        <li
-                            class="@if($variation->slug === $variationSlug) border-black @else hover:border-gray-400 @endif inline-block cursor-pointer rounded-lg border-2"
-                        >
-                            <a href="/{{ $variationSlug }}">
-                                <div
-                                    style="background-color: {{ $colorCode }}"
-                                    class="m-1 block h-8 w-8 rounded"
-                                ></div>
-                            </a>
-                        </li>
+                <div class="my-1 border-y border-neutral-200/70 py-2">
+                    <x-entities.variation.related-variations :$variation :$relatedVariations />
+                </div>
+                <div class="my-2 text-xl font-medium text-black">Features:</div>
+                <ul class="list-outside list-disc space-y-1 rounded-md bg-lime-200/70 p-2 pt-2 text-gray-600">
+                    @foreach ([[], [], [], [], []] as $___)
+                        <li class="ml-3.5 text-sm">{{ fake()->text() }}</li>
                     @endforeach
                 </ul>
             </div>
-            <div class="grid grid-cols-2 grid-rows-3 gap-5">
-                @foreach ($variation->variationCharacteristics->take(4) as $characteristic)
-                    <div>
-                        <div class="text-xs opacity-80">{{ $characteristic->characteristic->name }}</div>
-                        <div class="flex flex-col">
-                            @foreach ($characteristic->variationAttributes as $attribute)
-                                <span class="font-medium">{{ $attribute->name }}</span>
-                            @endforeach
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="mb-4 flex justify-center text-center text-sm">
-                <span class="link hover:text-green-600">See more characteristics</span>
-            </div>
         </div>
-        <div class="flex flex-auto flex-col border p-6">
-            <div class="mb-4 flex items-center justify-between">
+    </div>
+    <div class="space-y-2">
+        <div class="flex min-h-[400px] min-w-[280px] flex-col rounded-md border border-neutral-400/70 bg-white p-5">
+            <div class="mb-3 flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     @if ($variation->old_price == 0)
-                        <div class="text-3xl font-medium leading-none">${{ $variation->price }}</div>
+                        <div class="text-5xl font-medium leading-none">${{ $variation->price }}</div>
                     @else
-                        <div class="text-3xl leading-none text-red-500">${{ $variation->old_price }}</div>
+                        <div class="text-5xl font-medium leading-none tracking-tight text-red-500">
+                            ${{ $variation->old_price }}
+                        </div>
                         <div>
-                            <div class="text-xs font-semibold leading-none text-red-700">
+                            <div class="text-lg font-semibold leading-none tracking-tight text-red-700">
                                 SAVE ${{ $variation->price - $variation->old_price }}
                             </div>
-                            <div class="text-xs font-medium text-gray-500 line-through">${{ $variation->price }}</div>
+                            <div class="text-lg font-medium tracking-tight text-gray-500 line-through">
+                                ${{ $variation->price }}
+                            </div>
                         </div>
                     @endif
                 </div>
-
-                <div class="rounded-none bg-green-200 px-4 py-2 font-semibold uppercase leading-none text-lime-700">
-                    In Stock
-                </div>
             </div>
+            <div class="h-[1px] w-full bg-neutral-200/70"></div>
+            <div class="my-1 mt-2 flex items-center space-x-1 text-sm text-gray-600">
+                @svg('heroicon-c-arrow-path-rounded-square', 'h-5 w-5')
+                <p>
+                    Free
+                    <span class="font-medium text-black">30 days</span>
+                    Returns
+                </p>
+                @svg('heroicon-m-information-circle', 'h-5 w-5 text-lime-700')
+            </div>
+            <div class="my-1 flex items-center space-x-1 text-[13px] text-gray-600">
+                @svg('gmdi-local-shipping-r', 'h-5 w-5 text-red-600')
+                <p>Delivery time 1-2 business days</p>
+            </div>
+            <div class="mb-4 mt-1 h-[1px] w-full bg-neutral-200/70"></div>
             @if ($isInCart)
-                <div
-                    x-on:click="$dispatch('open-cart-modal')"
-                    class="cursor-pointer rounded-md border-2 border-lime-500 bg-white p-4 text-center text-xl font-medium uppercase text-lime-500 hover:bg-lime-500 hover:text-white"
+                <x-shared.ui.button
+                    wire:click="$dispatch('toggle-cart-modal')"
+                    type="filled"
+                    class="border-2 border-lime-500 py-4 text-lime-500 hover:bg-lime-500 hover:text-white"
                 >
-                    Checkout
-                </div>
+                    <p class="text-2xl uppercase">Checkout</p>
+                </x-shared.ui.button>
             @else
-                <div
-                    wire:click="addToCart"
-                    class="cursor-pointer rounded-md bg-lime-500 p-4 text-center text-xl font-medium uppercase text-white hover:bg-lime-600"
+                <x-shared.ui.button
+                    x-on:click="
+                    $wire.dispatch('add-item-to-cart', { id: {{ $variation->id }} })
+                    $wire.$refresh()
+                    $dispatch('toggle-cart-modal')
+                    "
+                    type="filled"
+                    class="border-2 border-lime-500 bg-lime-500 py-4 text-white hover:bg-lime-600"
                 >
-                    Add To Cart
-                </div>
+                    <p class="text-2xl uppercase">Add To Cart</p>
+                </x-shared.ui.button>
             @endif
-            <div class="flex items-center justify-center space-x-2">
-                <span class="text-sm font-bold text-[#169BD7]">Buy with</span>
-                @svg('fontisto-paypal', 'h-8 w-8 text-[#222D65]')
+            <div class="my-2 flex justify-center">
+                <div class="flex items-center space-x-1 rounded-md border-2 border-violet-700 px-2 text-violet-700">
+                    <span class="text-[10px]">Powered by</span>
+                    <span class="text-sm font-semibold">Stripe</span>
+                </div>
             </div>
-            <div class="flex flex-auto items-end">
-                <div class="flex flex-grow cursor-pointer justify-between">
+            <div class="h-[1px] w-full bg-neutral-200/70"></div>
+            <div class="mt-2 flex justify-center font-medium text-lime-700">
+                <span class="mr-1.5 italic">Ships from</span>
+                <span class="font-semibold text-black">United States</span>
+            </div>
+            <div class="flex flex-auto items-end justify-center">
+                <div class="flex cursor-pointer space-x-2">
                     <div
                         wire:click="addToWishlist"
-                        class="{{ $isInWishlist ? 'text-lime-500 hover:text-lime-600' : 'hover:text-lime-600' }} flex items-center space-x-1.5 text-sm font-medium"
+                        class="flex items-center justify-center rounded-lg bg-lime-500 p-2 hover:bg-lime-600"
                     >
-                        @svg('heroicon-s-heart', 'h-5 w-5')
                         @if ($isInWishlist)
-                            <span>Saved</span>
+                            @svg('heroicon-s-heart', 'h-6 w-6 text-white')
                         @else
-                            <span>Save</span>
+                            @svg('heroicon-s-heart', 'h-6 w-6 text-lime-800')
                         @endif
                     </div>
                     <div
                         wire:click="addToCompare"
-                        class="{{ $isInCompare ? 'text-lime-500 hover:text-lime-600' : 'hover:text-lime-600' }} flex cursor-pointer items-center space-x-1.5 text-sm font-medium"
+                        class="flex items-center justify-center rounded-lg bg-lime-500 p-2 hover:bg-lime-600"
                     >
-                        @svg('heroicon-s-scale', 'h-5 w-5')
                         @if ($isInCompare)
-                            <span>Compared</span>
+                            @svg('heroicon-s-scale', 'h-6 w-6 text-white')
                         @else
-                            <span>Compare</span>
+                            @svg('heroicon-s-scale', 'h-6 w-6 text-lime-800')
                         @endif
                     </div>
-                    <div class="flex cursor-pointer items-center space-x-1.5 text-sm font-medium hover:text-lime-600">
-                        @svg('heroicon-s-share', 'h-5 w-5')
-                        <span>Share</span>
+                    <div class="flex items-center justify-center rounded-lg bg-lime-500 p-2 hover:bg-lime-600">
+                        @svg('heroicon-s-share', 'h-6 w-6 text-white')
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="flex items-center space-x-2 rounded-md border-2 border-lime-600 bg-white p-5">
+            @svg('heroicon-s-globe-americas', 'h-10 w-10 text-lime-600')
+            <span class="text-xl font-semibold text-lime-600">Free Shipping</span>
+        </div>
+        <div class="flex items-center space-x-2 rounded-md border-2 border-lime-600 bg-white p-5">
+            @svg('heroicon-s-receipt-refund', 'h-10 w-10 text-lime-600')
+            <span class="text-xl font-semibold text-lime-600">Easy Returns</span>
+        </div>
+        <div class="flex items-center space-x-2 rounded-md border-2 border-lime-600 bg-white p-5">
+            @svg('heroicon-m-shield-check', 'h-10 w-10 text-lime-600')
+            <span class="text-xl font-semibold text-lime-600">Secure Checkout</span>
         </div>
     </div>
 </div>

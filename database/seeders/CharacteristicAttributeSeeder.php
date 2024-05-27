@@ -16,7 +16,7 @@ class CharacteristicAttributeSeeder extends Seeder
     public function run(): void
     {
         CharacteristicAttributeFactory::new()->count(
-            Characteristic::all()->count() * 2
+            Characteristic::all()->count() * 4
         )
             ->withSortingOrder()
             ->create();
