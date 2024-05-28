@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Pages;
 
+use App\Models\Category;
 use App\Services\CategoryFilterService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -16,9 +17,9 @@ class CategoryFilter extends Component
 
     public Collection $categoryFilters;
 
-    public function mount(string $url): void
+    public function mount(Category $category, ?string $filter = ''): void
     {
-        $productFilterService = new CategoryFilterService($url);
+        $productFilterService = new CategoryFilterService($category, $filter);
 
         $this->products = $productFilterService->getVariations();
 

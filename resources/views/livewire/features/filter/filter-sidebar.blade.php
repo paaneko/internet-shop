@@ -16,17 +16,11 @@
             <div x-show="open" x-collapse x-cloak>
                 <div class="form-control flex flex-col px-3 py-5 pt-0">
                     @foreach ($filterAttributes as $attribute)
-                        {{-- <a href="{{ asset($attribute['url']) }}" class="label cursor-pointer"> --}}
-                        {{-- <input --}}
-                        {{-- type="checkbox" --}}
-                        {{-- @if(($attribute['is_selected'])) checked @endif --}}
-                        {{-- class="checkbox-primary checkbox" --}}
-                        {{-- /> --}}
-                        {{-- <span class="label-text">{{ $attribute['name'] }}</span> --}}
-                        {{-- <span class="label-text">({{ $attribute['count'] }})</span> --}}
-                        {{-- </a> --}}
-                        <div class="flex items-center rounded-md py-2 hover:bg-lime-100/70">
-                            <a href="{{ asset($attribute['url']) }}" class="flex h-5 cursor-pointer items-center">
+                        <a
+                            href="{{ route('category-filter', $attribute['url']) }}"
+                            class="flex items-center rounded-md py-2 hover:bg-lime-100/70"
+                        >
+                            <div class="flex h-5 cursor-pointer items-center">
                                 <input
                                     name="{{ $attribute['id'] }}"
                                     id="{{ $attribute['id'] }}"
@@ -34,7 +28,7 @@
                                     class="peer hidden"
                                     @if(($attribute['is_selected'])) checked @endif
                                 />
-                                <label
+                                <span
                                     for="{{ $attribute['id'] }}"
                                     class="ml-2 flex select-none items-center space-x-4 text-neutral-700 peer-checked:text-neutral-700 peer-checked:[&_.custom-checkbox]:border-lime-600 peer-checked:[&_.custom-checkbox]:bg-lime-600 [&_svg]:scale-0 peer-checked:[&_svg]:scale-100"
                                 >
@@ -47,9 +41,9 @@
                                         <span>{{ $attribute['name'] }}</span>
                                         <span class="text-gray-400">({{ $attribute['count'] }})</span>
                                     </div>
-                                </label>
-                            </a>
-                        </div>
+                                </span>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
             </div>

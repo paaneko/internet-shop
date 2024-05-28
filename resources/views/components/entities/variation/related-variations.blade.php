@@ -23,7 +23,7 @@
             </div>
         @else
             <a
-                href="/{{ $relatedVariation->slug }}"
+                href="{{ route('variation', ['variation' => $relatedVariation->slug]) }}"
                 class="m-1 flex cursor-pointer flex-row items-center space-x-1 rounded border border-neutral-200/70 p-2 text-sm hover:border-lime-500/70"
             >
                 <div

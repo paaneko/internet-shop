@@ -15,25 +15,20 @@ class CategoryFilterService
 {
     private const PAGINATION_COUNT = 8;
 
-    private Url $url;
-
     private Category $category;
 
     private Collection $urlAttributes;
 
     private Collection $selectedFilters;
 
-    public function __construct(string $url)
+    public function __construct(Category $category, string $filter_url)
     {
         $this->selectedFilters = collect();
 
-        $this->url = Url::fromString($url);
-
-        $this->category = Category::where('slug', $this->url->getSegment(1))
-            ->firstOrFail();
+        $this->category = $category;
 
         /** Getting current attributes slugs from url except category slug  */
-        $this->urlAttributes = collect($this->url->getSegments())
+        $this->urlAttributes = collect(Url::fromString($filter_url)->getSegments())
             ->except(0);
 
         $this->getSelectedFilters();

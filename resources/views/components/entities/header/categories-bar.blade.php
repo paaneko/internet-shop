@@ -39,7 +39,7 @@
             @foreach ($parentCategories as $parentCategory)
                 <li>
                     <a
-                        href="/{{ $parentCategory->slug }}"
+                        href="{{ route('category-filter', ['category' => $parentCategory->slug]) }}"
                         :class="{ 'bg-lime-100/70' : navigationMenu=='{{ $parentCategory->slug }}', 'hover:bg-neutral-100' : navigationMenu!='{{ $parentCategory->slug }}' }"
                         @mouseover="navigationMenuOpen=true; navigationMenuReposition($el); navigationMenu='{{ $parentCategory->slug }}'"
                         @mouseleave="navigationMenuLeave()"
@@ -91,7 +91,7 @@
                         @foreach ($parentCategory->subCategories as $subCategory)
                             <li>
                                 <a
-                                    href="{{ $subCategory->slug }}"
+                                    href="{{ route('category-filter', ['category' => $subCategory->slug]) }}"
                                     class="cursor-pointer text-sm font-semibold hover:text-lime-600 hover:underline"
                                 >
                                     {{ $subCategory->name }}

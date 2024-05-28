@@ -19,7 +19,7 @@
                 <li
                     class="@if($variation->slug === $variationSlug) border-black @else hover:border-gray-400 @endif inline-block cursor-pointer rounded-lg border-2"
                 >
-                    <a href="/{{ $variationSlug }}">
+                    <a href="{{ route('variation', ['variation' => $variationSlug]) }}">
                         <div style="background-color: {{ $colorCode }}" class="m-0.5 block h-6 w-6 rounded"></div>
                     </a>
                 </li>
@@ -28,7 +28,7 @@
         <div class="mb-2 h-12">
             <a
                 class="leading-0 link text-md line-clamp-2 font-medium tracking-tight transition-all duration-150 ease-in-out hover:text-lime-600 hover:underline"
-                href="{{ asset($variation->slug) }}"
+                href="{{ route('variation', ['variation' => $variationSlug]) }}"
             >
                 {{ $variation->name }}
             </a>
