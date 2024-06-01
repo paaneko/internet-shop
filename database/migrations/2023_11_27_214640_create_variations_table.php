@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('variations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('name');
             $table->string('slug');
             $table->string('meta_tag_h1')->nullable();
@@ -32,7 +34,6 @@ return new class extends Migration
             $table->integer('old_price')->default(0);
             $table->smallInteger('count')->default(0);
             $table->string('color');
-            $table->boolean('indexation');
             $table->timestamps();
         });
     }

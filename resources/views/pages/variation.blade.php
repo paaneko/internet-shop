@@ -16,7 +16,7 @@
     </x-shared.ui.breadcrumbs>
     <div class="mt-5 flex space-x-5">
         <!-- Left Sidebar (40%) -->
-        @if (! $mainMedia('main'))
+        @if (is_null($mainMedia))
             @svg('gmdi-hide-image-tt', 'mb-4 h-[500px] w-[500px] text-lime-600')
         @else
             <img class="rounded-md border border-neutral-400/70" src="{{ $mainMedia->getUrl('main') }}" alt />
@@ -76,11 +76,15 @@
                 <div class="py-2 font-medium">Customer Images</div>
                 <div class="flex flex-row space-x-3">
                     @foreach ($relatedVariations->take(4) as $ratingVarImage)
-                        <img
-                            class="h-[180px] w-[185px] rounded-md border border-neutral-300/70"
-                            src="{{ $ratingVarImage->getFirstMedia()->getUrl('thumb') }}"
-                            alt
-                        />
+                        @if (is_null($mainMedia))
+                            @svg('gmdi-hide-image-tt', 'mb-4 h-[180px] w-[185px] text-lime-600')
+                        @else
+                            <img
+                                class="h-[180px] w-[185px] rounded-md border border-neutral-300/70"
+                                src="{{ $ratingVarImage->getFirstMedia()->getUrl('thumb') }}"
+                                alt
+                            />
+                        @endif
                     @endforeach
                 </div>
                 <div class="flex flex-grow items-end space-x-1 text-sm font-medium text-gray-500">

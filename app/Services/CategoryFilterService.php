@@ -4,152 +4,72 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DTOs\CategoryFilterService\ProductFilterDto;
 use App\Models\Category;
-use App\Models\CharacteristicAttribute;
+use App\Repositories\FilteredProductsRepository;
+use App\Repositories\ProductFiltersRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Spatie\Url\Url;
 
 class CategoryFilterService
 {
     private const PAGINATION_COUNT = 8;
 
+    private const MIN_PRICE = 0;
+
+    private const MAX_PRICE = 10000000;
+
     private Category $category;
 
-    private Collection $urlAttributes;
+    private Collection $selectedFilterItems;
 
-    private Collection $selectedFilters;
-
-    public function __construct(Category $category, string $filter_url)
+    public function __construct(Category $category, string $filterUrl)
     {
-        $this->selectedFilters = collect();
-
         $this->category = $category;
 
-        /** Getting current attributes slugs from url except category slug  */
-        $this->urlAttributes = collect(Url::fromString($filter_url)->getSegments())
-            ->except(0);
-
-        $this->getSelectedFilters();
+        /** if string is empty returns empty collection */
+        $this->selectedFilterItems = $this->extractUrlSegments($filterUrl);
     }
 
-    public function getVariations(): LengthAwarePaginator
+    public function getProductFilters(): ProductFilterDto
     {
-        return ($this->selectedFilters->isEmpty())
-            ? $this->category->variations()->paginate(
-                self::PAGINATION_COUNT
-            )
-            : $this->category->variationsByAttributes($this->selectedFilters)
-                ->paginate(self::PAGINATION_COUNT);
+        $repository = new ProductFiltersRepository($this->category);
+
+        if ($this->selectedFilterItems->isEmpty()) {
+            return ProductFilterDto::fromCollection($repository->all());
+        }
+
+        return ProductFilterDto::fromCollection($repository->filter($this->selectedFilterItems));
     }
 
-    public function getCategoryFilters(): Collection
+    public function getFilteredProducts(): LengthAwarePaginator
     {
-        return $this->attachUrlsToCategoryFilters(
-            $this->getVariationAttributes()
+        $repository = new FilteredProductsRepository(
+            $this->category,
+            self::MIN_PRICE,
+            self::MAX_PRICE,
+            self::PAGINATION_COUNT
         );
+
+        if ($this->selectedFilterItems->isEmpty()) {
+            return $repository->all();
+        }
+
+        return $repository->filter($this->selectedFilterItems);
     }
 
-    public function isUrlAttributesEmpty(): bool
+    public function getSelectedFilterItems()
     {
-        return $this->urlAttributes->isEmpty();
+        return $this->selectedFilterItems;
     }
 
-    public function getVariationAttributes(): Collection
+    private function extractUrlSegments(string $url): Collection
     {
-        /**
-         *  Transform raw data from db and group each attribute
-         *  by their characteristic into groups
-         *
-         *  Also adding slug based on name so in future I can lock attributes
-         *  slugs in ulr and after parse them from url.
-         */
+        if ($url == '') {
+            return collect();
+        }
 
-        return $this->category->variationAttributes(
-            $this->selectFilterVariationIds()
-        )
-            ->mapToGroups(function ($item) {
-                $item = (array) $item;
-
-                return [
-                    $item['characteristic_name'] => [
-                        'id' => $item['id'],
-                        'slug' => Str::slug($item['attribute_name']),
-                        'name' => $item['attribute_name'],
-                        'count' => $item['attribute_count'],
-                    ],
-                ];
-            });
-    }
-
-    public function getSelectedFilters(): void
-    {
-        /** ⚠️unnecessary database query⚠️
-         *
-         *  Think about adding slug column to products attributes
-         *  This allows passing selected attributes slugs directly to query
-         *  instead of id's
-         */
-        CharacteristicAttribute::whereHas(
-            'variationCharacteristics.variation.product.categories',
-            function ($query) {
-                $query->where('categories.slug', $this->category->slug);
-            }
-        )->get()->map(function ($attribute) {
-            if ($this->urlAttributes->search(Str::slug($attribute['name']))) {
-                $this->selectedFilters->push($attribute['id']);
-            }
-        });
-    }
-
-    public function selectFilterVariationIds(): Collection
-    {
-        /** TODO optimize by selecting only ids from query without mapping afterwards */
-        $result = ($this->selectedFilters->isEmpty())
-            ? $this->category->variations()->get()
-            : $this->category->variationsByAttributes($this->selectedFilters)
-                ->get();
-
-        return $result->map(function ($product) {
-            return $product->id;
-        });
-    }
-
-    public function attachUrlsToCategoryFilters(Collection $data): Collection
-    {
-        return $data->transform(function (Collection $item) {
-            $item->transform(function ($attribute) {
-                /** Does Attribute Exist In Url contain bool|int */
-                $isAttributeExist = $this->urlAttributes->search(
-                    $attribute['slug']
-                );
-
-                $urlAttributesCopy = $this->urlAttributes->collect();
-
-                if ($isAttributeExist) {
-                    $urlAttributesCopy->forget(
-                        $isAttributeExist
-                    );
-                    $attribute['is_selected'] = true;
-                } else {
-                    $urlAttributesCopy->push(
-                        $attribute['slug']
-                    );
-                    $attribute['is_selected'] = false;
-                }
-
-                $attribute['url'] = self::buildUrl($urlAttributesCopy);
-
-                return $attribute;
-            });
-
-            return $item;
-        });
-    }
-
-    protected function buildUrl(Collection $urlCollection): string
-    {
-        return '/' . $this->category->slug . '/' . $urlCollection->implode('/');
+        return collect(Url::fromString($url)->getSegments());
     }
 }

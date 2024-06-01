@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Models\CharacteristicGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Characteristic>
@@ -27,15 +26,5 @@ class CharacteristicFactory extends Factory
             'hint_text' => fake()->optional()->sentence(),
             'is_collapsed' => fake()->boolean,
         ];
-    }
-
-    public function withSortingOrder(): static
-    {
-        return $this->state(
-            new Sequence(
-                fn (Sequence $sequence
-                ) => ['sorting_order' => $sequence->index + 1]
-            )
-        );
     }
 }

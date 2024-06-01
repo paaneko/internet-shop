@@ -18,7 +18,6 @@ class ProductSeeder extends Seeder
     {
         ProductFactory::new()->count(30)
             ->createWithExistingCategories()
-            ->withExistingBrand()
             ->create();
 
         ProductFaqFactory::new()->count(Product::all()->count() * 3)

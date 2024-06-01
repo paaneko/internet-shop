@@ -45,26 +45,6 @@ class CategoryFactory extends Factory
         ];
     }
 
-    //    public function createOptionalWithParentCategory(): static
-    //    {
-    //        return $this->afterCreating(function (Category $category) {
-    //            /**
-    //             * Make 66% of all columns children of random parent column
-    //             */
-    //            if (rand(0, 2) !== 0) {
-    //                $parentCategory = Category::whereNull('parent_id')
-    //                    ->where('id', '!=', $category->id)
-    //                    ->inRandomOrder()
-    //                    ->first();
-    //
-    //                if ($parentCategory) {
-    //                    $category->parent_id = $parentCategory->id;
-    //                    $category->save();
-    //                }
-    //            }
-    //        });
-    //    }
-
     public function createWithProductRecommendations(): static
     {
         return $this->afterCreating(function (Category $category) {

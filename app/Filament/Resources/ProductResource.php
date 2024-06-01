@@ -6,7 +6,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers\VariationsRelationManager;
-use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -49,17 +48,12 @@ class ProductResource extends Resource
                                                     ->required()
                                                     ->maxLength(255),
                                                 Forms\Components\Select::make(
-                                                    'categories'
+                                                    'category'
                                                 )
                                                     ->nullable()
-                                                    ->multiple()
                                                     ->relationship(
-                                                        'categories',
+                                                        'category',
                                                         'name'
-                                                    )
-                                                    ->getOptionLabelFromRecordUsing(
-                                                        fn (Category $record
-                                                        ) => $record->name_with_parent
                                                     )
                                                     ->preload()
                                                     ->native(false),

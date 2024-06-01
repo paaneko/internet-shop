@@ -57,7 +57,6 @@ class VariationFactory extends Factory
             'count' => fake()->optional($weight = 0.5, $default = 0)
                 ->numberBetween(1, 6),
             'color' => fake()->hexColor,
-            'indexation' => fake()->boolean,
         ];
     }
 

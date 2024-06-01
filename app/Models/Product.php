@@ -19,6 +19,7 @@ class Product extends Model
         = [
             'name',
             'brand_id',
+            'category_id',
         ];
 
     public function brand(): BelongsTo

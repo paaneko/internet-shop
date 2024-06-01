@@ -21,10 +21,13 @@ class CharacteristicAttributeFactory extends Factory
      */
     public function definition(): array
     {
+        $name = Str::ucfirst(
+            fake()->words(fake()->numberBetween(1, 3), true)
+        );
+
         return [
-            'name' => Str::ucfirst(
-                fake()->words(fake()->numberBetween(1, 3), true)
-            ),
+            'slug' => Str::slug($name) . '-' . fake()->bothify('??????'),
+            'name' => $name,
         ];
     }
 
