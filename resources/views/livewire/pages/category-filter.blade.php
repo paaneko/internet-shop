@@ -1,7 +1,7 @@
 <div class="flex space-x-5">
     <!-- Left Sidebar (40%) -->
     <div class="w-80">
-        <livewire:features.filter.filter-sidebar :$selectedFilterItems :$productFilter />
+        <livewire:features.filter.filter-sidebar :$selectedFilterItems :$productFilter :$priceRange :$url />
     </div>
     <!-- Right Content (60%) -->
     <div class="flex-1">

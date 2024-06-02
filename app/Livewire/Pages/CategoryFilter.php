@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Livewire\Pages;
 
-use App\Models\Category;
 use App\Services\CategoryFilterService;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class CategoryFilter extends Component
 {
     protected CategoryFilterService $categoryFilterService;
 
-    public function mount(Category $category, ?string $filterUrl = ''): void
+    public function mount(Request $request): void
     {
-        $this->categoryFilterService = new CategoryFilterService($category, $filterUrl);
+        $this->categoryFilterService = new CategoryFilterService(
+            $request->getRequestUri()
+        );
     }
 
     public function render()
@@ -23,6 +25,8 @@ class CategoryFilter extends Component
             'filteredProducts' => $this->categoryFilterService->getFilteredProducts(),
             'productFilter' => $this->categoryFilterService->getProductFilters(),
             'selectedFilterItems' => $this->categoryFilterService->getSelectedFilterItems(),
+            'priceRange' => $this->categoryFilterService->getPriceRange(),
+            'url' => url()->current(),
         ])
             ->extends('layouts.main');
     }

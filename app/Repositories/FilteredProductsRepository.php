@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Contracts\Repositories\FilteredProductsInterface;
+use App\DTOs\CategoryFilterService\PriceRangeUrlDto;
 use App\Models\Category;
 use App\Models\Variation;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -15,8 +17,7 @@ readonly class FilteredProductsRepository implements FilteredProductsInterface
 {
     public function __construct(
         private Category $category,
-        private int $minPrice,
-        private int $maxPrice,
+        private PriceRangeUrlDto|false $priceRange,
         private int $pagination
     ) {
     }
@@ -28,7 +29,11 @@ readonly class FilteredProductsRepository implements FilteredProductsInterface
             ->join('products', 'variations.product_id', '=', 'products.id')
             ->join('category_product', 'products.id', '=', 'category_product.product_id')
             ->join('categories', 'category_product.category_id', '=', 'categories.id')
-            ->whereRaw('COALESCE(NULLIF(price, 0), NULLIF(old_price, 0)) BETWEEN ? AND ?', [$this->minPrice, $this->maxPrice])
+            ->when($this->priceRange, function (Builder $query) {
+                $query->whereRaw('COALESCE(NULLIF(price, 0), NULLIF(old_price, 0)) BETWEEN ? AND ?',
+                    [$this->priceRange->min_price, $this->priceRange->max_price]
+                );
+            })
             ->where('categories.id', '=', $this->category->id)
             ->groupBy('variations.id')
             ->paginate($this->pagination);
@@ -43,7 +48,11 @@ readonly class FilteredProductsRepository implements FilteredProductsInterface
             ->join('products', 'variations.product_id', '=', 'products.id')
             ->join('category_product', 'products.id', '=', 'category_product.product_id')
             ->join('categories', 'category_product.category_id', '=', 'categories.id')
-            ->whereRaw('COALESCE(NULLIF(price, 0), NULLIF(old_price, 0)) BETWEEN ? AND ?', [$this->minPrice, $this->maxPrice])
+            ->when($this->priceRange, function (Builder $query) {
+                $query->whereRaw('COALESCE(NULLIF(price, 0), NULLIF(old_price, 0)) BETWEEN ? AND ?',
+                    [$this->priceRange->min_price, $this->priceRange->max_price]
+                );
+            })
             ->where('categories.id', '=', $this->category->id)
             ->whereIn('vca.characteristic_attribute_slug', $attributes)
             ->groupBy('variations.id')
