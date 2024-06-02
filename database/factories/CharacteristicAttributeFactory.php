@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Characteristic;
+use App\Models\CharacteristicAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Str;
 
 /**
@@ -48,11 +48,10 @@ class CharacteristicAttributeFactory extends Factory
 
     public function withSortingOrder(): static
     {
-        return $this->state(
-            new Sequence(
-                fn (Sequence $sequence
-                ) => ['sorting_order' => $sequence->index + 1]
-            )
+        return $this->afterCreating(function (CharacteristicAttribute $ca) {
+            $ca->sorting_order = $ca->id;
+            $ca->save();
+        }
         );
     }
 }

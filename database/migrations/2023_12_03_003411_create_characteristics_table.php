@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('hint_text')->nullable();
             $table->boolean('is_collapsed');
+            $table->tinyInteger('sorting_order')
+                ->default(0);
             $table->timestamps();
         });
     }

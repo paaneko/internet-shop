@@ -20,6 +20,7 @@ class CharacteristicAttributeSeeder extends Seeder
         $characteristics->each(function (Characteristic $characteristic) {
             CharacteristicAttributeFactory::new()->count(4)
                 ->for($characteristic)
+                ->withSortingOrder()
                 ->create();
         });
     }
