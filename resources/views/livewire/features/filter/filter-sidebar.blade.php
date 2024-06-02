@@ -7,27 +7,31 @@
     @foreach ($productFilter->data as $filterGroupName => $filterGroup)
         <div class="mx-4 h-[1px] w-auto bg-neutral-200/70"></div>
 
-        <div x-data="{ open: false }" class="group cursor-pointer">
+        <div x-data="{ open: true }" class="group cursor-pointer">
             <button
                 @click="open = ! open"
                 class="flex w-full select-none items-center justify-between px-5 py-5 text-left font-medium hover:text-lime-600"
             >
-                {{ $filterGroupName }}
+                <span class="flex">
+                    {{ $filterGroupName }}
+                    @svg('heroicon-m-information-circle', 'ml-1 h-5 w-5 text-lime-700')
+                </span>
                 @svg('heroicon-c-chevron-up', 'h-5 w-5 duration-200 ease-out', [':class' => "{ 'rotate-180': open }"])
-                {{--
-                    TODO add hint значок кароче ты понял
-                --}}
             </button>
             <div x-show="open" x-collapse x-cloak>
                 <div class="form-control flex flex-col px-3 py-5 pt-0">
                     @foreach ($filterGroup->items as $filterItem)
                         @php
                             $isChecked = $selectedFilterItems->contains($filterItem->slug);
+                            $path = collect(\Spatie\Url\Url::fromString(url()->current())->getSegments());
+                            $isChecked ? $path->pop() : $path->push($filterItem->slug);
+
+                            $filterUrl = $path->implode('/');
                         @endphp
 
                         <a
                             wire:navigate
-                            href="{{ $isChecked ? session()->previousUrl() : url()->current() . "/{$filterItem->slug}/" }}"
+                            href="{{ asset($filterUrl) }}"
                             class="flex items-center rounded-md py-2 hover:bg-lime-100/70"
                         >
                             <div class="flex h-5 cursor-pointer items-center">

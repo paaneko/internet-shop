@@ -15,7 +15,7 @@ class VariationSeeder extends Seeder
      */
     public function run(): void
     {
-        VariationFactory::new()->count(Product::all()->count() * 3)
+        VariationFactory::new()->count(Product::all()->count() * 5)
             ->createWithRandomProduct()
             ->createWithMedia()
             ->create();

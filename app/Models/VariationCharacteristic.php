@@ -38,6 +38,8 @@ class VariationCharacteristic extends Model
             'variation_characteristic_attributes',
             'variation_characteristic_id',
             'characteristic_attribute_slug',
+            'id',
+            'slug'
         );
     }
 }

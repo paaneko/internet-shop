@@ -17,7 +17,7 @@ return new class extends Migration
             'characteristic_attributes',
             function (Blueprint $table) {
                 $table->id();
-                $table->string('slug')->unique()->index();
+                $table->string('slug')->index()->unique();
                 $table->foreignId('characteristic_id')
                     ->constrained()
                     ->cascadeOnDelete();

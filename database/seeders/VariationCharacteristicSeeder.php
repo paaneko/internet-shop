@@ -19,7 +19,7 @@ class VariationCharacteristicSeeder extends Seeder
         $variations = Variation::all()->pluck('id');
 
         $variations->each(function (int $variation_id) {
-            $characteristics = Characteristic::all()->random(8);
+            $characteristics = Characteristic::all()->random(5);
 
             $characteristics->each(function (Characteristic $characteristic) use ($variation_id) {
                 $variationCharacteristic = VariationCharacteristicFactory::new()
@@ -29,7 +29,7 @@ class VariationCharacteristicSeeder extends Seeder
                     ]);
 
                 $attributes = $characteristic->attributes
-                    ->random(fake()->numberBetween(2, 6))->pluck('slug');
+                    ->random(fake()->numberBetween(1, 4))->pluck('slug');
 
                 $variationCharacteristic->variationAttributes()
                     ->attach($attributes);

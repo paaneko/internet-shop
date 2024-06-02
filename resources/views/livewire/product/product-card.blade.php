@@ -28,7 +28,7 @@
         <div class="mb-2 h-12">
             <a
                 class="leading-0 link text-md line-clamp-2 font-medium tracking-tight transition-all duration-150 ease-in-out hover:text-lime-600 hover:underline"
-                href="{{ route('variation', ['variation' => $variationSlug]) }}"
+                href="{{ route('variation', ['variation' => $variation->slug]) }}"
             >
                 {{ $variation->name }}
             </a>

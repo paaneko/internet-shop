@@ -44,10 +44,17 @@ readonly class ProductFiltersRepository implements ProductFiltersInterface
 
     public function filter(Collection $attributes): Collection
     {
-        $subquery = Variation::select('variations.id')
+        $subquery = Variation::select(['variations.id', DB::raw('COUNT(vca.characteristic_attribute_slug) as attribute_count')])
             ->join('variation_characteristics as vc', 'variations.id', '=', 'vc.variation_id')
             ->join('variation_characteristic_attributes as vca', 'vc.id', '=', 'vca.variation_characteristic_id')
-            ->whereIn('vca.characteristic_attribute_slug', $attributes);
+            ->join('products', 'variations.product_id', '=', 'products.id')
+            ->join('category_product', 'products.id', '=', 'category_product.product_id')
+            ->join('categories', 'category_product.category_id', '=', 'categories.id')
+            ->where('categories.id', $this->category->id)
+            ->whereIn('vca.characteristic_attribute_slug', $attributes)
+            ->groupBy('variations.id')
+            ->havingRaw('COUNT(vca.characteristic_attribute_slug) = ?', [$attributes->count()])
+            ->pluck('id');
 
         return DB::table('characteristic_attributes')
             ->join('variation_characteristic_attributes', 'characteristic_attributes.slug', '=', 'variation_characteristic_attributes.characteristic_attribute_slug')
@@ -67,9 +74,9 @@ readonly class ProductFiltersRepository implements ProductFiltersInterface
                 'characteristic_attributes.id as attribute_id',
                 'characteristic_attributes.name as attribute_name',
                 'characteristic_attributes.slug as attribute_slug',
-                DB::raw('COUNT(variations.id) as attribute_count')
+                DB::raw('COUNT(characteristic_attributes.id) as attribute_count')
             )
-            ->groupBy('characteristics.id', 'characteristics.name', 'characteristics.hint_text', 'characteristics.is_collapsed', 'characteristic_attributes.id', 'characteristic_attributes.name', 'characteristic_attributes.slug')
+            ->groupBy('characteristics.id', 'attribute_id')
             ->get();
     }
 }
