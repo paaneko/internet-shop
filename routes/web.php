@@ -8,10 +8,14 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\VariationController;
 use App\Livewire\Pages\CategoryFilter;
 use App\Livewire\Pages\Compare;
+use App\Livewire\Pages\Home;
 use App\Livewire\Pages\Wishlist;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
+
+Route::get('/', Home::class)
+    ->name('home');
 
 Route::get('/checkout-success', CheckoutSuccessController::class)->name(
     'checkout-success'
