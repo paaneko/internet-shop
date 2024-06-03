@@ -17,6 +17,7 @@ class Wishlist extends Component
 
         return view('livewire.pages.wishlist', [
             'variations' => Variation::find($wishlistProducts),
-        ]);
+        ])
+            ->extends('layouts.main');
     }
 }

@@ -17,6 +17,7 @@ class Compare extends Component
 
         return view('livewire.pages.compare', [
             'variations' => Variation::find($compareVariation),
-        ]);
+        ])
+            ->extends('layouts.main');
     }
 }
