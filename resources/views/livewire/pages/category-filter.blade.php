@@ -5,7 +5,7 @@
     </div>
     <!-- Right Content (60%) -->
     <div class="flex-1">
-        <div class="grid grid-flow-row grid-cols-4 gap-2">
+        <x-shared.ui.product-list-wrapper>
             @foreach ($filteredProducts as $product)
                 <livewire:product.product-card
                     class="border-l-0 border-t-0"
@@ -13,7 +13,7 @@
                     :variation="$product"
                 />
             @endforeach
-        </div>
+        </x-shared.ui.product-list-wrapper>
         <div class="p-5">{{ $filteredProducts->links(data: ['scrollTo' => false]) }}</div>
     </div>
 </div>
