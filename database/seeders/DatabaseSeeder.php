@@ -28,11 +28,7 @@ class DatabaseSeeder extends Seeder
             CharacteristicGroupSeeder::class,
             CharacteristicSeeder::class,
 
-            /**
-             * Attaching attributes to characteristics provided in CharacteristicSeeder
-             * But these seeder adds little random to attribute quantity
-             */
-            //            CharacteristicAttributeSeeder::class,
+            CharacteristicAttributeSeeder::class,
 
             VariationCharacteristicSeeder::class,
 

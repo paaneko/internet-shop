@@ -5,3 +5,11 @@
 .variation-characteristic-row:nth-child(even) {
     @apply bg-lime-200/70;
 }
+
+input[type='range']::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 24px;
+    height: 24px;
+    -webkit-appearance: none;
+    /*@apply w-6 h-6 appearance-none pointer-events-auto;*/
+}

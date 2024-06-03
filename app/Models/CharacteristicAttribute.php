@@ -16,6 +16,7 @@ class CharacteristicAttribute extends Model
     protected $fillable
         = [
             'name',
+            'slug',
             'characteristic_id',
             'sorting_order',
         ];
@@ -30,8 +31,10 @@ class CharacteristicAttribute extends Model
         return $this->belongsToMany(
             VariationCharacteristic::class,
             'variation_characteristic_attributes',
-            'characteristic_attribute_id',
+            'characteristic_attribute_slug',
             'variation_characteristic_id',
+            'slug',
+            'id'
         );
     }
 }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->primary(['category_id', 'product_id']);
             $table->foreignId('category_id')->nullable();
             $table->foreignId('product_id')->nullable();
-            $table->timestamps();
         });
     }
 

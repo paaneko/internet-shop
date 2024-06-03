@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('characteristic_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->tinyInteger('sorting_order')->default(0);
+            $table->tinyInteger('sorting_order')
+                ->default(0);
             $table->timestamps();
         });
     }

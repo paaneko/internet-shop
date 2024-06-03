@@ -16,9 +16,8 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        ProductFactory::new()->count(30)
+        ProductFactory::new()->count(10)
             ->createWithExistingCategories()
-            ->withExistingBrand()
             ->create();
 
         ProductFaqFactory::new()->count(Product::all()->count() * 3)

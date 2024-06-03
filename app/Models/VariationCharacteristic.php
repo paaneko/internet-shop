@@ -37,7 +37,9 @@ class VariationCharacteristic extends Model
             CharacteristicAttribute::class,
             'variation_characteristic_attributes',
             'variation_characteristic_id',
-            'characteristic_attribute_id',
+            'characteristic_attribute_slug',
+            'id',
+            'slug'
         );
     }
 }

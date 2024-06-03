@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Casts\MoneyCast;
-use App\Enums\Product\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,7 +23,6 @@ class Variation extends Model implements HasMedia
     protected $casts
         = [
             'indexation' => 'boolean',
-            'status' => Status::class,
             'price' => MoneyCast::class,
             'old_price' => MoneyCast::class,
         ];

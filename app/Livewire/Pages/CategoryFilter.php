@@ -5,31 +5,29 @@ declare(strict_types=1);
 namespace App\Livewire\Pages;
 
 use App\Services\CategoryFilterService;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Layout;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class CategoryFilter extends Component
 {
-    protected LengthAwarePaginator $products;
+    protected CategoryFilterService $categoryFilterService;
 
-    public Collection $categoryFilters;
-
-    public function mount(string $url): void
+    public function mount(Request $request): void
     {
-        $productFilterService = new CategoryFilterService($url);
-
-        $this->products = $productFilterService->getVariations();
-
-        $this->categoryFilters = $productFilterService->getCategoryFilters();
+        $this->categoryFilterService = new CategoryFilterService(
+            $request->getRequestUri()
+        );
     }
 
-    #[Layout('layouts.product-filter-layout')]
     public function render()
     {
         return view('livewire.pages.category-filter', [
-            'categoryProducts' => $this->products,
-        ]);
+            'filteredProducts' => $this->categoryFilterService->getFilteredProducts(),
+            'productFilter' => $this->categoryFilterService->getProductFilters(),
+            'selectedFilterItems' => $this->categoryFilterService->getSelectedFilterItems(),
+            'priceRange' => $this->categoryFilterService->getPriceRange(),
+            'url' => url()->current(),
+        ])
+            ->extends('layouts.main');
     }
 }

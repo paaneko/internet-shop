@@ -8,7 +8,7 @@ use App\Models\Characteristic;
 
 trait GetCharacteristicLabel
 {
-    public static function getCharacteristicLabel(?int $id): string
+    public static function getCharacteristicLabel(int|string|null $id): string
     {
         $characteristic
             = Characteristic::with(

@@ -11,8 +11,7 @@
             </div>
         </div>
     </div>
-
-    <div class="">
+    <a wire:navigate href="{{ route('wishlist') }}">
         <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
             <div class="relative">
                 @svg('heroicon-o-heart', 'h-7 w-8 hover:text-lime-600')
@@ -23,8 +22,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="">
+    </a>
+    <a wire:navigate href="{{ route('compare') }}">
         <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
             <div class="relative">
                 @svg('heroicon-o-scale', 'h-7 w-8 hover:text-lime-600')
@@ -35,7 +34,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </a>
     <div @click="$dispatch('toggle-cart-modal')" class="">
         <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
             <div class="relative">
