@@ -1,4 +1,4 @@
-<div class="w-auto rounded-md border border-neutral-400/70 bg-white p-4">
+<div class="w-[308px] rounded-md border border-neutral-400/70 bg-white p-4">
     <div class="mb-2 flex items-center justify-between">
         <div class="rounded-none bg-orange-600 px-1.5 pb-1 pt-1 text-xs font-medium leading-none text-white">New</div>
         <div class="text-sm font-bold">
