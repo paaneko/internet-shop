@@ -1,4 +1,4 @@
-<footer class="mt-32 bg-white">
+<footer class="mt-5 bg-white">
     <div class="bg-lime-500">
         <div class="separator container flex items-center justify-between p-10">
             <div class="text-4xl font-semibold text-white">LIMETECH.COM</div>
