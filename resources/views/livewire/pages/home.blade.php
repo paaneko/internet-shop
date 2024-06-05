@@ -11,7 +11,10 @@
         <h2 class="mb-5 mt-10 text-2xl font-semibold">Today's Best Deals</h2>
         <x-entities.product-carousel-list :$products />
     </div>
-    <div class="mt-5">
+    <div class="pt-10">
+        <x-entities.trusted-by />
+    </div>
+    <div class="mt-20">
         <x-entities.home-description />
     </div>
 </div>
