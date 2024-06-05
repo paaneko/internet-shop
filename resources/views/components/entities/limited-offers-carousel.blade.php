@@ -1,8 +1,8 @@
 @props([
     'products',
 ])
-<div class="relative">
-    <div class="swiper bestDealsSwiper">
+<div class="relative w-[308px]">
+    <div class="swiper limitedOffersSwiper">
         <div class="swiper-wrapper">
             @foreach ($products as $product)
                 <div class="swiper-slide">
@@ -14,9 +14,8 @@
         <div class="swiper-button-prev text-lime-600"></div>
     </div>
     <script>
-        new Swiper('.bestDealsSwiper', {
-            slidesPerView: 5,
-            spaceBetween: 8,
+        new Swiper('.limitedOffersSwiper', {
+            slidesPerView: 'auto',
             autoplay: {
                 delay: 2500,
                 disableOnInteraction: false,
