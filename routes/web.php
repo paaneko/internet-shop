@@ -7,9 +7,15 @@ use App\Http\Controllers\Checkout\CheckoutSuccessController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\VariationController;
 use App\Livewire\Pages\CategoryFilter;
+use App\Livewire\Pages\Compare;
+use App\Livewire\Pages\Home;
+use App\Livewire\Pages\Wishlist;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
+
+Route::get('/', Home::class)
+    ->name('home');
 
 Route::get('/checkout-success', CheckoutSuccessController::class)->name(
     'checkout-success'
@@ -25,13 +31,11 @@ Route::view('/profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::get('/wishlist', function () {
-    return view('pages.wishlist');
-})->name('wishlist');
+Route::get('/wishlist', Wishlist::class)
+    ->name('wishlist');
 
-Route::get('/compare', function () {
-    return view('pages.compare');
-})->name('compare');
+Route::get('/compare', Compare::class)
+    ->name('compare');
 
 if (config('app.env') == 'local') {
     Route::get('/test', function () {

@@ -1,10 +1,10 @@
 <div class="flex space-x-5">
     <!-- Left Sidebar (40%) -->
-    <div class="w-80">
+    <div class="w-[304px]">
         <livewire:features.filter.filter-sidebar :$selectedFilterItems :$productFilter :$priceRange :$url />
     </div>
     <!-- Right Content (60%) -->
-    <div class="flex-1">
+    <div>
         <x-shared.ui.product-list-wrapper>
             @foreach ($filteredProducts as $product)
                 <livewire:product.product-card

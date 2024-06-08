@@ -104,7 +104,7 @@
             @endif
 
             @foreach ($productComments as $comment)
-                <x-entities.variation-comment :$comment />
+                <x-entities.product-comment :$comment />
             @endforeach
         </div>
     </div>
