@@ -18,7 +18,7 @@ class CharacteristicAttributeSeeder extends Seeder
         $characteristics = Characteristic::all();
 
         $characteristics->each(function (Characteristic $characteristic) {
-            CharacteristicAttributeFactory::new()->count(4)
+            CharacteristicAttributeFactory::new()->count(6)
                 ->for($characteristic)
                 ->withSortingOrder()
                 ->create();

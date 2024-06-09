@@ -16,12 +16,12 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        CategoryFactory::new()->count(8)
+        CategoryFactory::new()->count(4)
             ->withSortingOrder()
             ->create();
 
         $categories = Category::all();
-        $parent_categories = $categories->shift(8);
+        $parent_categories = $categories->shift(4);
 
         $categories->map(function (Category $category) use ($parent_categories) {
             $category->parent_id = $parent_categories->random()->id;

@@ -14,7 +14,7 @@ class CharacteristicGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        CharacteristicGroupFactory::new()->count(8)
+        CharacteristicGroupFactory::new()->count(4)
             ->withSortingOrder()
             ->create();
     }
