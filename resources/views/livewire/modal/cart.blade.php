@@ -95,7 +95,7 @@
                 </button>
             @else()
                 <a
-                    href="{{ route('login') }}"
+                    href="{{ route('register') }}"
                     type="button"
                     class="rounded-md bg-lime-500 px-5 py-2.5 text-center text-lg font-medium text-white hover:bg-lime-600"
                 >
