@@ -29,22 +29,6 @@ demo@gmail.com:root
 - [BackEnd Admin Panel](http://limetech.my.to/admin)
 - [FrontEnd](http://limetech.my.to)
 
-## About project
-
-## Features
-
-- **Full Configuration Support:** The back-end system supports a wide range of customizable options for pizza orders,
-  including:
-    - **Sizes:** Various pizza sizes.
-    - **Toppings:** A custom selection of available toppings.
-    - **Dough Thickness:** Options for dough thickness.
-    - **Ingredient Management:** Ability to remove ingredients in order.
-- **Cart State Synchronization:** Ensures the cart's state is consistently synchronized between the front-end and
-  back-end.
-- **Order Management:** Handling the checkout process by saving orders in the database and assigning current user cart
-  id to order.
-- **Admin Panel:** Provides Admin Panel for viewing and managing all orders and products.
-
 ## Running locally via Docker (Sail)
 
 1. Run single Makefile command
