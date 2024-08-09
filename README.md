@@ -1,50 +1,62 @@
-# Install guide
+<p align="center">
+    <img width="49%" src="./storage/fake-media/picture_1.png" />
+    <img width="49%" src="./storage/fake-media/picture_2.png" />
+</p>
+<p align="center">
+    <img width="49%" src="./storage/fake-media/picture_3.png" />
+    <img width="49%" src="./storage/fake-media/picture_4.png" />
+</p>
+<p align="center">
+    <img width="49%" src="./storage/fake-media/picture_5.png" />
+    <img width="49%" src="./storage/fake-media/picture_6.png" />
+</p>
+<p align="center">
+    <img width="49%" src="./storage/fake-media/picture_7.png" />
+    <img width="49%" src="./storage/fake-media/picture_8.png" />
+</p>
 
-## Prerequisites
+An open source fullstack application for using the [Laravel](https://laravel.com)️, [Filament](https://filamentphp.com)
+and [Livewire](https://livewire.laravel.com/).
 
-Before you begin, ensure you have the following installed on your system:
+## Live demo
 
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+Admin Panel Credentials:
 
-## Installation
+```bash
+demo@gmail.com:root
+```
 
-1. **Clone the repository**
+- [BackEnd Admin Panel](http://limetech.my.to/admin)
+- [FrontEnd](http://limetech.my.to)
 
-   ```bash
-   git clone https://gitlab.com/paaneko/internet-shop.git
-   
-   cd internet-shop
+## About project
 
-   cp .env.example .env
+## Features
 
-2. **Run**
+- **Full Configuration Support:** The back-end system supports a wide range of customizable options for pizza orders,
+  including:
+    - **Sizes:** Various pizza sizes.
+    - **Toppings:** A custom selection of available toppings.
+    - **Dough Thickness:** Options for dough thickness.
+    - **Ingredient Management:** Ability to remove ingredients in order.
+- **Cart State Synchronization:** Ensures the cart's state is consistently synchronized between the front-end and
+  back-end.
+- **Order Management:** Handling the checkout process by saving orders in the database and assigning current user cart
+  id to order.
+- **Admin Panel:** Provides Admin Panel for viewing and managing all orders and products.
 
-- if you don't have installed composer:
-   ```bash
-   docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php82-composer:latest \
-    composer install --ignore-platform-reqs
-- if you have installed composer:
-    ```bash
-    composer install
+## Running locally via Docker (Sail)
 
-3. **Run container**
+1. Run single Makefile command
 
-    ```bash
-   ./vendor/bin/sail up -d
+```bash
+make init
+```
 
-4. **Set up environment**
+And go to [Admin Panel](http://localhost/admin) with credentials **demo@gmail.com:root**
 
-    ```bash
-    ./vendor/bin/sail artisan key:generate
-    ./vendor/bin/sail artisan migrate:fresh --seed
-    ./vendor/bin/sail artisan storage:link
+## Troubleshooting
 
-5. **Set up npm**
-    ```bash
-    ./vendor/bin/sail npm install
-    ./vendor/bin/sail npm run dev
+## License
+
+Licensed under the MIT license.
